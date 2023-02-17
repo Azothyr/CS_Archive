@@ -1,3 +1,39 @@
+""" lines:
+I've got a lovely bunch of coconuts
+There they are, all standing in a row
+"""
+with open('coconuts.txt', 'r') as file_object:
+    lines = [line.strip() for line in file_object]
+""" Output:
+["I've got a lovely bunch of coconuts", 'There they are, all standing in a row']
+"""
+
+""" Input:
+8, 11, 28, 19
+21, 28, 29, 27
+3, 19, 12, 9
+30, 30, 4, 4
+14, 10, 2, 10
+16, 12, 26, 22
+15, 26, 11, 11
+20, 7, 8, 28
+3, 12, 5, 30
+17, 6, 23, 1
+"""
+with open('values.csv', 'r') as file_object:
+    rows = [row.split(',') for row in file_object]
+""" Output:
+[['8', ' 11', ' 28', ' 19\n'], ['21', ' 28', ' 29', ' 27\n'], ['3', ' 19', ' 12', ' 9\n'], ['30', ' 30', ' 4', ' 4\n'],
+ ['14', ' 10', ' 2', ' 10\n'], ['16', ' 12', ' 26', ' 22\n'], ['15', ' 26', ' 11', ' 11\n'], ['20', ' 7', ' 8', ' 28\n'],
+ ['3', ' 12', ' 5', ' 30\n'], ['17', ' 6', ' 23', ' 1\n']]
+"""
+with open('values.csv', 'r') as file_object:
+    rows = [[int(value.strip()) for value in row.split(',')] for row in file_object]
+"""
+[[8, 11, 28, 19], [21, 28, 29, 27], [3, 19, 12, 9], [30, 30, 4, 4], [14, 10, 2, 10],
+ [16, 12, 26, 22], [15, 26, 11, 11], [20, 7, 8, 28], [3, 12, 5, 30], [17, 6, 23, 1]]
+"""
+
 # return number of lines and characters in a file------------------------------------
 import sys
 
@@ -49,6 +85,28 @@ for column in columns:
 
 for num in average_column:
     print(num, end=" ")
+
+# Alternate way-------------------
+import sys, csv
+
+test_file = sys.argv[1]
+
+total1 = 0
+total2 = 0
+total3 = 0
+total4 = 0
+row_count = 0
+
+with open(test_file, "r") as input_file:
+    reader = csv.reader(input_file)
+    for num1, num2, num3, num4 in reader:
+        row_count += 1
+        total1 += int(num1)
+        total2 += int(num2)
+        total3 += int(num3)
+        total4 += int(num4)
+
+print("{} {} {} {}".format(total1/row_count, total2/row_count, total3/row_count, total4/row_count))
 
 # Reverse lines from a file ---------------------------------------------------------
 import sys
