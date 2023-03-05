@@ -16,7 +16,7 @@ def get_dimensions():
         height = int(input("Enter the height:"))
         if width <= 0 or height <= 0:
             print("Width and height must be positive integers.")
-        draw(width,height)
+        draw(width, height)
 
     except TypeError:
         print("Width and height must be positive integers.")
