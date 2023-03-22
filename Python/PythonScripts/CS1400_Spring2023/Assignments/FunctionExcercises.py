@@ -222,3 +222,74 @@ print("All .png Image Names:", all_pngs)
 """
 -------------------------------------------------
 """
+"""
+The enumerate method allows us to count and iterate across element values in
+data structures, such as tuples. This method can count and hold element values.
+Using the enumerate method along with a for loop allows us to count elements
+within the data structures
+
+enumerate(iterable)
+enumerate(iterable, start = count_value)
+"""
+class1_students = (('Evalyn', 'C'), ('Elsa', 'N'), ('Bryana', 'L'), ('Leo', 'S'), ('Roscoe', 'S'), ('Simonette', 'M'), ('Hanne', 'P'), ('Georgie', 'K'), ('Elsa', 'N'), ('Roscoe', 'S'), ('Dinesh', 'W'), ('Roscoe', 'S'), ('Sandy', 'J'))
+
+class1_list = list(class1_students)
+print('Class 1 Students (original tuple):', class1_students)
+
+def remove_dupes(list):
+ return [element for index, element in enumerate(list) if element not in list[:index]]
+
+class1_list_no_dupes = remove_dupes(class1_list)
+class1_students = tuple(class1_list_no_dupes)
+
+print('Class 1 Students (duplicates removed):', class1_students)
+"""
+-------------------------------------------------
+"""
+chores = ('do the laundry', 'wash the dishes', 'mop the floors', 'clean the bathroom')
+names = ('Tomo', 'Nigel', 'Rosa', 'Shannon')
+
+for count_value1, name in enumerate(names):
+  for count_value2, chore in enumerate(chores):
+    if count_value1 == count_value2:
+      print(name, ", please", chore, ".")
+"""
+-------------------------------------------------
+"""
+friends_in_city = ((4, 'Austin'), (9, 'San Francisco'), (6, 'New York'), (2, 'Seattle'))
+for index, info in enumerate(sorted(friends_in_city, key=lambda element: element[0])):
+  friends, city = info
+  print(friends, city)
+"""
+-------------------------------------------------
+"""
+"""
+Count
+"""
+random2 = (44, 532, 99, (45, 60), ('d', 99), 'd')
+
+print("The String 'd' Appears in Tuple 'random2' this many times:", random2.count('d'))
+print("The String 'd' and the Integer '99' Appear in Tuple 'random2' this many times:", random2.count(('d', 99)))
+"""
+-------------------------------------------------
+"""
+"""
+Element
+"""
+class1 = (('Kojo', 98), ('Sam', 92), ('Mike', 80), ('Annika', 96), ('Grace', 99), ('Lawrence', 89), ('Maryam', 87),
+          ('Jazmin', 90))
+class2 = (
+('Sidney', 91), ('Gian', 94), ('Jioni', 97), ('Jose', 89), ('Krish', 100), ('Kat', 60), ('Linda', 54), ('Will', 89))
+
+all_grades_with_names = class1 + class2
+grades_no_names = []
+grades_90_plus = 0
+for element in all_grades_with_names:
+    grades_no_names.append(element[1])
+    if (element[1]) >= 90:
+        grades_90_plus += 1
+
+print("Number of Students Who Earned a Grade of 90 or Above in both Class 1 and Class 2:", grades_90_plus, "students")
+"""
+-------------------------------------------------
+"""

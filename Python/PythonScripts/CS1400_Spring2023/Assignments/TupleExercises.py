@@ -62,3 +62,19 @@ meal_info = tuple(zip(meals, meal_times))
 print(meal_info)
 meals2, meal_times2 = zip(*meal_info)
 print(meals2, "\n", meal_times2)
+"""
+-------------------------------------------------
+"""
+random_nums1 = (1, 10, 2, 448, 9)
+random_nums2 = (50, 30, 20, 48, 49)
+
+print("Is random_nums1 less than random_nums2 (only comparing Index Value 0)? (T/F):", random_nums1 < random_nums2) ## compares only the first element with the same data type, not all elements
+
+comparison = all(random_num1 < random_num2 for random_num1, random_num2 in zip(random_nums1, random_nums2)) ## compares all element values in both tuples
+print("Is random_nums1 less than random_nums2? (T/F):", comparison)
+"""
+-------------------------------------------------
+"""
+"""
+
+"""
