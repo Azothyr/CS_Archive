@@ -42,14 +42,14 @@ def get_summary(lines):
                 summary[code]["longest"] = {"text": text, "line_number": line_number,
                                             "length": current_length}
             elif current_length == summary[code]["longest"]["length"] and line_number > summary[
-                    code]["longest"]["line_number"]:
+                code]["longest"]["line_number"]:
                 summary[code]["longest"] = {"text": text, "line_number": line_number,
                                             "length": current_length}
             if current_length < summary[code]["shortest"]["length"]:
                 summary[code]["shortest"] = {"text": text, "line_number": line_number,
                                              "length": current_length}
             elif current_length == summary[code]["shortest"]["length"] and line_number < summary[
-                    code]["shortest"]["line_number"]:
+                code]["shortest"]["line_number"]:
                 summary[code]["shortest"] = {"text": text, "line_number": line_number,
                                              "length": current_length}
             summary[code]["total_length"] += current_length
@@ -66,9 +66,7 @@ def write_summary(summary, filename):
     with open(filename, "w", encoding='utf-8') as file:
         for code, data in sorted(summary.items()):
             file.write(f"{code}")
-            file.write(f"Longest line ({data['longest']['line_number']}): {data['longest']['text']}"
-                       f"{'...' if len(data['longest']['text']) > 50 else ''}\n")
-
+            file.write(f"Longest line ({data['longest']['line_number']}): {data['longest']['text']}\n")
             file.write(f"Shortest line ({data['shortest']['line_number']}): "
                        f"{data['shortest']['text']}\n")
             file.write(f"Average length: {data['avg_length']}\n\n")
@@ -80,15 +78,13 @@ def write_text(text_dict, filename):
     organized by the dictionary key 'code' and separated by '-----', to a file.
     """
     with open(filename, 'w', encoding='utf-8') as file:
-        # sort the dictionary items by code alphabetically
         sorted_items = sorted(text_dict.items())
-
-        # iterate over the sorted items and write the text to the file
-        for code, text_list in sorted_items:
+        for i, (code, text_list) in enumerate(sorted_items):
             file.write(code)
-            for text_item in text_list:
+            for text_item in sorted(text_list, key=lambda x: x["line_number"]):
                 file.write(text_item['text'] + '\n')
-            file.write('-----\n')
+            if i != len(sorted_items) - 1:
+                file.write('-----\n')
 
 
 def main():
@@ -116,7 +112,6 @@ def main():
             text_dict[code] = [{"text": text, "line_number": line_number}]
         else:
             text_dict[code].append({"text": text, "line_number": line_number})
-        text_dict[code] = sorted(text_dict[code], key=lambda x: x["line_number"])
 
     summary_dict = get_summary(lines)
     write_summary(summary_dict, 'novel_summary.txt')
