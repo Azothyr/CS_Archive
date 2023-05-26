@@ -1,8 +1,17 @@
 class ClassCreator:
     def __init__(self):
+        self.top = None
         self.upper = None
         self.mid = None
         self.lower = None
+
+    def define_class(self, class_name, parent_name):
+        if parent_name is None:
+            text = ("class {class_name}:\n").format(class_name=class_name)
+        else:
+            text = ("class {class_name}({parent_name}):\n").format(class_name=class_name, parent_name=parent_name)
+
+        self.top = text
 
     def _customize_upper(self, *arg):
         class_name, class_attributes, self_parameters, equal_parameters, \
@@ -80,8 +89,7 @@ class ClassCreator:
                 new_value = attr + " = "
                 attribute_list.append(new_value)
 
-        text = ("class {class_name}:\n"
-                "    def __init__(self{class_parameters}):\n"
+        text = ("    def __init__(self{class_parameters}):\n"
                 "        {self_attributes}\n").format(
             class_name=class_name,
             class_parameters=class_parameters,
@@ -107,21 +115,23 @@ class ClassCreator:
         return text
 
     def run_creator(self, *arg):
+        self.define_class(arg[0], arg[6])
         self._customize_upper(arg[0], arg[1], arg[2], arg[3], arg[4], arg[5])
         self._customize_mid(arg[0], arg[1], arg[2], arg[3], arg[4], arg[5])
         self._customize_lower(arg[0], arg[1], arg[2], arg[3], arg[4], arg[5])
 
-        complete_text = "{upper}{mid}{lower}".format(
+        complete_text = "{top}{upper}{mid}{lower}".format(
+            top=self.top,
             upper=self.upper,
             mid=self.mid,
             lower=self.lower)
         return complete_text
 
     def create_class(self, class_name, instance_name, class_attributes, define_attr_as_class_arg,
-                     instance_parameters, underscore_amount):
+                     instance_parameters, underscore_amount, parent_name):
 
         return self.run_creator(class_name, instance_name, class_attributes, define_attr_as_class_arg,
-                                instance_parameters, underscore_amount)
+                                instance_parameters, underscore_amount, parent_name)
 
 
 class GetSetFunction(ClassCreator):
@@ -179,7 +189,7 @@ class GetSetFunction(ClassCreator):
         return text
 
     def create_class(self, *arg):
-        return super().create_class(arg[0], arg[1], arg[2], arg[3], arg[4], arg[5])
+        return super().create_class(arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], arg[6])
 
 
 class GetSetProperty(ClassCreator):
@@ -236,31 +246,34 @@ class GetSetProperty(ClassCreator):
         return text
 
     def create_class(self, *arg):
-        return super().create_class(arg[0], arg[1], arg[2], arg[3], arg[4], arg[5])
+        return super().create_class(arg[0], arg[1], arg[2], arg[3], arg[4], arg[5], arg[6])
 
 
 def main(class_to_instance=ClassCreator(),
-         class_name="Default",
+         class_name="PowerBall",
          class_attributes=None,
          instance_name=None,
          instance_parameters=None,
          define_attr_as_class_arg=True,
-         underscore_amount=0):
+         underscore_amount=0,
+         class_parent=None):
     my_class = class_to_instance
-    if my_class == "GetSetFunction" or "GetSetProperty":
+    parent_class = class_parent
+    if my_class == GetSetFunction or GetSetProperty:
         if underscore_amount == 0:
             underscore_amount = 1
 
     print(my_class.create_class(class_name, instance_name,
                                 class_attributes, define_attr_as_class_arg,
-                                instance_parameters, underscore_amount))
+                                instance_parameters, underscore_amount, parent_class))
 
 
 if __name__ == "__main__":
-    main(GetSetProperty(),
-         "Dancer",
-         ["name", "nationality", "style"],
+    main(ClassCreator(),
+         "Median",
+         [],
          None,
-         ["Savion Glover", "American", "tap"],
+         [],
          True,
-         0)
+         0,
+         None)
