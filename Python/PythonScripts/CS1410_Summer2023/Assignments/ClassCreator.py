@@ -43,14 +43,13 @@ class ClassCreator:
         instance_arg_list = []
         equal_list = []
         underscores = ""
-        if underscore_amount > 0:
-            underscores = "_" * underscore_amount
+        print(underscore_amount)
         i = 1
 
         for argument in class_attributes:
             private_param = f"{underscores}{argument}"
             if underscore_amount == 2:
-                private_param = f"_{class_name}" + private_param
+                private_param = f"{class_name}" + private_param
             self_param = f"self.{underscores}{argument}"
             equal_param = f" = {argument}"
             private_attributes.append(private_param)
@@ -250,7 +249,7 @@ class GetSetProperty(ClassCreator):
 
 
 def main(class_to_instance=ClassCreator(),
-         class_name="PowerBall",
+         class_name="Default",
          class_attributes=None,
          instance_name=None,
          instance_parameters=None,
@@ -259,7 +258,7 @@ def main(class_to_instance=ClassCreator(),
          class_parent=None):
     my_class = class_to_instance
     parent_class = class_parent
-    if my_class == GetSetFunction or GetSetProperty:
+    if my_class == 'GetSetFunction' or 'GetSetProperty':
         if underscore_amount == 0:
             underscore_amount = 1
 
@@ -270,8 +269,8 @@ def main(class_to_instance=ClassCreator(),
 
 if __name__ == "__main__":
     main(ClassCreator(),
-         "Median",
-         [],
+         "Item",
+         ['name', 'price', 'quantity', 'subtotal'],
          None,
          [],
          True,
