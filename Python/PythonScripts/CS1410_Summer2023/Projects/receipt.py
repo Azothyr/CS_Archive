@@ -47,7 +47,7 @@ def make_receipt(data: list[list[str, int, float]], out_file_name: str):
 
 def main():
     # data which we are going to display as tables
-    DATA = [
+    data = [
         ["Date", "Name", "Subscription", "Price (Rs.)"],
         [
             "16/11/2020",
@@ -60,7 +60,7 @@ def main():
         ["Discount", "", "", "-3,000.00/-"],
         ["Total", "", "", "17,998.00/-"],
     ]
-    make_receipt(DATA, "receipt.pdf")
+    make_receipt(data, "receipt.pdf")
 
 
 if __name__ == "__main__":

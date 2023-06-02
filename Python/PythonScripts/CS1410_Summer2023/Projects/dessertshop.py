@@ -1,5 +1,3 @@
-import pathlib
-
 from desserts import *
 from receipt import make_receipt
 
