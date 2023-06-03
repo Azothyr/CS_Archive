@@ -21,32 +21,38 @@ def test_cookie():
     assert cookie_test.name == ""
     assert cookie_test.cookie_quantity == 0
     assert cookie_test.price_per_dozen == 0.0
+    assert cookie_test.packaging == "Box"
     assert cookie_test.tax_percent == 7.25
     # Step 2
-    cookie_test = Cookie("Test Cookie Name", 12, 5.50, 2.11)
+    cookie_test = Cookie("Test Cookie Name", 12, 5.50, "Cup", 2.11)
     assert cookie_test.name == "Test Cookie Name"
     assert cookie_test.cookie_quantity == 12
     assert cookie_test.price_per_dozen == 5.50
+    assert cookie_test.packaging == "Cup"
     assert cookie_test.tax_percent == 2.11
     # Step 3
     cookie_test = Cookie()
     cookie_test.name = "Double Fudge"
     cookie_test.cookie_quantity = 15
     cookie_test.price_per_dozen = 15.00
+    cookie_test.packaging = "House"
     cookie_test.tax_percent = 8.99
     assert cookie_test.cookie_quantity == 15
     assert cookie_test.name == "Double Fudge"
     assert cookie_test.price_per_dozen == 15.00
+    assert cookie_test.packaging == "House"
     assert cookie_test.tax_percent == 8.99
     # Step 4
-    cookie_test = Cookie("un-modified", 99, 200.00, 0.00)
+    cookie_test = Cookie("un-modified", 99, 200.00, None, 0.00)
     cookie_test.name = "Double Fudge"
     cookie_test.cookie_quantity = 24
     cookie_test.price_per_dozen = 12.50
+    cookie_test.packaging = "Dog"
     cookie_test.tax_percent = 4.44
     assert cookie_test.name == "Double Fudge"
     assert cookie_test.cookie_quantity == 24
     assert cookie_test.price_per_dozen == 12.50
+    assert cookie_test.packaging == "Dog"
     assert cookie_test.tax_percent == 4.44
     # Step 5
     cookie_test = Cookie("cost_test", 0, 0, 0.00)

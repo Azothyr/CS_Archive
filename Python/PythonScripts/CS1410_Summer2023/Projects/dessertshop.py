@@ -37,7 +37,7 @@ class Order:
         return total_tax
 
 
-class DessertShop:
+class DessertShop():
     """
     prompt user for enough input to create the required line item on the receipt
     get user input
@@ -46,7 +46,6 @@ class DessertShop:
     create an object of the proper type
     return the newly created object to the caller
     """
-
     def __init__(self):
         self.dessert_class = DessertItem
 

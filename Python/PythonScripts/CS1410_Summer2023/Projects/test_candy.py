@@ -21,32 +21,38 @@ def test_candy():
     assert candy_test.name == ""
     assert candy_test.candy_weight == 0.0
     assert candy_test.price_per_pound == 0.0
+    assert candy_test.packaging == "Bag"
     assert candy_test.tax_percent == 7.25
     # Step 2
-    candy_test = Candy("Test Candy Name", 1.5, 0.25, 3.11)
+    candy_test = Candy("Test Candy Name", 1.5, 0.25, "Fountain", 3.11)
     assert candy_test.name == "Test Candy Name"
     assert candy_test.candy_weight == 1.5
     assert candy_test.price_per_pound == 0.25
+    assert candy_test.packaging == "Fountain"
     assert candy_test.tax_percent == 3.11
     # Step 3
     candy_test = Candy()
     candy_test.name = "Taffy"
     candy_test.candy_weight = 2.2
     candy_test.price_per_pound = 5.00
+    candy_test.packaging = "Mouth"
     candy_test.tax_percent = 5.33
     assert candy_test.name == "Taffy"
     assert candy_test.candy_weight == 2.2
     assert candy_test.price_per_pound == 5.00
+    assert candy_test.packaging == "Mouth"
     assert candy_test.tax_percent == 5.33
     # Step 4
-    candy_test = Candy("un-modified", 200.00, 1500.00)
+    candy_test = Candy("un-modified", 200.00, 10, "Tray", 1500.00)
     candy_test.name = "Nerds"
     candy_test.candy_weight = 0.30
     candy_test.price_per_pound = 1.25
+    candy_test.packaging = "Plate"
     candy_test.tax_percent = 9.99
     assert candy_test.name == "Nerds"
     assert candy_test.candy_weight == 0.30
     assert candy_test.price_per_pound == 1.25
+    assert candy_test.packaging == "Plate"
     assert candy_test.tax_percent == 9.99
     # Step 5
     candy_test = Candy("cost_test", 0, 0, 0.00)

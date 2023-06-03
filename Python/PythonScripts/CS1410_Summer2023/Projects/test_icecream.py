@@ -21,32 +21,38 @@ def test_icecream():
     assert icecream_test.name == ""
     assert icecream_test.scoop_count == 0
     assert icecream_test.price_per_scoop == 0.0
+    assert icecream_test.packaging == "Bowl"
     assert icecream_test.tax_percent == 7.25
     # Step 2
-    icecream_test = IceCream("Test Ice Cream Name", 3, 2.50, 3.33)
+    icecream_test = IceCream("Test Ice Cream Name", 3, 2.50, "Hands", 3.33)
     assert icecream_test.name == "Test Ice Cream Name"
     assert icecream_test.scoop_count == 3
     assert icecream_test.price_per_scoop == 2.50
+    assert icecream_test.packaging == "Hands"
     assert icecream_test.tax_percent == 3.33
     # Step 3
     icecream_test = IceCream()
     icecream_test.name = "Mint Chip"
     icecream_test.scoop_count = 5
     icecream_test.price_per_scoop = 0.75
+    icecream_test.packaging = "Floor"
     icecream_test.tax_percent = 19.99
     assert icecream_test.name == "Mint Chip"
     assert icecream_test.scoop_count == 5
     assert icecream_test.price_per_scoop == 0.75
+    assert icecream_test.packaging == "Floor"
     assert icecream_test.tax_percent == 19.99
     # Step 4
-    icecream_test = IceCream("un-modified", 9, 0.50, 15.00)
+    icecream_test = IceCream("un-modified", 9, 0.50, None, 15.00)
     icecream_test.name = "Rainbow Cheese Cake"
     icecream_test.scoop_count = 1
     icecream_test.price_per_scoop = 1.11
+    icecream_test.packaging = "Table"
     icecream_test.tax_percent = 0.22
     assert icecream_test.name == "Rainbow Cheese Cake"
     assert icecream_test.scoop_count == 1
     assert icecream_test.price_per_scoop == 1.11
+    assert icecream_test.packaging == "Table"
     assert icecream_test.tax_percent == 0.22
     # Step 5
     icecream_test = IceCream("cost_test", 0, 0, 0.00)

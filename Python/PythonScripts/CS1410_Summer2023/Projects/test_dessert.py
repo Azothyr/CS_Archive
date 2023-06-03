@@ -19,30 +19,36 @@ def test_dessert_item():
     # Step 1
     dessert_test = Candy()
     assert dessert_test.name == ""
+    assert dessert_test.packaging == "Bag"
     assert dessert_test.tax_percent == 7.25
     # Step 2
-    dessert_test = Candy("Test Name", 0, 0, 15.55)
+    dessert_test = Candy("Test Name", 0, 0, "Glass", 15.55)
     assert dessert_test.name == "Test Name"
+    assert dessert_test.packaging == "Glass"
     assert dessert_test.tax_percent == 15.55
     # Step 3
     dessert_test = Candy()
     dessert_test.name = "Snicker-doodles"
+    dessert_test.packaging = "Bowl"
     dessert_test.tax_percent = 0.31
     assert dessert_test.name == "Snicker-doodles"
+    assert dessert_test.packaging == "Bowl"
     assert dessert_test.tax_percent == 0.31
     # Step 4
-    dessert_test = Candy("un-modified", 0, 0, 0.00)
+    dessert_test = Candy("un-modified", 0, 0, None, 0.00)
     dessert_test.name = "Chocolate Chip"
+    dessert_test.packaging = "Barn"
     dessert_test.tax_percent = 99.99
     assert dessert_test.name == "Chocolate Chip"
+    assert dessert_test.packaging == "Barn"
     assert dessert_test.tax_percent == 99.99
     # Step 5
-    dessert_test = Candy("cost_test", 0, 0, 0.00)
+    dessert_test = Candy("cost_test", 0, 0, None, 0.00)
     assert dessert_test.calculate_cost() == 0
     dessert_test = Candy("cost_test", 1.5, .25)
     assert dessert_test.calculate_cost() == 0.38
     # Step 6
-    dessert_test = Candy("tax_test", 0, 0, 0.00)
+    dessert_test = Candy("tax_test", 0, 0, None, 0.00)
     assert dessert_test.calculate_tax() == 0
     dessert_test = Candy("tax_test", 1.5, .25)
     assert dessert_test.calculate_tax() == 0.03
