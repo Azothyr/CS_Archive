@@ -6,6 +6,10 @@ class Order:
     def __init__(self, order_list=[]):
         self.order_list = order_list
 
+    def __str__(self):
+        items_str = "\n".join(str(item) for item in self.order_list)
+        return items_str
+
     def __len__(self):
         return len(self.order_list)
 
@@ -141,63 +145,58 @@ def main():
 
     done = False
     # build the prompt string once
-    prompt = '\n'.join(['\n',
-                        '1: Candy',
-                        '2: Cookie',
-                        '3: Ice Cream',
-                        '4: Sunday',
-                        '\nWhat would you like to add to the order? (1-4, Enter for done): '
+    prompt = "\n".join(["\n",
+                        "1: Candy",
+                        "2: Cookie",
+                        "3: Ice Cream",
+                        "4: Sundae",
+                        "\nWhat would you like to add to the order? (1-4, Enter for done): "
                         ])
 
     while not done:
         choice = input(prompt)
         match choice:
-            case '':
+            case "":
                 done = True
                 print("\n--------------------PROCESSING--------------------"
                       "\n---------------------COMPLETE---------------------"
                       "\nThanks for your order!")
-            case '1':
+            case "1":
                 item = shop.user_prompt_candy()
                 order.add(item)
-                print(f"{item.name}'has been added to your order.")
-            case '2':
+                print(f"{item.name} has been added to your order.")
+            case "2":
                 item = shop.user_prompt_cookie()
                 order.add(item)
-                print(f'{item.name}has been added to your order.')
-            case '3':
+                print(f"{item.name} has been added to your order.")
+            case "3":
                 item = shop.user_prompt_icecream()
                 order.add(item)
-                print(f'{item.name}has been added to your order.')
-            case '4':
+                print(f"{item.name} has been added to your order.")
+            case "4":
                 item = shop.user_prompt_sundae()
                 order.add(item)
-                print(f'{item.name}has been added to your order.')
+                print(f"{item.name} has been added to your order.")
             case _:
-                print('Invalid response:  Please enter a choice from the menu (1-4) or Enter')
+                print("Invalid response:  Please enter a choice from the menu (1-4) or Enter")
     print()
 
-    order.add(Candy('Candy Corn', 1.5, 0.25))
-    order.add(Candy('Gummy Bears', 0.25, 0.35))
-    order.add(Cookie('Chocolate Chip', 6, 3.99))
-    order.add(IceCream('Pistachio', 2, 0.79))
-    order.add(Sundae('Vanilla', 3, 0.69, 'Hot Fudge', 1.29))
-    order.add(Cookie('Oatmeal Raisin', 2, 3.45))
+    order.add(Candy("Candy Corn", 1.5, 0.25))
+    order.add(Candy("Gummy Bears", 0.25, 0.35))
+    order.add(Cookie("Chocolate Chip", 6, 3.99))
+    order.add(IceCream("Pistachio", 2, 0.79))
+    order.add(Sundae("Vanilla", 3, 0.69, "Hot Fudge", 1.29))
+    order.add(Cookie("Oatmeal Raisin", 2, 3.45))
+    cost_total, tax_total = sum(item.calculate_cost() for item in order), sum(item.calculate_tax() for item in order)
+    orders = [item.split(", ") for item in str(order).split("\n")]
 
-    receipt_list = [["Name", "Item Cost", "Tax"]]
+    receipt_list = [["Name", "Quantity", "Unit Price", "Cost", "Tax"],
+                    ["------------", "------------", "------------", "------------", "------------"],
+                    ["Total items in the order", len(order)],
+                    ["Order Subtotals", "", "", "${:.2f}".format(cost_total), "${:.2f}".format(tax_total)],
+                    ["Order Total", "", "", "", "${:.2f}".format(cost_total + tax_total)]]
 
-    cost_subtotal = 0
-    tax_subtotal = 0
-    for item in order:
-        cost = item.calculate_cost()
-        tax = item.calculate_tax()
-        cost_subtotal += cost
-        tax_subtotal += tax
-        receipt_list.append([item.name, "${:.2f}".format(cost), "${:.2f}".format(tax)])
-    receipt_list.append(["--------------------------------------------------------", "", ""])
-    receipt_list.append(["Order Subtotals", "${:.2f}".format(cost_subtotal), "${:.2f}".format(tax_subtotal)])
-    receipt_list.append(["Order Total", "", "${:.2f}".format(cost_subtotal + tax_subtotal)])
-    receipt_list.append(["Total items in the order", "", len(order)])
+    receipt_list[1:1] = orders
 
     make_receipt(receipt_list, "receipt.pdf")
 

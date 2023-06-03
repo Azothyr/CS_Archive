@@ -10,6 +10,10 @@ class DessertItem(ABC):
     def calculate_cost(self):
         pass
 
+    @abstractmethod
+    def __str__(self):
+        pass
+
     def calculate_tax(self):
         cost = self.calculate_cost()
         tax = round(cost * round(self.tax_percent / 100, 5), 2)
@@ -21,6 +25,15 @@ class Candy(DessertItem):
         super().__init__(name, tax_percent)
         self.candy_weight = float(candy_weight)
         self.price_per_pound = float(price_per_pound)
+        self.__name__ = f"{self.name} Candy"
+
+    def __str__(self):
+        name = self.__name__
+        quantity = f"{self.candy_weight}lbs"
+        price = "${:.2f}".format(self.price_per_pound) + "/lb"
+        item_cost = self.calculate_cost()
+        item_tax = self.calculate_tax()
+        return f"{name}, {quantity}, {price}, {item_cost}, {item_tax}"
 
     def calculate_cost(self):
         cost = round(self.candy_weight * self.price_per_pound, 2)
@@ -32,6 +45,15 @@ class Cookie(DessertItem):
         super().__init__(name, tax_percent)
         self.cookie_quantity = int(cookie_quantity)
         self.price_per_dozen = float(price_per_dozen)
+        self.__name__ = f"{self.name} Cookie"
+
+    def __str__(self):
+        name = self.__name__
+        quantity = f"{self.cookie_quantity} cookies"
+        price = "${:.2f}".format(self.price_per_dozen) + "/dozen"
+        item_cost = self.calculate_cost()
+        item_tax = self.calculate_tax()
+        return f"{name}, {quantity}, {price}, {item_cost}, {item_tax}"
 
     def calculate_cost(self):
         cost = round(round(self.price_per_dozen / 12, 5) * self.cookie_quantity, 2)
@@ -43,6 +65,15 @@ class IceCream(DessertItem):
         super().__init__(name, tax_percent)
         self.scoop_count = int(scoop_count)
         self.price_per_scoop = float(price_per_scoop)
+        self.__name__ = f"{self.name} IceCream"
+
+    def __str__(self):
+        name = self.__name__
+        quantity = f"{self.scoop_count} scoops"
+        price = "${:.2f}".format(self.price_per_scoop) + "/scoop"
+        item_cost = self.calculate_cost()
+        item_tax = self.calculate_tax()
+        return f"{name}, {quantity}, {price}, {item_cost}, {item_tax}"
 
     def calculate_cost(self):
         cost = round(self.price_per_scoop * self.scoop_count, 2)
@@ -55,6 +86,17 @@ class Sundae(IceCream):
         super().__init__(name, scoop_count, price_per_scoop, tax_percent)
         self.topping_name = str(topping_name)
         self.topping_price = float(topping_price)
+        self.__name__ = f"{self.topping_name} {self.name} Sundae"
+
+    def __str__(self):
+        name = self.__name__
+        quantity = f"{self.scoop_count} scoops"
+        price = "${:.2f}".format(self.price_per_scoop) + "/scoop"
+        topping = f"{self.topping_name} topping"
+        topping_price = "${:.2f}".format(self.topping_price)
+        item_cost = self.calculate_cost()
+        item_tax = self.calculate_tax()
+        return f"{name}, {quantity}, {price}, {item_cost}, {item_tax}\n{topping}, 1, {topping_price}"
 
     def calculate_cost(self):
         cost = round(self.price_per_scoop * self.scoop_count + self.topping_price, 2)
