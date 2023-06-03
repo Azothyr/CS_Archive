@@ -101,7 +101,6 @@ class BST:
         if not – do nothing.
         Return the resulting tree.
         """
-
         def find_min(node):
             return find_min(node.left) if node.left else node
 
