@@ -20,7 +20,7 @@ def make_receipt(data: list[list[str, int, float]], out_file_name: str):
 
     # creating the paragraph with
     # the heading text and passing the styles of it
-    title = Paragraph(out_file_name, title_style)
+    title = Paragraph("Receipt", title_style)
 
     # creates a Table Style object and in it,
     # defines the styles row wise

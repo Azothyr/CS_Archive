@@ -64,3 +64,11 @@ def test_cookie():
     assert cookie_test.calculate_tax() == 0
     cookie_test = Cookie("tax_test", 6, 3.99)
     assert cookie_test.calculate_tax() == 0.14
+
+
+def test_combining():
+    cookie_test = Cookie("Oatmeal Raisin", 6, 3.45)
+    assert cookie_test.can_combine(Cookie("Oatmeal Raisin", 2, 3.45)) is True
+    assert cookie_test.can_combine(Cookie("Chocolate Chip", 6, 3.99)) is False
+    cookie_test = Cookie("Oatmeal Raisin", 2, 3.45)
+    assert cookie_test.can_combine(Cookie("Oatmeal Raisin", 6, 5.55)) is False

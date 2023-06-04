@@ -1,12 +1,18 @@
 from desserts import *
 from receipt import make_receipt
+from payable import *
+from combine import Combinable
 
 
 class Order:
-    def __init__(self, order_list=[]):
+    def __init__(self, order_list: list = []):
         self.order_list = order_list
 
     def __str__(self):
+        items_str = "\n".join(str(item) for item in self.order_list)
+        return items_str
+
+    def __repr__(self):
         items_str = "\n".join(str(item) for item in self.order_list)
         return items_str
 
@@ -20,9 +26,17 @@ class Order:
         return next(iter(self.order_list))
 
     def add(self, dessert_item: DessertItem = None):
+        if isinstance(dessert_item, Combinable):
+            for item in self.order_list:
+                if hasattr(item, 'can_combine') and item.can_combine(dessert_item):
+                    item.combine(dessert_item)
+                    return
         if not isinstance(dessert_item, DessertItem):
             raise ValueError("Error: Item to add is not a DessertItem")
         self.order_list.append(dessert_item)
+
+    def sort(self):
+        self.order_list = sorted(self.order_list, key=lambda item: item.calculate_cost())
 
     def order_cost(self):
         total_cost = 0.00
@@ -37,15 +51,7 @@ class Order:
         return total_tax
 
 
-class DessertShop():
-    """
-    prompt user for enough input to create the required line item on the receipt
-    get user input
-    validate the input
-    convert input values to the proper types as-needed
-    create an object of the proper type
-    return the newly created object to the caller
-    """
+class DessertShop:
     def __init__(self):
         self.dessert_class = DessertItem
 
@@ -135,12 +141,10 @@ class DessertShop():
         return self.gather_input("sundae")
 
 
-def main():
-    """
-    Main function.
-    """
-    shop = DessertShop()
-    order = Order()
+def user_input_interface(shop: DessertShop, order: Order, payment: PaymentProcessor):
+    class InvalidInputError(Exception):
+        """Exception raised for invalid input errors."""
+        pass
 
     done = False
     # build the prompt string once
@@ -152,10 +156,34 @@ def main():
                         "\nWhat would you like to add to the order? (1-4, Enter for done): "
                         ])
 
+    payment_prompt = "\n".join(["\n",
+                                "1: Cash",
+                                "2: Card",
+                                "3: Phone",
+                                "\nHow would you like to pay for this order? (1-3):"
+                                ])
+
     while not done:
         choice = input(prompt)
         match choice:
             case "":
+                while True:
+                    try:
+                        pay_options = input(payment_prompt)
+                        match pay_options:
+                            case "1":
+                                payment.set_pay_type(PayType.CASH)
+                                break
+                            case "2":
+                                payment.set_pay_type(PayType.CARD)
+                                break
+                            case "3":
+                                payment.set_pay_type(PayType.PHONE)
+                                break
+                            case _:
+                                raise InvalidInputError("Invalid response:  Please enter a choice from the menu (1-3)")
+                    except InvalidInputError as err:
+                        print(err)
                 done = True
                 print("\n--------------------PROCESSING--------------------"
                       "\n---------------------COMPLETE---------------------"
@@ -180,20 +208,37 @@ def main():
                 print("Invalid response:  Please enter a choice from the menu (1-4) or Enter")
     print()
 
+
+def main():
+    """
+    Main function.
+    """
+    shop = DessertShop()
+    order = Order()
+    pay_type = PaymentProcessor()
+
+    user_input_interface(shop, order, pay_type)
+
     order.add(Candy("Candy Corn", 1.5, 0.25))
     order.add(Candy("Gummy Bears", 0.25, 0.35))
+    order.add(Candy("Candy Corn", .25, 0.25))
+    order.add(Cookie("Oatmeal Raisin", 6, 3.45))
     order.add(Cookie("Chocolate Chip", 6, 3.99))
     order.add(IceCream("Pistachio", 2, 0.79))
     order.add(Sundae("Vanilla", 3, 0.69, "Hot Fudge", 1.29))
     order.add(Cookie("Oatmeal Raisin", 2, 3.45))
+    order.add(Candy("Gummy Bears", 1.5, 0.25))
     cost_total, tax_total = sum(item.calculate_cost() for item in order), sum(item.calculate_tax() for item in order)
+    order.sort()
     orders = [item.split(", ") for item in str(order).split("\n")]
 
-    receipt_list = [["Name", "Quantity", "Unit Price", "Cost", "Tax"],
-                    ["------------", "------------", "------------", "------------", "------------"],
-                    ["Total items in the order", len(order)],
-                    ["Order Subtotals", "", "", "${:.2f}".format(cost_total), "${:.2f}".format(tax_total)],
-                    ["Order Total", "", "", "", "${:.2f}".format(cost_total + tax_total)]]
+    receipt_list = [
+        ["Name", "Packaging", "Quantity", "Unit Price", "Cost", "Tax"],
+        ["------------", "------------", "------------", "------------", "------------", "------------"],
+        ["Total items in the order", "", f"-- {len(order)} --", "Order Subtotals:", "${:.2f}".format(cost_total),
+         "${:.2f}".format(tax_total)],
+        [pay_type, "", "", "Order Total:", "${:.2f}".format(cost_total + tax_total)]
+    ]
 
     receipt_list[1:1] = orders
 

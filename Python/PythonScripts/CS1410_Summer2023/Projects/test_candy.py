@@ -64,3 +64,11 @@ def test_candy():
     assert candy_test.calculate_tax() == 0
     candy_test = Candy("tax_test", .25, .35)
     assert candy_test.calculate_tax() == 0.01
+
+
+def test_combining():
+    candy_test = Candy("Candy Corn", .25, 0.25)
+    assert candy_test.can_combine(Candy("Candy Corn", 1.5, 0.25)) is True
+    assert candy_test.can_combine(Candy("Gummy Bears", 0.25, 0.35)) is False
+    candy_test = Candy("Gummy Bears", 1.5, 0.25)
+    assert candy_test.can_combine(Candy("Gummy Bears", 0.25, 0.35)) is False
