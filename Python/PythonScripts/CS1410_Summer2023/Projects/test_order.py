@@ -18,13 +18,13 @@ def test_order_sort():
     order_test.add(Sundae("Vanilla", 1, 10, "Hot Fudge", 0))
     order_test.add(Cookie("Oatmeal Raisin", 1, 3))
     order_test.sort()
-    expected_result = "Oatmeal Raisin Cookie (Box), 1 cookies, $3.00/dozen, $0.25, $0.02\n" \
-                      "Chocolate Chip Cookie (Box), 1 cookies, $4.00/dozen, $0.33, $0.02\n" \
-                      "Candy Corn Candy (Bag), 1.0lbs, $2.00/lb, $2.00, $0.14\n" \
-                      "Gummy Bears Candy (Bag), 1.0lbs, $8.00/lb, $8.00, $0.58\n" \
-                      "Pistachio IceCream (Bowl), 1 scoops, $9.00/scoop, $9.00, $0.65\n" \
-                      "Hot Fudge Vanilla Sundae (Boat), 1 scoops, $10.00/scoop:, $10.00, $0.72\n" \
-                      "Hot Fudge topping, 1, , , $0.00"
+    expected_result = "Oatmeal Raisin (Cookie), Box, 1 cookies, $3.00/dozen, $0.25, $0.02\n" \
+                      "Chocolate Chip (Cookie), Box, 1 cookies, $4.00/dozen, $0.33, $0.02\n" \
+                      "Candy Corn (Candy), Bag, 1.0lbs, $2.00/lb, $2.00, $0.14\n" \
+                      "Gummy Bears (Candy), Bag, 1.0lbs, $8.00/lb, $8.00, $0.58\n" \
+                      "Pistachio (IceCream), Bowl, 1 scoops, $9.00/scoop, $9.00, $0.65\n" \
+                      "Vanilla (Sundae) with Hot Fudge, Boat, 1 scoops, $10.00/scoop:, $10.00, $0.72\n" \
+                      "Hot Fudge (Topping), , , , $0.00"
     assert str(order_test) == expected_result
 
 

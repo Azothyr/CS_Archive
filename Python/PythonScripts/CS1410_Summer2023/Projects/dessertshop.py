@@ -5,8 +5,8 @@ from combine import Combinable
 
 
 class Order:
-    def __init__(self, order_list: list = []):
-        self.order_list = order_list
+    def __init__(self, order_list: list[DessertItem] = None):
+        self.order_list = order_list or []
 
     def __str__(self):
         items_str = "\n".join(str(item) for item in self.order_list)
@@ -49,6 +49,17 @@ class Order:
         for item in self.order_list:
             total_tax += item.calculate_tax()
         return total_tax
+
+
+class Customer:
+    def __init__(self, customer_name: str = ""):
+        self.customer_name = customer_name
+        self.order_history: list[Order] = []
+        self.customer_id: int = 0
+
+    def add2history(self, order: Order) -> "Customer":
+        self.order_history.append(order)
+        return self
 
 
 class DessertShop:
@@ -147,7 +158,6 @@ def user_input_interface(shop: DessertShop, order: Order, payment: PaymentProces
         pass
 
     done = False
-    # build the prompt string once
     prompt = "\n".join(["\n",
                         "1: Candy",
                         "2: Cookie",
@@ -181,13 +191,10 @@ def user_input_interface(shop: DessertShop, order: Order, payment: PaymentProces
                                 payment.set_pay_type(PayType.PHONE)
                                 break
                             case _:
-                                raise InvalidInputError("Invalid response:  Please enter a choice from the menu (1-3)")
+                                raise InvalidInputError("Invalid response: Please enter a choice from the menu (1-3)")
                     except InvalidInputError as err:
                         print(err)
                 done = True
-                print("\n--------------------PROCESSING--------------------"
-                      "\n---------------------COMPLETE---------------------"
-                      "\nThanks for your order!")
             case "1":
                 item = shop.user_prompt_candy()
                 order.add(item)
@@ -205,7 +212,7 @@ def user_input_interface(shop: DessertShop, order: Order, payment: PaymentProces
                 order.add(item)
                 print(f"{item.name} has been added to your order.")
             case _:
-                print("Invalid response:  Please enter a choice from the menu (1-4) or Enter")
+                print("Invalid response: Please enter a choice from the menu (1-4) or Enter")
     print()
 
 
@@ -214,8 +221,16 @@ def main():
     Main function.
     """
     shop = DessertShop()
+    new_customer = Customer()
     order = Order()
     pay_type = PaymentProcessor()
+
+    order_complete = False
+    additional_order_prompt = "\n".join(["\n",
+                                         "y: yes",
+                                         "Enter: finish order",
+                                         "\nWould you like to start another order (y) or Enter?:"
+                                         ])
 
     user_input_interface(shop, order, pay_type)
 
@@ -242,7 +257,23 @@ def main():
 
     receipt_list[1:1] = orders
 
+    while not order_complete:
+        try:
+            additional_order_option = input(additional_order_prompt)
+            match additional_order_option:
+                case "y":
+                    new_customer.add2history(order)
+                    main()
+                    break
+                case _:
+                    order_complete = True
+        except ValueError:
+            print("error")
+
     make_receipt(receipt_list, "receipt.pdf")
+    print("\n--------------------PROCESSING--------------------"
+          "\n---------------------COMPLETE---------------------"
+          "\nThanks for your order!")
 
 
 if __name__ == "__main__":
