@@ -52,10 +52,11 @@ class Order:
 
 
 class Customer:
-    def __init__(self, customer_name: str = ""):
+    def __init__(self, customer_name: str = "", customer_db: dict[str] = None):
         self.customer_name = customer_name
         self.order_history: list[Order] = []
         self.customer_id: int = 0
+        self.customer_db = customer_db
 
     def add2history(self, order: Order) -> "Customer":
         self.order_history.append(order)
