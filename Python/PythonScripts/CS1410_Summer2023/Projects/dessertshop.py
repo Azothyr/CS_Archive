@@ -52,11 +52,13 @@ class Order:
 
 
 class Customer:
-    def __init__(self, customer_name: str = "", customer_db: dict[str] = None):
+    id_counter = 0
+
+    def __init__(self, customer_name: str = ""):
         self.customer_name = customer_name
         self.order_history: list[Order] = []
-        self.customer_id: int = 0
-        self.customer_db = customer_db
+        self.id: int = Customer.id_counter
+        Customer.id_counter += 1
 
     def add2history(self, order: Order) -> "Customer":
         self.order_history.append(order)
@@ -64,8 +66,9 @@ class Customer:
 
 
 class DessertShop:
-    def __init__(self):
+    def __init__(self, customer_db: dict[str, Customer] = None):
         self.dessert_class = DessertItem
+        self.customer_db = customer_db or {}
 
     def gather_input(self, dessert_type):
         bad_name_char = ("(", ")", "!", "@", "#", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
@@ -153,7 +156,11 @@ class DessertShop:
         return self.gather_input("sundae")
 
 
-def user_input_interface(shop: DessertShop, order: Order, payment: PaymentProcessor):
+def user_input_interface(shop: DessertShop, receipt: list):
+    order = Order()
+    payment = PaymentProcessor()
+    new_receipt = receipt
+
     class InvalidInputError(Exception):
         """Exception raised for invalid input errors."""
         pass
@@ -167,32 +174,40 @@ def user_input_interface(shop: DessertShop, order: Order, payment: PaymentProces
                         "\nWhat would you like to add to the order? (1-4, Enter for done): "
                         ])
 
-    payment_prompt = "\n".join(["\n",
-                                "1: Cash",
+    payment_prompt = "\n".join(["1: Cash",
                                 "2: Card",
                                 "3: Phone",
-                                "\nHow would you like to pay for this order? (1-3):"
+                                "\nWhat form of payment will be used? (CASH, CARD, PHONE):"
                                 ])
+    pay_option_mapping = {
+        "1": PayType.CASH,
+        "cash": PayType.CASH,
+        "2": PayType.CARD,
+        "card": PayType.CARD,
+        "3": PayType.PHONE,
+        "phone": PayType.PHONE,
+    }
+
+    name_prompt = "\nEnter the customer's name: "
 
     while not done:
         choice = input(prompt)
         match choice:
             case "":
+                customer_name = input(name_prompt)
+                if customer_name in shop.customer_db.keys():
+                    cur_customer = shop.customer_db.get(customer_name)
+                else:
+                    cur_customer = Customer(customer_name)
+                    shop.customer_db[customer_name] = cur_customer
                 while True:
                     try:
-                        pay_options = input(payment_prompt)
-                        match pay_options:
-                            case "1":
-                                payment.set_pay_type(PayType.CASH)
-                                break
-                            case "2":
-                                payment.set_pay_type(PayType.CARD)
-                                break
-                            case "3":
-                                payment.set_pay_type(PayType.PHONE)
-                                break
-                            case _:
-                                raise InvalidInputError("Invalid response: Please enter a choice from the menu (1-3)")
+                        pay_options = input(payment_prompt).lower()
+                        try:
+                            payment.set_pay_type(pay_option_mapping[pay_options])
+                            break
+                        except KeyError:
+                            raise InvalidInputError("Invalid response: Please enter a choice from the menu (1-3)")
                     except InvalidInputError as err:
                         print(err)
                 done = True
@@ -216,59 +231,56 @@ def user_input_interface(shop: DessertShop, order: Order, payment: PaymentProces
                 print("Invalid response: Please enter a choice from the menu (1-4) or Enter")
     print()
 
+    # order.add(Candy("Candy Corn", 1.5, 0.25))
+    order.add(Candy("Gummy Bears", 0.25, 0.35))
+    # order.add(Candy("Candy Corn", .25, 0.25))
+    # order.add(Cookie("Oatmeal Raisin", 6, 3.45))
+    # order.add(Cookie("Chocolate Chip", 6, 3.99))
+    order.add(IceCream("Pistachio", 2, 0.79))
+    # order.add(Sundae("Vanilla", 3, 0.69, "Hot Fudge", 1.29))
+    order.add(Cookie("Oatmeal Raisin", 2, 3.45))
+    # order.add(Candy("Gummy Bears", 1.5, 0.25))
+    
+    cost_total = sum(item.calculate_cost() for item in order)
+    tax_total = sum(item.calculate_tax() for item in order)
+
+    order.sort()
+    cur_customer.add2history(order)
+    orders = [item.split(", ") for item in str(order).split("\n")]
+
+    receipt_makeup = [
+        [f"Customer Name: {customer_name}", f"Customer ID: {Customer.id_counter + 1000}",
+         f"Total Orders: {len(orders)}"],
+        ["Name", "Packaging", "Quantity", "Unit Price", "Cost", "Tax"],
+        ["------------", "------------", "------------", "------------", "------------", "------------"],
+        ["Total items in the order", "", f"-- {len(order)} --", "Order Subtotals:", "${:.2f}".format(cost_total),
+         "${:.2f}".format(tax_total)],
+        [f"paid for with {payment}.", "", "", "Order Total:",
+         "${:.2f}".format(cost_total + tax_total)]
+    ]
+
+    receipt_makeup[2:2] = orders
+    for line in receipt_makeup:
+        new_receipt.append(line)
+    return new_receipt
+
 
 def main():
     """
     Main function.
     """
     shop = DessertShop()
-    new_customer = Customer()
-    order = Order()
-    pay_type = PaymentProcessor()
-
-    order_complete = False
-    additional_order_prompt = "\n".join(["\n",
-                                         "y: yes",
-                                         "Enter: finish order",
-                                         "\nWould you like to start another order (y) or Enter?:"
-                                         ])
-
-    user_input_interface(shop, order, pay_type)
-
-    order.add(Candy("Candy Corn", 1.5, 0.25))
-    order.add(Candy("Gummy Bears", 0.25, 0.35))
-    order.add(Candy("Candy Corn", .25, 0.25))
-    order.add(Cookie("Oatmeal Raisin", 6, 3.45))
-    order.add(Cookie("Chocolate Chip", 6, 3.99))
-    order.add(IceCream("Pistachio", 2, 0.79))
-    order.add(Sundae("Vanilla", 3, 0.69, "Hot Fudge", 1.29))
-    order.add(Cookie("Oatmeal Raisin", 2, 3.45))
-    order.add(Candy("Gummy Bears", 1.5, 0.25))
-    cost_total, tax_total = sum(item.calculate_cost() for item in order), sum(item.calculate_tax() for item in order)
-    order.sort()
-    orders = [item.split(", ") for item in str(order).split("\n")]
-
-    receipt_list = [
-        ["Name", "Packaging", "Quantity", "Unit Price", "Cost", "Tax"],
-        ["------------", "------------", "------------", "------------", "------------", "------------"],
-        ["Total items in the order", "", f"-- {len(order)} --", "Order Subtotals:", "${:.2f}".format(cost_total),
-         "${:.2f}".format(tax_total)],
-        [pay_type, "", "", "Order Total:", "${:.2f}".format(cost_total + tax_total)]
-    ]
-
-    receipt_list[1:1] = orders
-
-    while not order_complete:
+        
+    receipt_list = []
+    receipt_list = user_input_interface(shop, receipt_list)
+    while True:
         try:
-            additional_order_option = input(additional_order_prompt)
-            match additional_order_option:
-                case "y":
-                    new_customer.add2history(order)
-                    main()
-                    break
-                case _:
-                    order_complete = True
-        except ValueError:
+            start_over = input("Press y and Enter to start a new order.")
+            if start_over == "y":
+                user_input_interface(shop, receipt_list)
+            else:
+                break
+        except None:
             print("error")
 
     make_receipt(receipt_list, "receipt.pdf")
