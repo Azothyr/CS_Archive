@@ -213,7 +213,7 @@ def user_input_interface(shop: DessertShop, receipt: list):
                       f"Order Subtotals: {cost_total} [Tax: {tax_total}]",
                       f"Order Total: {_total}",
                       "---------------------------------------------------------------------------",
-                      f"Paid for with {payment}.",
+                      f"{payment}.",
                       "--------------------------------------------------------------------------------",
                       f"Customer Name: {customer_name}          Customer ID: {cur_customer.id}"
                       f"         Total Orders: {len(cur_customer.order_history)}",
@@ -226,19 +226,19 @@ def user_input_interface(shop: DessertShop, receipt: list):
 
         print("\n".join(print_text))
 
-    def print_shop_customers(shop: DessertShop):
-        for _name, customer in shop.customer_db.items():
+    def print_shop_customers(_shop: DessertShop):
+        for _name, customer in _shop.customer_db.items():
             print(f"Name: {_name}, ID: {customer.id}")
 
-    def print_customer_order_history(shop: DessertShop, _name):
-        if _name in shop.customer_db.keys():
-            customer = shop.customer_db[customer_name]
-            print(f"\nOrder history for {customer_name} (Customer ID: {customer.id}):")
+    def print_customer_order_history(_shop: DessertShop, _name):
+        if _name in _shop.customer_db.keys():
+            _customer = _shop.customer_db[_name]
+            print(f"\nOrder history for {_name} (Customer ID: {_customer.id}):")
 
-            for i, order in enumerate(customer.order_history):
+            for i, _order in enumerate(_customer.order_history):
                 print(f"Order {i + 1}:")
-                for item in order:
-                    print(f"- {item}")
+                for _item in _order:
+                    print(f"- {_item}")
                 print()
         else:
             print("Customer not found.")
@@ -247,15 +247,15 @@ def user_input_interface(shop: DessertShop, receipt: list):
         best_customer = None
         max_spent = 0.0
 
-        for customer_name, customer in self.customer_db.items():
-            total_spent = sum(order.order_cost() for order in customer.order_history)
+        for _customer_name, _customer in self.customer_db.items():
+            total_spent = sum(_order.order_cost() for _order in _customer.order_history)
             if total_spent > max_spent:
                 max_spent = total_spent
-                best_customer = customer_name
+                best_customer = _customer_name
 
         print(f"\nThe Dessert Shop's most valued customer is: {best_customer}")
 
-    def admin_module(shop: DessertShop):
+    def admin_module(_shop: DessertShop):
         admin_prompt = "\n".join([
             "\n",
             "1: Shop Customer List",
