@@ -52,7 +52,7 @@ class Order:
 
 
 class Customer:
-    id_counter = 0
+    id_counter = 1000
 
     def __init__(self, customer_name: str = ""):
         self.customer_name = customer_name
@@ -78,7 +78,7 @@ class DessertShop:
             """Exception raised for invalid input errors."""
             pass
 
-        def get_input(prompt_func, error, only_letters=False, must_positive=False):
+        def get_dessert_input(prompt_func, error, only_letters=False, must_positive=False):
             while True:
                 try:
                     user_input = prompt_func()
@@ -97,34 +97,34 @@ class DessertShop:
             return user_input
 
         def pass_name():
-            return get_input(lambda: str(input(f"Enter the type of {dessert_type}: ")),
-                             "Must be a string. Try again.",
-                             True,
-                             False)
+            return get_dessert_input(lambda: str(input(f"Enter the type of {dessert_type}: ")),
+                                     "Must be a string. Try again.",
+                                     True,
+                                     False)
 
         def pass_weight():
-            return get_input(lambda: float(input(f"Enter the weight: ")),
-                             "Must be a positive float (0.00) value. Try again.",
-                             False,
-                             True)
+            return get_dessert_input(lambda: float(input(f"Enter the weight: ")),
+                                     "Must be a positive float (0.00) value. Try again.",
+                                     False,
+                                     True)
 
         def pass_quantity(prompt):
-            return get_input(lambda: int(input(f"Enter the {prompt}: ")),
-                             "Must be a positive integer (0) value. Try again.",
-                             False,
-                             True)
+            return get_dessert_input(lambda: int(input(f"Enter the {prompt}: ")),
+                                     "Must be a positive integer (0) value. Try again.",
+                                     False,
+                                     True)
 
         def pass_price(prompt=""):
-            return get_input(lambda: float(input(f"Enter the {prompt}: ")),
-                             "Must be a positive float (0.00) value. Try again.",
-                             False,
-                             True)
+            return get_dessert_input(lambda: float(input(f"Enter the {prompt}: ")),
+                                     "Must be a positive float (0.00) value. Try again.",
+                                     False,
+                                     True)
 
         def pass_topping():
-            return get_input(lambda: str(input(f"Enter the topping: ")),
-                             "Must be a positive float (0.00) value. Try again.",
-                             True,
-                             False)
+            return get_dessert_input(lambda: str(input(f"Enter the topping: ")),
+                                     "Must be a positive float (0.00) value. Try again.",
+                                     True,
+                                     False)
 
         prompt_function = {
             "candy": lambda: dessert_class(pass_name(), pass_weight(), pass_price("price per pound")),
@@ -171,6 +171,7 @@ def user_input_interface(shop: DessertShop, receipt: list):
                         "2: Cookie",
                         "3: Ice Cream",
                         "4: Sundae",
+                        "5: Admin Module",
                         "\nWhat would you like to add to the order? (1-4, Enter for done): "
                         ])
 
@@ -189,6 +190,60 @@ def user_input_interface(shop: DessertShop, receipt: list):
     }
 
     name_prompt = "\nEnter the customer's name: "
+
+    def print_shop_customers(shop: DessertShop):
+        for _name, customer in shop.customer_db.items():
+            print(f"Name: {_name}, ID: {customer.id}")
+
+    def print_customer_order_history(shop: DessertShop, _name):
+        if _name in shop.customer_db.keys():
+            customer = shop.customer_db[customer_name]
+            print(f"\nOrder history for {customer_name} (Customer ID: {customer.id}):")
+
+            for i, order in enumerate(customer.order_history):
+                print(f"Order {i + 1}:")
+                for item in order:
+                    print(f"- {item}")
+                print()
+        else:
+            print("Customer not found.")
+
+    def print_best_customer(self):
+        best_customer = None
+        max_spent = 0.0
+
+        for customer_name, customer in self.customer_db.items():
+            total_spent = sum(order.order_cost() for order in customer.order_history)
+            if total_spent > max_spent:
+                max_spent = total_spent
+                best_customer = customer_name
+
+        print(f"\nThe Dessert Shop's most valued customer is: {best_customer}")
+
+    def admin_module(shop: DessertShop):
+        admin_prompt = "\n".join([
+            "\n",
+            "1: Shop Customer List",
+            "2: Customer Order History",
+            "3: Best Customer",
+            "4: Exit Admin Module",
+            "\nWhat would you like to do? (1-4): "
+        ])
+
+        while True:
+            admin_console_input = input(admin_prompt)
+            match admin_console_input:
+                case "1":
+                    print_shop_customers(shop)
+                case "2":
+                    name = input("Enter the customer's name: ")
+                    print_customer_order_history(shop, name)
+                case "3":
+                    print_best_customer(shop)
+                case "4":
+                    return
+                case _:
+                    print("Invalid response: Please enter a choice from the menu (1-4)")
 
     while not done:
         choice = input(prompt)
@@ -227,6 +282,8 @@ def user_input_interface(shop: DessertShop, receipt: list):
                 item = shop.user_prompt_sundae()
                 order.add(item)
                 print(f"{item.name} has been added to your order.")
+            case "5":
+                admin_module(shop)
             case _:
                 print("Invalid response: Please enter a choice from the menu (1-4) or Enter")
     print()
@@ -240,7 +297,7 @@ def user_input_interface(shop: DessertShop, receipt: list):
     # order.add(Sundae("Vanilla", 3, 0.69, "Hot Fudge", 1.29))
     order.add(Cookie("Oatmeal Raisin", 2, 3.45))
     # order.add(Candy("Gummy Bears", 1.5, 0.25))
-    
+
     cost_total = sum(item.calculate_cost() for item in order)
     tax_total = sum(item.calculate_tax() for item in order)
 
@@ -249,7 +306,7 @@ def user_input_interface(shop: DessertShop, receipt: list):
     orders = [item.split(", ") for item in str(order).split("\n")]
 
     receipt_makeup = [
-        [f"Customer Name: {customer_name}", f"Customer ID: {Customer.id_counter + 1000}",
+        [f"Customer Name: {customer_name}", f"Customer ID: {Customer.id_counter}",
          f"Total Orders: {len(orders)}"],
         ["Name", "Packaging", "Quantity", "Unit Price", "Cost", "Tax"],
         ["------------", "------------", "------------", "------------", "------------", "------------"],
@@ -270,7 +327,7 @@ def main():
     Main function.
     """
     shop = DessertShop()
-        
+
     receipt_list = []
     receipt_list = user_input_interface(shop, receipt_list)
     while True:
