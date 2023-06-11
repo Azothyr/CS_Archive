@@ -59,15 +59,26 @@ class Candy(DessertItem):
         self.candy_weight = float(candy_weight)
         self.price_per_pound = float(price_per_pound)
         self.packaging = str(packaging)
-        self.__name__ = f"{self.name} ({self.__class__.__name__})"
+        self.__name__ = f"{self.name} {self.__class__.__name__}"
 
     def __str__(self):
         name = self.__name__
-        quantity = f"{self.candy_weight}lbs"
+        quantity = f"{self.candy_weight} lbs"
         price = "${:.2f}".format(self.price_per_pound) + "/lb"
         item_cost = "${:.2f}".format(self.calculate_cost())
         item_tax = "${:.2f}".format(self.calculate_tax())
         return f"{name}, {self.packaging}, {quantity}, {price}, {item_cost}, {item_tax}"
+
+    def __repr__(self):
+        name = self.__name__
+        quantity = f"{self.candy_weight} lbs."
+        price = "${:.2f}".format(self.price_per_pound) + "/lb."
+        item_cost = "${:.2f}".format(self.calculate_cost())
+        item_tax = "${:.2f}".format(self.calculate_tax())
+
+        representation = f"{name} ({self.packaging}) {quantity} @ {price}:" \
+                         f" {item_cost} [Tax: {item_tax}]"
+        return representation
 
     def calculate_cost(self):
         cost = round(self.candy_weight * self.price_per_pound, 2)
@@ -90,7 +101,7 @@ class Cookie(DessertItem):
         self.cookie_quantity = int(cookie_quantity)
         self.price_per_dozen = float(price_per_dozen)
         self.packaging = str(packaging)
-        self.__name__ = f"{self.name} ({self.__class__.__name__})"
+        self.__name__ = f"{self.name} {self.__class__.__name__}"
 
     def __str__(self):
         name = self.__name__
@@ -99,6 +110,17 @@ class Cookie(DessertItem):
         item_cost = "${:.2f}".format(self.calculate_cost())
         item_tax = "${:.2f}".format(self.calculate_tax())
         return f"{name}, {self.packaging}, {quantity}, {price}, {item_cost}, {item_tax}"
+
+    def __repr__(self):
+        name = self.__name__
+        quantity = f"{self.cookie_quantity} cookies"
+        price = "${:.2f}".format(self.price_per_dozen) + "/dozen"
+        item_cost = "${:.2f}".format(self.calculate_cost())
+        item_tax = "${:.2f}".format(self.calculate_tax())
+
+        representation = f"{name} ({self.packaging}) {quantity} @ {price}:" \
+                         f" {item_cost} [Tax: {item_tax}]"
+        return representation
 
     def calculate_cost(self):
         cost = round(round(self.price_per_dozen / 12, 5) * self.cookie_quantity, 2)
@@ -121,7 +143,7 @@ class IceCream(DessertItem):
         self.scoop_count = int(scoop_count)
         self.price_per_scoop = float(price_per_scoop)
         self.packaging = str(packaging)
-        self.__name__ = f"{self.name} ({self.__class__.__name__})"
+        self.__name__ = f"{self.name} {self.__class__.__name__}"
 
     def __str__(self):
         name = self.__name__
@@ -130,6 +152,17 @@ class IceCream(DessertItem):
         item_cost = "${:.2f}".format(self.calculate_cost())
         item_tax = "${:.2f}".format(self.calculate_tax())
         return f"{name}, {self.packaging}, {quantity}, {price}, {item_cost}, {item_tax}"
+
+    def __repr__(self):
+        name = self.__name__
+        quantity = f"{self.scoop_count} scoops"
+        price = "${:.2f}".format(self.price_per_scoop) + "/scoop"
+        item_cost = "${:.2f}".format(self.calculate_cost())
+        item_tax = "${:.2f}".format(self.calculate_tax())
+
+        representation = f"{name} ({self.packaging}) {quantity} @ {price}:" \
+                         f" {item_cost} [Tax: {item_tax}]"
+        return representation
 
     def calculate_cost(self):
         cost = round(self.price_per_scoop * self.scoop_count, 2)
@@ -143,18 +176,27 @@ class Sundae(IceCream):
         self.topping_name = str(topping_name)
         self.topping_price = float(topping_price)
         self.packaging = str(packaging)
-        self.__name__ = self.__name__ = f"{self.name} ({self.__class__.__name__}) with {self.topping_name}"
+        self.__name__ = f"{self.name} {self.__class__.__name__} with {self.topping_name}"
 
     def __str__(self):
-        name = self.__name__
         quantity = f"{self.scoop_count} scoops"
         price = "${:.2f}".format(self.price_per_scoop) + "/scoop:"
         topping = f"{self.topping_name} (Topping)"
         topping_price = "${:.2f}".format(self.topping_price)
         item_cost = "${:.2f}".format(self.calculate_cost())
         item_tax = "${:.2f}".format(self.calculate_tax())
-        return f"{name}, {self.packaging}, {quantity}, {price}, {item_cost}, {item_tax}\n" \
+        return f"{self.__name__}, {self.packaging}, {quantity}, {price}, {item_cost}, {item_tax}\n" \
                f"{topping}, , , , {topping_price}"
+
+    def __repr__(self):
+        quantity = f"{self.scoop_count} scoops"
+        price = "${:.2f}".format(self.price_per_scoop) + "/scoop:"
+        item_cost = "${:.2f}".format(self.calculate_cost())
+        item_tax = "${:.2f}".format(self.calculate_tax())
+
+        representation = f"{self.__name__} ({self.packaging}) {quantity} @ {price}:" \
+                         f" {item_cost} [Tax: {item_tax}]"
+        return representation
 
     def calculate_cost(self):
         cost = round(self.price_per_scoop * self.scoop_count + self.topping_price, 2)

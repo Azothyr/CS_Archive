@@ -191,6 +191,41 @@ def user_input_interface(shop: DessertShop, receipt: list):
 
     name_prompt = "\nEnter the customer's name: "
 
+    def print_receipt_to_console():
+        # order.add(Candy("Candy Corn", 1.5, 0.25))
+        order.add(Candy("Gummy Bears", 0.25, 0.35))
+        # order.add(Candy("Candy Corn", .25, 0.25))
+        # order.add(Cookie("Oatmeal Raisin", 6, 3.45))
+        # order.add(Cookie("Chocolate Chip", 6, 3.99))
+        order.add(IceCream("Pistachio", 2, 0.79))
+        # order.add(Sundae("Vanilla", 3, 0.69, "Hot Fudge", 1.29))
+        order.add(Cookie("Oatmeal Raisin", 2, 3.45))
+        # order.add(Candy("Gummy Bears", 1.5, 0.25))
+
+        cost_total = sum(_.calculate_cost() for _ in order)
+        tax_total = sum(_.calculate_tax() for _ in order)
+        _total = "${:.2f}".format(cost_total + tax_total)
+
+        print_text = ["----------------------------------Receipt----------------------------------",
+                      "ORDERS INSERT HERE",
+                      "---------------------------------------------------------------------------",
+                      f"Total number of items in order: {len(order)}",
+                      f"Order Subtotals: {cost_total} [Tax: {tax_total}]",
+                      f"Order Total: {_total}",
+                      "---------------------------------------------------------------------------",
+                      f"Paid for with {payment}.",
+                      "--------------------------------------------------------------------------------",
+                      f"Customer Name: {customer_name}          Customer ID: {cur_customer.id}"
+                      f"         Total Orders: {len(cur_customer.order_history)}",
+                      ]
+        order.sort()
+        order_items = []
+        for _item in order:
+            order_items.append(repr(_item))
+        print_text[1:2] = order_items
+
+        print("\n".join(print_text))
+
     def print_shop_customers(shop: DessertShop):
         for _name, customer in shop.customer_db.items():
             print(f"Name: {_name}, ID: {customer.id}")
@@ -260,6 +295,9 @@ def user_input_interface(shop: DessertShop, receipt: list):
                         pay_options = input(payment_prompt).lower()
                         try:
                             payment.set_pay_type(pay_option_mapping[pay_options])
+                            order.sort()
+                            cur_customer.add2history(order)
+                            print_receipt_to_console()
                             break
                         except KeyError:
                             raise InvalidInputError("Invalid response: Please enter a choice from the menu (1-3)")
@@ -288,21 +326,8 @@ def user_input_interface(shop: DessertShop, receipt: list):
                 print("Invalid response: Please enter a choice from the menu (1-4) or Enter")
     print()
 
-    # order.add(Candy("Candy Corn", 1.5, 0.25))
-    order.add(Candy("Gummy Bears", 0.25, 0.35))
-    # order.add(Candy("Candy Corn", .25, 0.25))
-    # order.add(Cookie("Oatmeal Raisin", 6, 3.45))
-    # order.add(Cookie("Chocolate Chip", 6, 3.99))
-    order.add(IceCream("Pistachio", 2, 0.79))
-    # order.add(Sundae("Vanilla", 3, 0.69, "Hot Fudge", 1.29))
-    order.add(Cookie("Oatmeal Raisin", 2, 3.45))
-    # order.add(Candy("Gummy Bears", 1.5, 0.25))
-
-    cost_total = sum(item.calculate_cost() for item in order)
-    tax_total = sum(item.calculate_tax() for item in order)
-
-    order.sort()
-    cur_customer.add2history(order)
+    cost_total = sum(_.calculate_cost() for _ in order)
+    tax_total = sum(_.calculate_tax() for _ in order)
     orders = [item.split(", ") for item in str(order).split("\n")]
 
     receipt_makeup = [
