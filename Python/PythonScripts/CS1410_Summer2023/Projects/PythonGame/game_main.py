@@ -1,6 +1,5 @@
-from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
-from game_scenes import *
+from main_menu_screens import *
 
 
 class BlacksmithGame(App):
