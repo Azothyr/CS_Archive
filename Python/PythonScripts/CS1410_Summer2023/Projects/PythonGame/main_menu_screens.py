@@ -7,7 +7,6 @@ from abstract_button import ButtonBuilder
 
 class MainMenuScreen(BaseScreen):
     """Main Menu Screen"""
-
     def __init__(self, **kwargs):
         super(MainMenuScreen, self).__init__(**kwargs)
 
@@ -37,14 +36,13 @@ class MainMenuScreen(BaseScreen):
 
 class OptionScreen(BaseScreen):
     """Game Options/Settings Screen"""
-
     def __init__(self, **kwargs):
         super(OptionScreen, self).__init__(**kwargs)
 
         self.spinner = Spinner(text='Select screen size', pos_hint={'x': 0.5, 'y': 0.5},
                                values=('Fullscreen', '1920x1080', '1280x1024', '1024x768', '800x600'))
 
-        apply_btn = ButtonBuilder(text='Apply', size=(100, 50), pos_hint={'x': 0.5, 'y': 0.5},
+        apply_btn = ButtonBuilder(text='Apply *Broken*', size=(100, 50), pos_hint={'x': 0.5, 'y': 0.5},
                                   on_release=self.apply_changes).create_button()
 
         back_btn = ButtonBuilder(text='Back', size=(100, 50), pos_hint={'x': 0.5, 'y': 0.5},
@@ -55,13 +53,17 @@ class OptionScreen(BaseScreen):
         self.button_layout.add_widget(back_btn)
 
     def apply_changes(self, instance):
+        pass
+        """
         if self.spinner.text == 'Fullscreen':
             Clock.schedule_once(lambda dt: App.get_running_app().root_window.maximize(), 0)
         elif 'x' in self.spinner.text:
             width, height = map(int, self.spinner.text.split('x'))
+            print(width, height)
             Clock.schedule_once(lambda dt: self.change_screen_size(width, height), 0)
         else:
             print("Invalid screen size selected.")
+        """
 
     def go_back(self, instance):
         self.manager.current = 'menu'
