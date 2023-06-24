@@ -1,7 +1,8 @@
 from kivy.app import App
-from kivy.clock import Clock
 from kivy.uix.spinner import Spinner
 from base_screen import BaseScreen
+from resources_widget import ResourcesWidget
+from bar_widget import BarWidget
 from abstract_button import ButtonBuilder
 
 
@@ -71,3 +72,32 @@ class OptionScreen(BaseScreen):
     @staticmethod
     def change_screen_size(width, height):
         App.get_running_app().root_window.size = (width, height)
+
+
+class PlayScreen(BaseScreen):
+    def __init__(self, **kwargs):
+        super(PlayScreen, self).__init__(**kwargs)
+
+        # Create a ResourcesWidget and add it to the screen
+        self.resources_widget = ResourcesWidget()
+        self.layout.add_widget(self.resources_widget)
+
+        # Create a settings button
+        settings_btn = ButtonBuilder(text='Settings', size=(100, 50),
+                                     pos_hint={'x': 0.9, 'y': 0.9},
+                                     on_release=self.go_to_settings).create_button()
+
+        # Create BarWidget
+        self.bar_widget = BarWidget()
+        self.layout.add_widget(self.bar_widget)
+
+        # Add the settings button to the screen
+        self.layout.add_widget(settings_btn)
+
+    def go_to_settings(self, instance):
+        self.manager.current = 'settings'
+
+
+class SettingsScreen(OptionScreen):
+    def go_back(self, instance):
+        self.manager.current = 'play'

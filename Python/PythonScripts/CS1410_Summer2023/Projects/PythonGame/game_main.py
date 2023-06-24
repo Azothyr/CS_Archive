@@ -1,5 +1,5 @@
 from kivy.uix.screenmanager import ScreenManager
-from main_menu_screens import *
+from screens import *
 
 
 class BlacksmithGame(App):
@@ -7,6 +7,8 @@ class BlacksmithGame(App):
         sm = ScreenManager()
         sm.add_widget(MainMenuScreen(name='menu'))
         sm.add_widget(OptionScreen(name='options'))
+        sm.add_widget(PlayScreen(name='play'))
+        sm.add_widget(SettingsScreen(name='settings'))
         return sm
 
 
