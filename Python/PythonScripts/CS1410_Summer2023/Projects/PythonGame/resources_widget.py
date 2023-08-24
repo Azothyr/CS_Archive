@@ -1,10 +1,17 @@
+"""
+Module for defining the ResourcesWidget which displays the game resources.
+"""
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 
 
 class ResourcesWidget(BoxLayout):
+    """
+    A widget that displays the game resources and their current quantities.
+    """
+
     def __init__(self, **kwargs):
-        super(ResourcesWidget, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
         # Add resources
         self.resources = {
