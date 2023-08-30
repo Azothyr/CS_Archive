@@ -54,7 +54,7 @@ class Pair:
 
 def make_tree():
     """
-    A helper function to build the tree.
+    A helper functions to build the tree.
     """
     bst = BST()
     ignore_chars = set(whitespace + punctuation)

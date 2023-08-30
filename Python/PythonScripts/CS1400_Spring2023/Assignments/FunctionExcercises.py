@@ -115,12 +115,12 @@ print("Sorted Panel Product Numbers by Element Length (ascending):", tuple(sorte
 -------------------------------------------------
 """
 """
-We use mapping to apply a function or expression to every element in an iterable.
+We use mapping to apply a functions or expression to every element in an iterable.
 We use lambda() to create anonymous functions which can be applied to any number of iterables by,
 for instance, using map().
 """
 """
-We can use the map function to apply an expression (such as a function)
+We can use the map functions to apply an expression (such as a functions)
 to elements in one or more iterables, such as tuples.
 """
 # mapped_result = map(expression, iterable1, iterable2, ...)
@@ -154,10 +154,10 @@ print("School Abbreviations Broken Up:", abbreviations_broken_up)
 -------------------------------------------------
 """
 """
-The lambda function is a function without a name, known as an anonymous function.
-Using the lambda function, we can apply one expression to any number of iterables.
+The lambda functions is a functions without a name, known as an anonymous functions.
+Using the lambda functions, we can apply one expression to any number of iterables.
 
-Use a lambda function to multiply each value in tuple numbers by 10.
+Use a lambda functions to multiply each value in tuple numbers by 10.
 Contain the output in tuple numbers_times_10_2, then print the tuple.
 """
 numbers_times_10_2 = tuple(map(lambda element: element * 10, numbers))
@@ -178,10 +178,10 @@ print("The following ages are 65 years or older, and therefore qualify:", qualif
 -------------------------------------------------
 """
 """
-The filter() function takes in two arguments, a function and an iterable (such as a tuple).
+The filter() functions takes in two arguments, a functions and an iterable (such as a tuple).
 
-We can use the filter function to pull elements from an iterable, such as a tuple.
-Where iterable may represent a specified tuple, we can use a function to filter
+We can use the filter functions to pull elements from an iterable, such as a tuple.
+Where iterable may represent a specified tuple, we can use a functions to filter
 its data as shown below.
 """
 # filtered_value = filter(function_name, iterable)

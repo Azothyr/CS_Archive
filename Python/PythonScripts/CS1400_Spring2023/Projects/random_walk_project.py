@@ -26,7 +26,7 @@ tur = turtle.Turtle()
 
 
 def save_to_image(dest='random_walk.png'):
-    """Saves the turtle canvas to dest. Do not modify this function."""
+    """Saves the turtle canvas to dest. Do not modify this functions."""
     with tempfile.NamedTemporaryFile(prefix='random_walk',
                                      suffix='.eps') as tmp:
         turtle.getcanvas().postscript(file=tmp.name)
@@ -133,7 +133,7 @@ def simulate(walk_lengths, trials, walker):
 
 def main():
     """
-    Main function to handle command-line arguments and call the simulate() function
+    Main functions to handle command-line arguments and call the simulate() functions
     """
     args = sys.argv[1:]
     if len(args) != 3:

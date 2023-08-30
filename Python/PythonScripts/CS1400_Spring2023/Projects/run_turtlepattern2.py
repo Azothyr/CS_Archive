@@ -8,7 +8,7 @@ from PythonScripts.CS1400_Spring2023.Projects import turtle_patterns_2
 
 
 def positive_int(_value):
-    """Validation function that checks if a value is a positive int"""
+    """Validation functions that checks if a value is a positive int"""
     try:
         value = int(_value)
         if value <= 0:
@@ -19,7 +19,7 @@ def positive_int(_value):
 
 
 def positive_float(_value):
-    """Validation function that checks if a value is a positive float"""
+    """Validation functions that checks if a value is a positive float"""
     try:
         value = float(_value)
         if value <= 0:
