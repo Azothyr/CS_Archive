@@ -32,7 +32,7 @@ def main():
     # print_geo_iter('defense', defense)
     # print_geo_iter('atk_spd', atk_spd)
     for i in range(iterations):
-        print(f'{i+1}> C:{cost[i]}, R:{regen[i]}, Dam:{damage[i]}, Def:{defense[i]}, AS:{atk_spd[i]}')
+        print(f'{i+1}> Cost--{cost[i]}, Regen--{regen[i]}, Damage--{damage[i]}, Defense--{defense[i]}, AttackSpeed--{atk_spd[i]}')
 
 
 if __name__ == '__main__':

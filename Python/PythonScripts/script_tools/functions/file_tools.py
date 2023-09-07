@@ -1,4 +1,5 @@
 import os
+from info.file_path_library import PathLib
 
 
 def clear_directory(path):
@@ -18,3 +19,11 @@ def print_files_at_location(path):
         print(path_to_files)
         for name in files:
             print(dashes, os.path.join(name))
+
+
+def get_file_path(**kwargs):
+    """Returns the path to a Windows folder"""
+    options = PathLib().get_lib()
+    for key, value in kwargs.items():
+        if key in options[key]:
+            return options[key]

@@ -11,7 +11,7 @@ Set a sys env variable "pythonpath" with script folder path value.
 import os
 import platform
 import shutil
-from azothyr_tools.functions.file_tools import clear_directory, print_files_at_location
+from functions.file_tools import clear_directory, print_files_at_location
 
 
 if __name__ == "__main__":
@@ -23,6 +23,8 @@ if __name__ == "__main__":
         clear_directory(scripts_folder)
 
         cwd = os.getcwd()
+        if not cwd.endswith("script_tools"):
+            cwd = os.path.join(cwd, "script_tools")
         file_exceptions = ["pytool_inserter.py"]
         try:
             for _root, _dirs, _files in os.walk(cwd):

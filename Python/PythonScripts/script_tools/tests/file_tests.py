@@ -1,8 +1,9 @@
-import unittest
-from azothyr_tools.functions.math_funcs import calculate_geometric_progression as calc_geo_progress
+from components.test_base import TestBase
+from functions.file_tools import get_file_path as get_path
+from functions.file_tools import print_files_at_location as print_path
 
 
-class TestGeometricProgression(unittest.TestCase):
+class TestGeometricProgression(TestBase):
 
     def test_basic_functionality(self):
         expected_result = [100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200, 102400, 204800]
