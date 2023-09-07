@@ -116,4 +116,23 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    file = 'C:\\GitRepos\\Scripts_Private\\Python\\PythonScripts\\result.txt'
+    with open(file, 'r') as f:
+        lines = f.readlines()
+
+    assignment = []
+    date = []
+    for line in lines:
+        line = line.strip()
+        if line[-7] == " ":
+            assignment.append(line[:-7])
+            date.append(line[-6:])
+        else:
+            assignment.append(line[:-6])
+            date.append(line[-5:])
+
+    for _homework in assignment:
+        print(_homework)
+    for _date in date:
+        print(_date)
