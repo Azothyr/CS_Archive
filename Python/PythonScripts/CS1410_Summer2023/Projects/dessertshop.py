@@ -349,7 +349,7 @@ def user_input_interface(shop: DessertShop, receipt: list):
 
 def main():
     """
-    Main functions.
+    Main cus_funcs.
     """
     shop = DessertShop()
 

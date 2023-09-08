@@ -13,7 +13,7 @@ import argparse
 
 
 def positive_int(_value):
-    """Validation functions that checks if a value is a positive int"""
+    """Validation cus_funcs that checks if a value is a positive int"""
     try:
         value = int(_value)
         if value <= 0:
@@ -25,7 +25,7 @@ def positive_int(_value):
 
 
 def positive_float(_value):
-    """Validation functions that checks if a value is a positive float"""
+    """Validation cus_funcs that checks if a value is a positive float"""
     try:
         value = float(_value)
         if value <= 0:
@@ -166,13 +166,13 @@ def draw_pot(screen_width, screen_height, line_color, scene_fill_color):
 
 def draw_flower(screen_width, screen_height, flower_size, petal_count, flower_position,
                 line_color, ground_fill_color, stem_fill_color, petal_fill_color, ground_bool):
-    """Draws the full flower. Broken up into nested functions"""
+    """Draws the full flower. Broken up into nested cus_funcs"""
     turtle.penup()
     turtle.goto(flower_position)
     turtle.pendown()
 
     def flower_petals():
-        """Portion of parent functions that draws petals"""
+        """Portion of parent cus_funcs that draws petals"""
         turtle.color(line_color, petal_fill_color)
         turtle.begin_fill()
 
@@ -183,7 +183,7 @@ def draw_flower(screen_width, screen_height, flower_size, petal_count, flower_po
         turtle.end_fill()
 
     def flower_stem():
-        """Portion of parent functions that draws the stem"""
+        """Portion of parent cus_funcs that draws the stem"""
         stem_length = flower_size * 2
 
         turtle.color(line_color, stem_fill_color)
@@ -199,7 +199,7 @@ def draw_flower(screen_width, screen_height, flower_size, petal_count, flower_po
             turtle.forward(((screen_width + screen_height) / 10) * .09)
 
     def ground():
-        """Portion of parent functions that draws the dirt"""
+        """Portion of parent cus_funcs that draws the dirt"""
         ground_length = flower_size
 
         turtle.color(line_color, ground_fill_color)

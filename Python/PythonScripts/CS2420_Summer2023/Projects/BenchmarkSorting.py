@@ -196,7 +196,7 @@ def main():
         print(f"{function.__name__} is correctly sorted = {is_sorted(test[0])}")
 
         """
-        if functions == insertion_sort:
+        if cus_funcs == insertion_sort:
             break
         """
 

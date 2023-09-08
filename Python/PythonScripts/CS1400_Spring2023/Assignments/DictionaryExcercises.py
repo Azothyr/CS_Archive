@@ -382,7 +382,7 @@ if __name__ == "__main__":
   print(is_nested(example_dict))
 """
 -------------------------------------------------
-takes two file paths. The functions opens each JSON file and returns a string stating:
+takes two file paths. The cus_funcs opens each JSON file and returns a string stating:
 The dictionaries are equal
 Dictionary 1 is longer than dictionary 2
 Dictionary 2 is longer than dictionary 1
