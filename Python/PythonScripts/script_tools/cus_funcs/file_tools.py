@@ -1,6 +1,6 @@
 import os
 import shutil
-from azothyr_tools.info.file_path_library import PathLib
+from script_tools.info.file_path_library import PathLib
 
 
 def check_for_path(path):
@@ -31,11 +31,24 @@ def print_files_at_location(path):
 
 def get_file_path_from_lib(**kwargs):
     """Returns the path to a Windows folder"""
-    options = PathLib().get_lib()
+    runs = kwargs.get('runs', 0)
+    if runs >= 1:
+        raise OverflowError("Get file path from library stuck in loop")
+
+    # Getting the library
+    library = kwargs.get('library', PathLib())
+
+    options = library.get_lib()
     values = []
+
     for key, value in kwargs.items():
         if value and key in options:  # Check if the value is True and the key exists in options
             values.append(options[key])
+
+    if not values:
+        library.refresh_lib()   # Assuming PathLib has a method refresh_lib() that refreshes the paths
+        return get_file_path_from_lib(runs=runs + 1, library=library, **kwargs)
+
     return tuple(values)
 
 
@@ -45,8 +58,10 @@ def transfer_py_dir_in_current(source, destination, file_exceptions):
         clear_directory(destination)
 
         for _root, _dirs, _files in os.walk(source):
+            # print(_root, _dirs, _files)
             for file_name in _files:
                 if file_name.endswith(".py") and file_name not in file_exceptions:
+                    # print(f"Copying {file_name} to {destination}...")
                     rel_path = os.path.relpath(_root, source)
                     dest_folder = os.path.join(destination, rel_path)
                     os.makedirs(dest_folder, exist_ok=True)

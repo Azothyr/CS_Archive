@@ -1,4 +1,3 @@
-import os
 from pywinauto.application import Application
 from pywinauto import Desktop
 import time

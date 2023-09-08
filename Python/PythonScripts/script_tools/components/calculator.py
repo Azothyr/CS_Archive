@@ -1,4 +1,4 @@
-from azothyr_tools.functions.math_funcs import calculate_geometric_progression as calc_geo_progress
+from script_tools.functions.math_funcs import calculate_geometric_progression as calc_geo_progress
 
 
 class Calculator:

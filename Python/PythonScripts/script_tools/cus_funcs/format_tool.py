@@ -1,3 +1,29 @@
+import builtins
+from functools import wraps
+
+
+class PrintOverride:
+    def __enter__(self):
+        self.original_print = builtins.print
+        builtins.print = self.new_print
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        builtins.print = self.original_print
+
+    def new_print(self, *args, **kwargs):
+        symbol = '-'
+        num_times = 3
+        self.original_print(symbol * num_times + args[0] + symbol * num_times, **kwargs)
+
+
+def wrap_prints(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        with PrintOverride():
+            return func(*args, **kwargs)
+    return wrapper
+
+
 def format_dict_to_print(dictionary, symbol_around_k="", symbol_around_v=""):
     result = "\n".join([f"{symbol_around_k}{k}{symbol_around_k}: {symbol_around_v}{v}{symbol_around_v}"
                         for k, v in dictionary.items()])
