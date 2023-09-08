@@ -48,8 +48,10 @@ def get_file_path_from_lib(**kwargs):
     if not values:
         library.refresh_lib()   # Assuming PathLib has a method refresh_lib() that refreshes the paths
         return get_file_path_from_lib(runs=runs + 1, library=library, **kwargs)
-
-    return tuple(values)
+    elif len(values) > 1:
+        return values
+    else:
+        return tuple(values)
 
 
 def transfer_py_dir_in_current(source, destination, file_exceptions):
