@@ -3,6 +3,12 @@ import shutil
 from azothyr_tools.info.file_path_library import PathLib
 
 
+def check_for_path(path):
+    """Checks if the given path exists"""
+    if not os.path.exists(path):
+        raise ValueError(f"'{path}' does not exist")
+
+
 def clear_directory(path):
     """Remove all files and subdirectories from a directory."""
     for root, dirs, files in os.walk(path, topdown=False):
@@ -53,6 +59,16 @@ def transfer_py_dir_in_current(source, destination, file_exceptions):
         print_files_at_location(destination)
 
 
+def get_files_with_ending(path, ending):
+    """Returns all files and their path with the given ending in the given directory and subdirectories"""
+    files = []
+    for root, dirs, files in os.walk(path, topdown=False):
+        for name in files:
+            if name.endswith(ending):
+                files.append((name, os.path.join(root, name)))
+    return files
+
+
 def write_to_file(destination, text, completion_txt=None):
     try:
         with open(destination, 'w') as f:
@@ -68,6 +84,17 @@ def append_to_file(destination, text, completion_txt=None):
     try:
         with open(destination, 'a') as f:
             f.write(text)
+    finally:
+        if completion_txt:
+            print(completion_txt)
+        else:
+            print(f"Successfully appended to {destination}")
+
+
+def read_from_file(destination, text, completion_txt=None):
+    try:
+        with open(destination, 'r') as f:
+            f.read(text)
     finally:
         if completion_txt:
             print(completion_txt)
