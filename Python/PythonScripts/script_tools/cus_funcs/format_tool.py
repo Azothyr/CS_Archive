@@ -56,3 +56,16 @@ def format_list_to_print(lyst):
 def format_list_with_index(lyst):
     result = "\n".join([f"{i}: {v}" for i, v in enumerate(lyst, 1)])
     return result
+
+
+def format_str_to_caps(string):
+    return string.upper()
+
+
+def add_value_to_str(string, value, before=False, after=False, sep="", new_line=False):
+    if new_line:
+        result = f"{value}{sep}{string}\n" if before else f"{string}{sep}{value}\n"\
+            if after else f"{string}{sep}{value}\n"
+    else:
+        result = f"{value}{sep}{string}" if before else f"{string}{sep}{value}" if after else f"{string}{sep}{value}"
+    return result

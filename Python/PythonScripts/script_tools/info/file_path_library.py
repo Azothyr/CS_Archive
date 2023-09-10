@@ -1,5 +1,9 @@
-from script_tools.cus_funcs import format_tool as formatter
-from script_tools.info import map_handler as handler
+try:
+    from script_tools.cus_funcs import format_tool as formatter
+    from script_tools.info import map_handler as handler
+except ModuleNotFoundError:
+    from cus_funcs import format_tool as formatter
+    from info import map_handler as handler
 
 
 class PathLib:

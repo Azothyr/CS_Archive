@@ -1,6 +1,9 @@
 import os
 import shutil
-from script_tools.info.file_path_library import PathLib
+try:
+    from script_tools.info.file_path_library import PathLib
+except ModuleNotFoundError:
+    from info.file_path_library import PathLib
 
 
 def check_for_path(path):
@@ -86,10 +89,20 @@ def get_files_with_ending(path, ending):
     return files
 
 
-def write_to_file(destination, text, completion_txt=None):
+def write_to_file(destination, text, *args, **kwargs):
+    completion_txt = args
+    overwrite = kwargs.get('overwrite', False)
+    create_dir = kwargs.get('create_dir', False)
     try:
         with open(destination, 'w') as f:
             f.write(text)
+    except FileNotFoundError:
+        if create_dir:
+            print(f"Creating directory for '{destination}'")
+            os.makedirs(os.path.dirname(destination), exist_ok=True)
+            write_to_file(destination, text, completion_txt)
+        else:
+            raise FileNotFoundError(f"Could not find '{destination}'")
     finally:
         if completion_txt:
             print(completion_txt)

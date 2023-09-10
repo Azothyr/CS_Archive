@@ -9,12 +9,16 @@ Return: Writes Maya userSetup.py and places all custom scripts in Maya directory
 Set a sys env variable "pythonpath" with script folder path value.
 """
 import platform
-from script_tools.cus_funcs.file_tools import transfer_py_dir_in_current, get_file_path_from_lib
+try:
+    from script_tools.cus_funcs.file_tools import transfer_py_dir_in_current, get_file_path_from_lib
+except ModuleNotFoundError:
+    from cus_funcs.file_tools import transfer_py_dir_in_current, get_file_path_from_lib
 
 
 if __name__ == "__main__":
     if platform.system() == "Windows":
-        repo, scripts_folder = get_file_path_from_lib(script_repo=True, tools=True)
+        print('Getting paths')
+        repo, scripts_folder = get_file_path_from_lib(script_repo=True, tools=True, debug=True)
         if not repo:
             print("No repo found")
             exit()
