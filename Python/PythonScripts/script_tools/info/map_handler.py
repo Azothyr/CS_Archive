@@ -123,7 +123,7 @@ def refresh_path_map(primary_container, secondary_container, repo=True, custom=T
     if repo:
         file_tools.write_to_file(repo_path, '\n'.join(text_to_write), create_dir=kwargs.get('create_dir', False))
     if custom:
-        file_tools.write_to_file(scripts_path, '\n'.join(text_to_write), create_dir=kwargs.get('create_dir', False))
+        file_tools.write_to_file(scripts_path, '\n'.join(text_to_write), create_dir=True)
 
 
 def check_for_change(primary_container, secondary_container, comp_container, run=0, **kwargs):

@@ -52,9 +52,9 @@ def get_file_path_from_lib(**kwargs):
         library.refresh_lib()   # Assuming PathLib has a method refresh_lib() that refreshes the paths
         return get_file_path_from_lib(runs=runs + 1, library=library, **kwargs)
     elif len(values) > 1:
-        return values
-    else:
         return tuple(values)
+    else:
+        return values[0]
 
 
 def transfer_py_dir_in_current(source, destination, file_exceptions):
@@ -103,7 +103,7 @@ def write_to_file(destination, text, *args, **kwargs):
             write_to_file(destination, text, completion_txt)
         else:
             raise FileNotFoundError(f"Could not find '{destination}'")
-    finally:
+    else:
         if completion_txt:
             print(completion_txt)
         else:
