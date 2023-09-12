@@ -17,11 +17,13 @@ except ModuleNotFoundError:
 
 if __name__ == "__main__":
     if platform.system() == "Windows":
-        print('Getting paths')
-        repo, scripts_folder = get_file_path_from_lib(script_repo=True, tools=True, debug=True)
+        debug = False
+        if debug:
+            print('Getting paths')
+        repo, scripts_folder = get_file_path_from_lib(script_repo=True, tools=True, debug=debug)
         if not repo:
             print("No repo found")
             exit()
-        _exceptions = ["pytool_inserter.py"]
+        _exceptions = ["custom_tool_inserter.py"]
 
         transfer_py_dir_in_current(repo, scripts_folder, _exceptions)

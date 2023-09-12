@@ -35,11 +35,12 @@ def print_files_at_location(path):
 def get_file_path_from_lib(**kwargs):
     """Returns the path to a Windows folder"""
     runs = kwargs.get('runs', 0)
+
     if runs >= 1:
         raise OverflowError("Get file path from library stuck in loop")
 
     # Getting the library
-    library = kwargs.get('library', PathLib())
+    library = kwargs.get('library', PathLib(debug=kwargs.get('debug', False)))
 
     options = library.get_lib()
     values = []
@@ -93,12 +94,14 @@ def write_to_file(destination, text, *args, **kwargs):
     completion_txt = args
     overwrite = kwargs.get('overwrite', False)
     create_dir = kwargs.get('create_dir', False)
+    debug = kwargs.get('debug', False)
     try:
         with open(destination, 'w') as f:
             f.write(text)
     except FileNotFoundError:
         if create_dir:
-            print(f"Creating directory for '{destination}'")
+            if debug:
+                print(f"Creating directory for '{destination}'")
             os.makedirs(os.path.dirname(destination), exist_ok=True)
             write_to_file(destination, text, completion_txt)
         else:
@@ -107,7 +110,8 @@ def write_to_file(destination, text, *args, **kwargs):
         if completion_txt:
             print(completion_txt)
         else:
-            print(f"Successfully wrote to {destination}")
+            if debug:
+                print(f"Successfully wrote to {destination}")
 
 
 def append_to_file(destination, text, completion_txt=None):

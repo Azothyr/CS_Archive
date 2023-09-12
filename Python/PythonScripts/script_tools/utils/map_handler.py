@@ -12,21 +12,23 @@ except ModuleNotFoundError:
     from cus_funcs import file_tools
 
 
-def __print_debug_info(active=False, *args, **kwargs):
+def __print_debug_info(*args, **kwargs):
     """Prints debug info"""
     # check if debug is on
+    active = kwargs.get('debug', False)
     if not active:
         return
     ins_err = "No \'insert\' Value Provided"
     debug_position = {'check for change': {
         'Block 2.1': "CFC BLOCK 2.1>>Repo paths not found",
         'Block 2.2': "CFC BLOCK 2.2>>Attempting to set repo paths",
-        'Block 2.3': "CFC BLOCK 2>>repo paths set, refreshing path map",
-        'BLOCK 2.4': "CFC BLOCK 2.4>>Repo paths found",
-        'BLOCK 2.5': f"CFC BLOCK 2.5>>key: script_repo ---path: {kwargs.get('insert1', ins_err)}",
-        'BLOCK 3.1': f"CFC BLOCK 3.1>>Checking value: {kwargs.get('insert1', ins_err)}",
-        'BLOCK 3.2': f"CFC BLOCK 3.2>>Checking against: {kwargs.get('insert2', ins_err)}",
-        'BLOCK 3.3': f"CFC BLOCK 3.3>>Value not found: {kwargs.get('insert', ins_err)}\n refreshing path map"
+        'Block 2.3': "CFC BLOCK 2.3>>repo paths set, refreshing path map",
+        'Block 2.4': "CFC BLOCK 2.4>>Repo paths found",
+        'Block 2.5': f"CFC BLOCK 2.5>>key: script_repo ---path: {kwargs.get('insert1', ins_err)}",
+        'Block 3.1': f"CFC BLOCK 3.1>>Checking value: {kwargs.get('insert1', ins_err)}",
+        'Block 3.2': f"CFC BLOCK 3.2>>Checking against: {kwargs.get('insert2', ins_err)}",
+        'Block 3.3': f"CFC BLOCK 3.3>>Value not found: {kwargs.get('insert', ins_err)}\n refreshing path map",
+        'CFC End': 'CFC END>>Path map is up to date'
     }}
     func = kwargs.get('func', None)
     if func:
@@ -121,9 +123,10 @@ def refresh_path_map(primary_container, secondary_container, repo=True, custom=T
     scripts_path = secondary_container.get('custom_path_map')
     repo_path = secondary_container['repo_map_path']
     if repo:
-        file_tools.write_to_file(repo_path, '\n'.join(text_to_write), create_dir=kwargs.get('create_dir', False))
+        file_tools.write_to_file(repo_path, '\n'.join(text_to_write), create_dir=kwargs.get('create_dir', False),
+                                 debug=debug)
     if custom:
-        file_tools.write_to_file(scripts_path, '\n'.join(text_to_write), create_dir=True)
+        file_tools.write_to_file(scripts_path, '\n'.join(text_to_write), create_dir=True, debug=debug)
 
 
 def check_for_change(primary_container, secondary_container, comp_container, run=0, **kwargs):
@@ -143,14 +146,15 @@ def check_for_change(primary_container, secondary_container, comp_container, run
     _repo_paths = [primary_container.get('maya_repo', None), primary_container.get('script_repo', None)]
     if (not paths and primary_container.get('maya_repo', None) is None or
             primary_container.get('script_repo', None) is None):
-        __print_debug_info(debug, 'Block 2.1', 'Block 2.2', func='check_for_change')
+        __print_debug_info('Block 2.1', 'Block 2.2', func='check for change', debug=debug)
         primary_container, secondary_container = __set_repo(primary_container, secondary_container, _repo)
-        __print_debug_info(debug, 'Block 2.3', func='check_for_change')
+        __print_debug_info('Block 2.3', func='check for change', debug=debug)
         refresh_path_map(primary_container, secondary_container)
-        return check_for_change(primary_container, secondary_container, comp_container, run=1)
+        return check_for_change(primary_container, secondary_container, comp_container, run=1, **kwargs)
     else:
-        __print_debug_info(debug, 'Block 2.4', func='check_for_change')
-        __print_debug_info(debug, 'Block 2.5', func='check_for_change', insert=primary_container.get('script_repo'))
+        __print_debug_info('Block 2.4', func='check for change', debug=debug)
+        __print_debug_info('Block 2.5', func='check for change',
+                           insert=primary_container.get('script_repo'), debug=debug)
 
     val_to_check = [f"{_repo}\\Scripts_Private\\Python\\PythonScripts\\script_tools",
                     f"{_repo}\\MayaPythonToolbox\\maya_scripts"]
@@ -159,21 +163,19 @@ def check_for_change(primary_container, secondary_container, comp_container, run
                      primary_container.get('script_repo').replace("\"", "")]
     # CFC BLOCK 3
     for value in val_to_check:
-        __print_debug_info(debug, 'Block 3.1', 'Block 3.2', func='check_for_change',
-                           insert1=value, insert2=check_against)
+        __print_debug_info('Block 3.1', 'Block 3.2', func='check for change',
+                           insert1=value, insert2=check_against, debug=debug)
         if value not in check_against:
-            __print_debug_info(debug, 'Block 3.3', func='check_for_change', insert=value)
-            refresh_path_map(primary_container, secondary_container, custom=False)
+            __print_debug_info('Block 3.3', func='check for change', insert=value, debug=debug)
+            refresh_path_map(primary_container, secondary_container, custom=False, debug=debug)
             return True
 
-    print("Path map is up to date")
+    __print_debug_info('CFC End', func='check for change', debug=debug)
     return False
 
 
 def get_path_map(**kwargs):
     """Returns the path map"""
-    # check if debug is on
-    debug = kwargs.get('debug', False)
     # Set the paths dictionary
     maya_version = "2024"
     rewrite_roots = {
@@ -192,7 +194,7 @@ def get_path_map(**kwargs):
         'maya': os.path.join(os.path.expanduser('~'), 'Documents', 'custom_scripts', 'maya_scripts'),
         'tools': os.path.join(os.path.expanduser('~'), 'Documents', 'custom_scripts', 'script_tools'),
         'custom_path_map': os.path.join(os.path.expanduser('~'),
-                                        'Documents', 'custom_scripts', 'script_tools', 'info', 'path_map.py')
+                                        'Documents', 'custom_scripts', 'script_tools', '../info', 'path_map.py')
     }
     repos_on_comps = {
         'primary_comp': "C:\\GitRepos",
@@ -202,7 +204,7 @@ def get_path_map(**kwargs):
     wait = True
     run = 0
     while wait:
-        wait = check_for_change(rewrite_roots, parent_dirs, repos_on_comps, run, debug=debug)
+        wait = check_for_change(rewrite_roots, parent_dirs, repos_on_comps, run, debug=kwargs.get('debug', False))
         run = run + 1
     return paths
 
