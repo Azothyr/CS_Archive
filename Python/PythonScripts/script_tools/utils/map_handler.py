@@ -12,14 +12,9 @@ except ModuleNotFoundError:
     from cus_funcs import file_tools
 
 
-def __print_debug_info(*args, **kwargs):
-    """Prints debug info"""
-    # check if debug is on
-    active = kwargs.get('debug', False)
-    if not active:
-        return
-    ins_err = "No \'insert\' Value Provided"
-    debug_position = {'check for change': {
+def _debug_info():
+    """Returns a dictionary of debug messages for the module."""
+    return {
         'Block 2.1': "CFC BLOCK 2.1>>Repo paths not found",
         'Block 2.2': "CFC BLOCK 2.2>>Attempting to set repo paths",
         'Block 2.3': "CFC BLOCK 2.3>>repo paths set, refreshing path map",
@@ -29,17 +24,7 @@ def __print_debug_info(*args, **kwargs):
         'Block 3.2': f"CFC BLOCK 3.2>>Checking against: {kwargs.get('insert2', ins_err)}",
         'Block 3.3': f"CFC BLOCK 3.3>>Value not found: {kwargs.get('insert', ins_err)}\n refreshing path map",
         'CFC End': 'CFC END>>Path map is up to date'
-    }}
-    func = kwargs.get('func', None)
-    if func:
-        if func in debug_position.keys():
-            if args:
-                for arg in args:
-                    print(debug_position[func][arg])
-            else:
-                print(debug_position[func])
-        else:
-            print(f"Function: {func} not found in debug_position dictionary")
+    }
 
 
 def __set_repo(primary_container, secondary_container, _src=None, **kwargs):
@@ -146,14 +131,14 @@ def check_for_change(primary_container, secondary_container, comp_container, run
     _repo_paths = [primary_container.get('maya_repo', None), primary_container.get('script_repo', None)]
     if (not paths and primary_container.get('maya_repo', None) is None or
             primary_container.get('script_repo', None) is None):
-        __print_debug_info('Block 2.1', 'Block 2.2', func='check for change', debug=debug)
+        _debug_info('Block 2.1', 'Block 2.2', func='check for change', debug=debug)
         primary_container, secondary_container = __set_repo(primary_container, secondary_container, _repo)
-        __print_debug_info('Block 2.3', func='check for change', debug=debug)
+        _debug_info('Block 2.3', func='check for change', debug=debug)
         refresh_path_map(primary_container, secondary_container)
         return check_for_change(primary_container, secondary_container, comp_container, run=1, **kwargs)
     else:
-        __print_debug_info('Block 2.4', func='check for change', debug=debug)
-        __print_debug_info('Block 2.5', func='check for change',
+        _debug_info('Block 2.4', func='check for change', debug=debug)
+        _debug_info('Block 2.5', func='check for change',
                            insert=primary_container.get('script_repo'), debug=debug)
 
     val_to_check = [f"{_repo}\\Scripts_Private\\Python\\PythonScripts\\script_tools",
@@ -163,14 +148,14 @@ def check_for_change(primary_container, secondary_container, comp_container, run
                      primary_container.get('script_repo').replace("\"", "")]
     # CFC BLOCK 3
     for value in val_to_check:
-        __print_debug_info('Block 3.1', 'Block 3.2', func='check for change',
+        _debug_info('Block 3.1', 'Block 3.2', func='check for change',
                            insert1=value, insert2=check_against, debug=debug)
         if value not in check_against:
-            __print_debug_info('Block 3.3', func='check for change', insert=value, debug=debug)
+            _debug_info('Block 3.3', func='check for change', insert=value, debug=debug)
             refresh_path_map(primary_container, secondary_container, custom=False, debug=debug)
             return True
 
-    __print_debug_info('CFC End', func='check for change', debug=debug)
+    _debug_info('CFC End', func='check for change', debug=debug)
     return False
 
 
