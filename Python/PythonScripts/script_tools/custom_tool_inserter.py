@@ -8,22 +8,38 @@ Get all .py _files in the directory and subdirectories this script is run from
 Return: Writes Maya userSetup.py and places all custom scripts in Maya directory
 Set a sys env variable "pythonpath" with script folder path value.
 """
-import platform
-try:
-    from script_tools.cus_funcs.file_tools import transfer_py_dir_in_current, get_file_path_from_lib
-except ModuleNotFoundError:
-    from cus_funcs.file_tools import transfer_py_dir_in_current, get_file_path_from_lib
+from handlers.debug_handler import DebugHandler
+from utils.platform_ops import platform_search_ops as platform_search
+from utils.file_ops.file_path_ops import get_file_path_from_lib as get_path
+from utils.file_ops.file_transfer_ops import transfer_py_dir_in_current as transfer_py_dir
+debugger = DebugHandler(__name__)
+# debugger.config_manager.turn_on_debug(all_modules=True)
+# debugger.config_manager.turn_off_debug(all_modules=True)
+
+
+def _debug_info():
+    return {
+        "debug-0": "Start of custom_tool_inserter.py",
+        "debug-1": "Getting paths",
+        "debug-2": "No repo found, Exiting",
+        "debug-3": "custom_tool_inserter.py finished",
+        "debug-4": "Exiting",
+    }
 
 
 if __name__ == "__main__":
-    if platform.system() == "Windows":
-        debug = False
-        if debug:
-            print('Getting paths')
-        repo, scripts_folder = get_file_path_from_lib(script_repo=True, tools=True, debug=debug)
-        if not repo:
-            print("No repo found")
-            exit()
-        _exceptions = ["custom_tool_inserter.py"]
+    debugger.print('debug-0')
+    if platform_search.platform_check("Windows"):
+        try:
+            debugger.print('debug-1')
+            repo, scripts_folder = get_path(script_repo=True, tools=True)
+            if not repo:
+                debugger.print('debug-2')
+                exit()
+            _exceptions = ["custom_tool_inserter.py"]
 
-        transfer_py_dir_in_current(repo, scripts_folder, _exceptions)
+            transfer_py_dir(repo, scripts_folder, _exceptions)
+        finally:
+            debugger.print('debug-3')
+            debugger.print('debug-4')
+            exit()

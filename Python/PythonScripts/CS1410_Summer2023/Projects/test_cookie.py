@@ -13,8 +13,8 @@ def test_cookie():
     2nd Testing for expected user-input values.
     3rd Testing modifying values from default constructor
     4th Testing modifying values from non-default constructor
-    5th Testing calculate_cost cus_funcs
-    6th Testing calculate_tax cus_funcs
+    5th Testing calculate_cost functions
+    6th Testing calculate_tax functions
     """
     # Step 1
     cookie_test = Cookie()

@@ -1,0 +1,7 @@
+{
+    "global_debug": true,
+    "module_debug": {
+        "__main__": true,
+        "utils.platform_ops.platform_search_ops": false
+    }
+}

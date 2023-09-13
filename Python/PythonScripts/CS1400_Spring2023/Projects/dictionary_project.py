@@ -89,7 +89,7 @@ def write_text(text_dict, filename):
 
 def main():
     """
-    Main cus_funcs of the program. Takes no arguments
+    Main functions of the program. Takes no arguments
 
     Reads the contents of a file specified by the first command line argument
     Extracts text from the file and separates it into a text and a summary dictionary
