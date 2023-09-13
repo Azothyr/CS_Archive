@@ -46,7 +46,7 @@ class ConfigManager:
     - get_module_debug(module_name): Returns the debug status for a specific module.
     """
 
-    def __init__(self, config_path='script_tools/config.json'):
+    def __init__(self, config_path=None):
         """Initialize ConfigManager with a default or provided path to the config JSON file."""
         self.config_path = config_path
         self.config = self.load_config()
@@ -59,18 +59,18 @@ class ConfigManager:
                 f"\n'global_debug': {self.config['global_debug']}"
                 f"\n'module_debug'= {module_opts}")
 
-    def load_config(self) -> dict:
+    def load_config(self):
         """Load and return the configuration data from the file."""
         with open(self.config_path, 'r') as file:
             return json.load(file)
 
-    def save_config(self) -> None:
+    def save_config(self):
         """Save the current configuration data to the file."""
         with open(self.config_path, 'w') as file:
             json.dump(self.config, file, indent=4)
         self.config = self.load_config()
 
-    def set_debug_config(self, global_debug=None, module_name=None, module_debug_value=None, all_modules=None) -> None:
+    def update_debug_config(self, global_debug=None, module_name=None, module_debug_value=None):
         """
         Update debug configurations based on the provided parameters.
 
@@ -87,17 +87,40 @@ class ConfigManager:
 
         self.save_config()
 
-    def turn_all_on(self, all_modules=False) -> None:
-        self.set_debug_config(True, all_modules=all_modules)
+    def __switch(self, switch=None, *args, **kwargs):
+        if switch is not None:
+            _all = kwargs.get('all_modules', False)
+            self.config['global_debug'] = switch
+            if args:
+                try:
+                    if _all:
+                        for module_name in self.config['module_debug']:
+                            self.config['module_debug'][module_name] = switch
+                    elif len(args) > 1:
+                        for arg in args:
+                            if arg is not None and arg != '' and arg != 'null':
+                                self.config['module_debug'][arg] = switch
+                    else:
+                        if args[0] is not None and args[0] != '' and args[0] != 'null':
+                            self.config['module_debug'][args[0]] = switch
+                except KeyError:
+                    return f"Module {args} not found in config file"
+            self.save_config()
+            return f"Debug turned to {switch}"
+        else:
+            return "No switch provided"
 
-    def turn_all_off(self, all_modules=False) -> None:
-        self.set_debug_config(False, all_modules=all_modules)
+    def turn_on_debug(self, module_names=None, all_modules=False):
+        print(self.__switch(True, module_names, all_modules=all_modules))
 
-    def get_global_debug(self) -> bool:
+    def turn_off_debug(self, module_names=None, all_modules=False):
+        print(self.__switch(False, module_names, all_modules=all_modules))
+
+    def get_global_debug(self):
         """Return the current global debug setting, defaulting to False if not set."""
         return self.config.get('global_debug', False)
 
-    def get_module_debug(self, module_name) -> bool:
+    def get_module_debug(self, module_name):
         """
         Return the debug setting for a specific module.
 

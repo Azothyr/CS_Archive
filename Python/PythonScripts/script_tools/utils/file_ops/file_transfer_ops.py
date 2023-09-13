@@ -1,6 +1,6 @@
 import os
 import shutil
-from handlers import debug_handler as debugger
+import importlib
 
 
 def transfer_py_dir_in_current(source, destination, file_exceptions):

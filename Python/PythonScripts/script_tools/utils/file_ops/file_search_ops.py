@@ -1,6 +1,6 @@
 import os
+import importlib
 from datetime import datetime
-from handlers import debug_handler as debugger
 
 
 def path_exists(file_path):
