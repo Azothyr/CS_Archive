@@ -2,6 +2,19 @@ import argparse
 
 
 class CmdHandler:
+    """
+    CmdHandler is used to define and parse command-line arguments.
+
+    Attributes:
+    - parser (ArgumentParser): An instance of argparse.ArgumentParser.
+    - args (Namespace): The parsed command-line arguments.
+
+    Methods:
+    - add_debug_argument(): Adds a debugging switch argument.
+    - parse_arguments(): Parses the command-line arguments and sets the args attribute.
+    - add_argument(*args, **kwargs): Adds an argument to the parser.
+    """
+
     def __init__(self, description='DEFAULT COMMAND HANDLER'):
         self.parser = argparse.ArgumentParser(description=description)
         self.args = None

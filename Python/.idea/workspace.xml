@@ -110,7 +110,18 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\utils" />
+      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\tests" />
+      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\info" />
+      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\handlers" />
+      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\functions" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools" />
+      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\config" />
+      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\handlers" />
+      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\components\docs" />
       <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\personal_projects\functions" />
     </key>
   </component>
@@ -328,7 +339,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$USER_HOME$/Documents/custom_scripts/script_tools/cus_funcs/file_tools.py</url>
-          <line>79</line>
+          <line>121</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
@@ -357,10 +368,12 @@
     <SUITE FILE_PATH="coverage/graph_py$graph.coverage" NAME="graph Coverage Results" MODIFIED="1686513786138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS2420_Summer2023/Projects" />
     <SUITE FILE_PATH="coverage/Python_Tools$pytool_inserter.coverage" NAME="pytool_inserter Coverage Results" MODIFIED="1694128383166" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools" />
     <SUITE FILE_PATH="coverage/dessertshop_py$dessertshop.coverage" NAME="dessertshop Coverage Results" MODIFIED="1686519453036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects" />
+    <SUITE FILE_PATH="coverage/Python$file_transfer_ops.coverage" NAME="file_transfer_ops Coverage Results" MODIFIED="1694577359111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/utils/file_ops" />
     <SUITE FILE_PATH="coverage/calculator_py$list_maker.coverage" NAME="list_maker Coverage Results" MODIFIED="1693373004459" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/personal_projects/function" />
     <SUITE FILE_PATH="coverage/________Updated_upstream$paste_macro.coverage" NAME="paste_macro Coverage Results" MODIFIED="1693459229650" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/personal_projects/functions" />
     <SUITE FILE_PATH="coverage/________Updated_upstream$list_maker.coverage" NAME="list_maker Coverage Results" MODIFIED="1693524895984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/personal_projects/functions" />
     <SUITE FILE_PATH="coverage/Python_Tools$.coverage" NAME=" Coverage Results" MODIFIED="1694127356784" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/tests" />
+    <SUITE FILE_PATH="coverage/Python$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1694577428273" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/utils/file_ops" />
     <SUITE FILE_PATH="coverage/turtle_patterns_1_py$turtle_patterns_2.coverage" NAME="turtle_patterns_2 Coverage Results" MODIFIED="1677972892450" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects" />
     <SUITE FILE_PATH="coverage/BenchmarkSorting_py$BenchmarkAlg.coverage" NAME="BenchmarkAlg Coverage Results" MODIFIED="1684538381029" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS2420_Summer2023/Projects" />
     <SUITE FILE_PATH="coverage/Python$Update_Sys_Scripts.coverage" NAME="Update Sys Scripts Coverage Results" MODIFIED="1695083493058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\GitRepos\Scripts_Private\Python\PythonScripts" />
@@ -387,8 +400,10 @@
     <SUITE FILE_PATH="coverage/dessert_py$dessertshop.coverage" NAME="dessertshop Coverage Results" MODIFIED="1685495894987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects" />
     <SUITE FILE_PATH="coverage/IntroToObjects_py$IntroToObjects.coverage" NAME="IntroToObjects Coverage Results" MODIFIED="1684556425883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Assignments" />
     <SUITE FILE_PATH="coverage/dessertshop_py$payable.coverage" NAME="payable Coverage Results" MODIFIED="1685835635908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects" />
+    <SUITE FILE_PATH="coverage/Python$path_map.coverage" NAME="path_map Coverage Results" MODIFIED="1694565259930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/info" />
     <SUITE FILE_PATH="coverage/calculator_py$Update_Sys_Scripts.coverage" NAME="Update Sys Scripts Coverage Results" MODIFIED="1693377132349" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\GitRepos\Scripts_Private\Python\PythonScripts\personal_projects" />
     <SUITE FILE_PATH="coverage/calculator_py$maya_scripts_inserter.coverage" NAME="maya_scripts_inserter Coverage Results" MODIFIED="1693375216221" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../MayaPythonToolbox/ScriptsInMaya" />
+    <SUITE FILE_PATH="coverage/Python$cmd_handler.coverage" NAME="cmd_handler Coverage Results" MODIFIED="1694580376906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/handlers" />
     <SUITE FILE_PATH="coverage/Mutability_py$BenchmarkAlg.coverage" NAME="BenchmarkAlg Coverage Results" MODIFIED="1684302154668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS2420_Summer2023/Projects" />
   </component>
 </project>

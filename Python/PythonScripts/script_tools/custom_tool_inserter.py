@@ -15,15 +15,29 @@ except ModuleNotFoundError:
     from functions.file_tools import transfer_py_dir_in_current, get_file_path_from_lib
 
 
-if __name__ == "__main__":
-    if platform.system() == "Windows":
-        debug = False
-        if debug:
-            print('Getting paths')
-        repo, scripts_folder = get_file_path_from_lib(script_repo=True, tools=True, debug=debug)
-        if not repo:
-            print("No repo found")
-            exit()
-        _exceptions = ["custom_tool_inserter.py"]
+def _debug_info():
+    return {
+        "debug-0": "Start of custom_tool_inserter.py",
+        "debug-1": "Getting paths",
+        "debug-2": "No repo found, Exiting",
+        "debug-3": "custom_tool_inserter.py finished",
+        "debug-4": "Exiting",
+    }
 
-        transfer_py_dir_in_current(repo, scripts_folder, _exceptions)
+
+if __name__ == "__main__":
+    debugger.print('debug-0')
+    if platform_search.platform_check("Windows"):
+        try:
+            debugger.print('debug-1')
+            repo, scripts_folder = get_path(script_repo=True, tools=True)
+            if not repo:
+                debugger.print('debug-2')
+                exit()
+            _exceptions = ["custom_tool_inserter.py"]
+
+            transfer_py_dir(repo, scripts_folder, _exceptions)
+        finally:
+            debugger.print('debug-3')
+            debugger.print('debug-4')
+            exit()
