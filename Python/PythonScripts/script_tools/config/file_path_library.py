@@ -1,5 +1,6 @@
-from functions import format_tool as formatter
+from utils import format_ops as formatter
 from handlers import map_handler as handler
+
 
 
 class PathLib:
@@ -10,10 +11,10 @@ class PathLib:
     def __repr__(self):
         return formatter.format_dict_to_print(self.__library)
 
-    def get_lib(self):
+    def get_library(self):
         return self.__library
 
-    def refresh_lib(self):
+    def refresh_library(self):
         self.__library = handler.get_path_map(**self.__kwargs)
 
 

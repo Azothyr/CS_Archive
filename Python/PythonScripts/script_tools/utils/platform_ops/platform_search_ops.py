@@ -1,6 +1,6 @@
 import platform
 from handlers.debug_handler import DebugHandler
-debugger = DebugHandler(__name__)
+# debugger = DebugHandler(__name__)
 
 
 def _debug_info():
@@ -18,6 +18,6 @@ def platform_check(input_platform):
         - ValueError: If the path does not exist.
     """
     if platform.system() == input_platform:
-        debugger.print('platform_check-1', input_platform)
+        # debugger.print('platform_check-1', input_platform)
         return True
     return False

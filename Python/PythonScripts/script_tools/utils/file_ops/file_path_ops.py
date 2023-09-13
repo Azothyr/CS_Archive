@@ -1,6 +1,21 @@
 import os
-from handlers import debug_handler as debugger
+import importlib
 from config.file_path_library import PathLib
+
+
+def get_debugger():
+    debug_handler = importlib.import_module('handlers.debug_handler')
+    return debug_handler.DebugHandler(__name__)
+
+
+def _debug_info():
+    console_spacer = '>' * 5
+    return {
+        "write_to_file-0":
+            "Start of file_basic_ops.py\ndestination:\n>>>>>{}\ncontent:\n>>>>>{}"
+            "\nfile_type:\n>>>>>{}\nargs:\n>>>>>{!r}\nkwargs:\n>>>>>{!r}",
+        "write_to_file-1": "No file_type provided, using file extension: {}",
+    }
 
 
 def print_files_at_location(path):

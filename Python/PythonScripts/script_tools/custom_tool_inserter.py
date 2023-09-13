@@ -8,38 +8,45 @@ Get all .py _files in the directory and subdirectories this script is run from
 Return: Writes Maya userSetup.py and places all custom scripts in Maya directory
 Set a sys env variable "pythonpath" with script folder path value.
 """
-from handlers.debug_handler import DebugHandler
+from handlers.debug_handler import get_debugger
 from utils.platform_ops import platform_search_ops as platform_search
 from utils.file_ops.file_path_ops import get_file_path_from_lib as get_path
 from utils.file_ops.file_transfer_ops import transfer_py_dir_in_current as transfer_py_dir
-debugger = DebugHandler(__name__)
-# debugger.config_manager.turn_on_debug(all_modules=True)
-# debugger.config_manager.turn_off_debug(all_modules=True)
+from utils import unpack_ops
 
 
-def _debug_info():
+def _debug_info() -> dict:
     return {
-        "debug-0": "Start of custom_tool_inserter.py",
-        "debug-1": "Getting paths",
-        "debug-2": "No repo found, Exiting",
-        "debug-3": "custom_tool_inserter.py finished",
-        "debug-4": "Exiting",
+        "dunder main": "\n0.0: Running custom_tool_inserter.py 'dunder main'",
+        "main-1": "1.0: Start of custom_tool_inserter.py 'main()'",
+        "main-exception": "main() exception: {}",
+        "main-2.1": "2.1: Getting paths",
+        "main-2.2": "2.2: RETURNED: repo:--{}, scripts_folder:--{}",
+        "main-2.3": "2.3: No repo found, Exiting",
+        "main-3.1": "3.1: custom_tool_inserter.py finished",
+        "main-3.2": "3.2: Exiting 'dunder main'/custom_tool_inserter.py'",
     }
 
 
-if __name__ == "__main__":
-    debugger.print('debug-0')
+def main(debugger=get_debugger()):
+    debugger.print('main-1')
     if platform_search.platform_check("Windows"):
-        try:
-            debugger.print('debug-1')
-            repo, scripts_folder = get_path(script_repo=True, tools=True)
-            if not repo:
-                debugger.print('debug-2')
-                exit()
-            _exceptions = ["custom_tool_inserter.py"]
-
-            transfer_py_dir(repo, scripts_folder, _exceptions)
-        finally:
-            debugger.print('debug-3')
-            debugger.print('debug-4')
+        debugger.print('main-2.1')
+        repo, scripts_folder = get_path(script_repo=True, tools=True)
+        if not repo:
+            debugger.print('main-2.3')
             exit()
+        debugger.print('main-2.2')
+
+        _exceptions = ["custom_tool_inserter.py"]
+
+        transfer_py_dir(repo, scripts_folder, _exceptions)
+        debugger.print('main-3.1')
+        debugger.print('main-3.2')
+        exit()
+
+
+if __name__ == "__main__":
+    debug_handler = get_debugger(on=True, _all=False)
+    debug_handler.print('dunder main')
+    main(debug_handler)
