@@ -1,11 +1,11 @@
 from utils.format_ops import dict_ops as dict_formatter
-from handlers import map_handler as handler
+from handlers.map_handler import get_path_map
 
 
 class PathLib:
     def __init__(self, **kwargs):
         self.__kwargs = kwargs
-        self.__library = handler.get_path_map(**self.__kwargs)
+        self.__library = get_path_map(**self.__kwargs)
 
     def __repr__(self):
         return dict_formatter.format_dict_to_print(self.__library)
@@ -14,7 +14,7 @@ class PathLib:
         return self.__library
 
     def refresh_library(self):
-        self.__library = handler.get_path_map(**self.__kwargs)
+        self.__library = get_path_map(**self.__kwargs)
 
 
 if __name__ == "__main__":

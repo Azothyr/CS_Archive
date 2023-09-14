@@ -1,5 +1,5 @@
 """
-last modified: 2023-09-12
+Last modified: 2023-09-14
 This package provides utility functions to interact with the file system.
 
 The package is organized into the following modules:
@@ -21,3 +21,9 @@ The primary functionalities include:
     - Clearing all content from a directory.
     - Printing files at a specific location.
 """
+from . import file_basic_ops
+from . import file_search_ops
+from . import file_transfer_ops
+from . import file_path_ops
+
+__all__ = ['file_basic_ops', 'file_search_ops', 'file_transfer_ops', 'file_path_ops']

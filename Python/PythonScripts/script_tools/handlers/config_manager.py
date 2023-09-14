@@ -23,6 +23,7 @@ Note:
     providing a different path during initialization.
 """
 import json
+from handlers.terminal_handler import TerminalHandler
 from utils.file_ops.file_basic_ops import write_to_file as write
 from utils.file_ops.file_search_ops import get_last_modified_time as last_modified
 
@@ -52,12 +53,19 @@ class ConfigManager:
         self.config = self.load_config()
         self.config_last_modified = last_modified(self.config_path)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        global_opts = '{\n' + "\n".join([f'\t{k}, {v}' for k, v in self.config['config_globals'].items()]) + "\n}"
         module_opts = '{\n' + "\n".join([f'\t{k}, {v}' for k, v in self.config['module_debug'].items()]) + "\n}"
         _last_modified_val = self.config_last_modified
-        return (f"\nConfigManager---{self.config_path} (Last Modified: {_last_modified_val})"
-                f"\n'global_debug': {self.config['global_debug']}"
-                f"\n'module_debug'= {module_opts}")
+        background = TerminalHandler(back='white')
+        bold = TerminalHandler(style='bold')
+        faint = TerminalHandler(fore='black', style='faint')
+        underline = TerminalHandler(style='underline')
+        header_txt = bold.wrap(f"\nConfigManager---{self.config_path} "
+                               f"{underline.wrap(f'(Last Modified: {_last_modified_val})')}\n")
+        header = TerminalHandler(fore='cyan').wrap(header_txt)
+        body = faint.wrap(f"config_globals: {global_opts}\n'module_debug'= {module_opts}\n")
+        return header + background.wrap(body)
 
     def load_config(self) -> dict:
         """Load and return the configuration data from the file."""
@@ -69,6 +77,24 @@ class ConfigManager:
         with open(self.config_path, 'w') as file:
             json.dump(self.config, file, indent=4)
         self.config = self.load_config()
+
+    def set_config_globals(self, global_debug: bool = None, traceback: bool = None, **kwargs) -> None:
+        """
+        Update global debug configurations based on the provided parameters.
+
+        If global_debug is specified, updates the global debug setting.
+        If traceback is specified, updates the traceback setting.
+        """
+        # Set the global debug value if provided
+        if global_debug is not None:
+            self.config['config_globals']['global_debug'] = global_debug
+
+        # Set the traceback value if provided
+        if traceback is not None:
+            self.config['config_globals']['traceback_debug'] = traceback
+
+        # Update config json file
+        self.save_config()
 
     def set_debug_config(self, global_debug: bool = None, module_name: str = None,
                          module_debug_value: bool = None, **kwargs) -> None:
@@ -85,13 +111,12 @@ class ConfigManager:
         if kwargs.get('all_modules', None) is not None:
             global_debug = kwargs['all_modules']
             self.config['module_debug'] = {k: global_debug for k in self.config['module_debug']}
-            self.config['global_debug'] = global_debug
+            self.config['config_globals']['global_debug'] = global_debug
             self.save_config()
             return
 
         # Set the global debug value if provided
-        if global_debug is not None:
-            self.config['global_debug'] = global_debug
+        self.set_config_globals(global_debug)
 
         # If module name and debug value are not provided set that modules value in the config
         if module_name and module_debug_value is not None:
@@ -103,22 +128,13 @@ class ConfigManager:
         # Update config json file
         self.save_config()
 
-    def turn_all_on(self, all_modules=False) -> None:
-        """Turn on all debugging."""
-        self.set_debug_config(True, all_modules=True)
+    def turn_all_debug_on(self) -> None: self.set_debug_config(True, all_modules=True)
 
-    def turn_all_off(self) -> None:
-        """Turn off all debugging."""
-        self.set_debug_config(False, all_modules=False)
+    def turn_all_debug_off(self) -> None: self.set_debug_config(False, all_modules=False)
 
-    def get_global_debug(self) -> bool:
-        """Return the current global debug setting, defaulting to False if not set."""
-        return self.config.get('global_debug', False)
+    def get_global_debug(self) -> bool: return self.config.get('config_globals', {}).get('global_debug', False)
 
-    def get_module_debug(self, module_name) -> bool:
-        """
-        Return the debug setting for a specific module.
+    def get_traceback(self) -> bool: return self.config.get('config_globals', {}).get('traceback_debug', False)
 
-        If not set, defaults to True.
-        """
-        return self.config.get('module_debug', {}).get(module_name, True)
+    def get_module_debug(self, module_name) -> bool: return self.config.get('module_debug', {}).get(module_name, False)
+

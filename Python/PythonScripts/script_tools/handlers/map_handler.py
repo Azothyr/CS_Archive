@@ -1,8 +1,10 @@
 import os
-import importlib
 from config.path_map import paths
 from utils.file_ops.file_basic_ops import write_to_file as write
-from script_tools.functions import format_tool as formatter
+from utils.format_ops import dict_ops as formatter
+from handlers.debug_handler import get_or_initialize_debugger as get_debugger
+
+debugger = get_debugger(module=__name__)
 
 
 def _debug_info():
@@ -12,21 +14,19 @@ def _debug_info():
         'Block 2.2': "CFC BLOCK 2.2>>Attempting to set repo paths",
         'Block 2.3': "CFC BLOCK 2.3>>repo paths set, refreshing path map",
         'Block 2.4': "CFC BLOCK 2.4>>Repo paths found",
-        'Block 2.5': 'f"CFC BLOCK 2.5>>key: script_repo ---path: {kwargs.get(\'insert1\', ins_err)}"',
-        'Block 3.1': 'f"CFC BLOCK 3.1>>Checking value: {kwargs.get(\'insert1\', ins_err)}"',
-        'Block 3.2': 'f"CFC BLOCK 3.2>>Checking against: {kwargs.get(\'insert2\', ins_err)}"',
-        'Block 3.3': 'f"CFC BLOCK 3.3>>Value not found: {kwargs.get(\'insert\', ins_err)}\n refreshing path map"',
+        'Block 2.5': 'f"CFC BLOCK 2.5>>key: script_repo ---path: {}"',
+        'Block 3.1': 'f"CFC BLOCK 3.1>>Checking value: {}"',
+        'Block 3.2': 'f"CFC BLOCK 3.2>>Checking against: {}"',
+        'Block 3.3': 'f"CFC BLOCK 3.3>>Value not found: {}\n refreshing path map"',
         'CFC End': 'CFC END>>Path map is up to date'
     }
 
 
-def __set_repo(primary_container, secondary_container, _src=None, **kwargs):
+def __set_repo(primary_container, secondary_container, _src=None):
     """
     Update the library with tool and maya repo paths based on the existence
     of specific directories.
     """
-    # check if debug is on
-    debug = kwargs.get('debug', False)
     if _src:
         _src = _src
         repo_paths = [f"{_src}\\Scripts_Private\\Python\\PythonScripts\\script_tools",
@@ -41,9 +41,8 @@ def __set_repo(primary_container, secondary_container, _src=None, **kwargs):
     return primary_container, secondary_container
 
 
-def __add_subfolders_to_lib(key, path, primary_container, **kwargs):
-    # check if debug is on
-    debug = kwargs.get('debug', False)
+def __add_subfolders_to_lib(key, path, primary_container):
+    """Adds subfolders to the path map"""
     folder_exceptions = ["__pycache__", ".pytest_cache", ".idea", "tests"]
     file_exceptions = ["__init__.py", "__cpython__.py", "cpython-311.pyc"]
     key_exceptions = ["secondary_comp", "primary_comp"]
@@ -84,8 +83,6 @@ def __add_subfolders_to_lib(key, path, primary_container, **kwargs):
 
 def refresh_path_map(primary_container, secondary_container, repo=True, custom=True, **kwargs):
     """Refreshes the paths dictionary"""
-    # check if debug is on
-    debug = kwargs.get('debug', False)
     # Add folders inside maya_scripts and script_tools to the path map
     for key, path in secondary_container.items():
         __add_subfolders_to_lib(key, path, primary_container)
@@ -101,17 +98,13 @@ def refresh_path_map(primary_container, secondary_container, repo=True, custom=T
     scripts_path = secondary_container.get('custom_path_map')
     repo_path = secondary_container['repo_map_path']
     if repo:
-        write(repo_path, '\n'.join(text_to_write), create_dir=kwargs.get('create_dir', False),
-              debug=debug)
+        write(repo_path, '\n'.join(text_to_write), create_dir=kwargs.get('create_dir', False))
     if custom:
-        write(scripts_path, '\n'.join(text_to_write), create_dir=True, debug=debug)
+        write(scripts_path, '\n'.join(text_to_write), create_dir=True)
 
 
 def check_for_change(primary_container, secondary_container, comp_container, run=0, **kwargs):
     """Checks if the path map has changed"""
-    # check if debug is on
-    debug = kwargs.get('debug', False)
-
     # CFC BLOCK 1
     if run >= 2:
         raise OverflowError("CFC BLOCK 1>>Checking change method stuck in loop")
@@ -124,15 +117,15 @@ def check_for_change(primary_container, secondary_container, comp_container, run
     _repo_paths = [primary_container.get('maya_repo', None), primary_container.get('script_repo', None)]
     if (not paths and primary_container.get('maya_repo', None) is None or
             primary_container.get('script_repo', None) is None):
-        # _debug_info('Block 2.1', 'Block 2.2', func='check for change', debug=debug)
+        debugger.print('Block 2.1')
+        debugger.print('Block 2.2')
         primary_container, secondary_container = __set_repo(primary_container, secondary_container, _repo)
-        # _debug_info('Block 2.3', func='check for change', debug=debug)
+        debugger.print('Block 2.3')
         refresh_path_map(primary_container, secondary_container)
         return check_for_change(primary_container, secondary_container, comp_container, run=1, **kwargs)
-    # else:
-        # _debug_info('Block 2.4', func='check for change', debug=debug)
-        # _debug_info('Block 2.5', func='check for change',
-        #             insert=primary_container.get('script_repo'), debug=debug)
+    else:
+        debugger.print('Block 2.4')
+        debugger.print('Block 2.5', primary_container.get('script_repo'))
 
     val_to_check = [f"{_repo}\\Scripts_Private\\Python\\PythonScripts\\script_tools",
                     f"{_repo}\\MayaPythonToolbox\\maya_scripts"]
@@ -141,18 +134,18 @@ def check_for_change(primary_container, secondary_container, comp_container, run
                      primary_container.get('script_repo').replace("\"", "")]
     # CFC BLOCK 3
     for value in val_to_check:
-        # _debug_info('Block 3.1', 'Block 3.2', func='check for change',
-        #             insert1=value, insert2=check_against, debug=debug)
+        debugger.print('Block 3.1', value)
+        debugger.print('Block 3.2', ', '.join(check_against))
         if value not in check_against:
-            # _debug_info('Block 3.3', func='check for change', insert=value, debug=debug)
-            refresh_path_map(primary_container, secondary_container, custom=False, debug=debug)
+            debugger.print('Block 3.3', value)
+            refresh_path_map(primary_container, secondary_container, custom=False)
             return True
 
-    # _debug_info('CFC End', func='check for change', debug=debug)
+    debugger.print('CFC End')
     return False
 
 
-def get_path_map(**kwargs):
+def get_path_map():
     """Returns the path map"""
     # Set the paths dictionary
     maya_version = "2024"
@@ -182,7 +175,7 @@ def get_path_map(**kwargs):
     wait = True
     run = 0
     while wait:
-        wait = check_for_change(rewrite_roots, parent_dirs, repos_on_comps, run, debug=kwargs.get('debug', False))
+        wait = check_for_change(rewrite_roots, parent_dirs, repos_on_comps, run)
         run = run + 1
     return paths
 

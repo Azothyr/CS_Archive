@@ -1,5 +1,8 @@
 {
-    "global_debug": true,
+    "config_globals": {
+        "global_debug": true,
+        "traceback_debug": true
+    },
     "module_debug": {
         "utils.platform_ops.platform_search_ops": true,
         "utils.file_ops.file_path_ops": true,

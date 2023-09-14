@@ -1,13 +1,15 @@
 import os
 import csv
 import json
-from handlers.debug_handler import get_debugger
+import importlib
+from importlib
 
-debugger = get_debugger()
+def get_debugger():
+    debug_handler = importlib.import_module('handlers.debug_handler')
+    return debug_handler.get_debugger(module_on=False)
 
 
 def _debug_info():
-    console_spacer = '>' * 5
     return {
         "write_to_file-0":
             "Start of file_basic_ops.py\ndestination:\n>>>>>{}\ncontent:\n>>>>>{}"
@@ -17,6 +19,7 @@ def _debug_info():
 
 
 def write_to_file(destination, content, file_type=None, *args, **kwargs):
+    debugger = get_debugger()
     debugger.print('write_to_file-0', destination, content, file_type, args, kwargs)
 
     if not file_type:
