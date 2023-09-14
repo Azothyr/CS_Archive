@@ -1,0 +1,92 @@
+{
+    "start": {
+        "default": ["", " "],
+        "expected_type": ["str", "str"],
+        "action": "lambda x, y, z=' ': ljust(x, y, z)",
+        "priority": 2
+    },
+    "end": {
+        "default": ["", " "],
+        "expected_type": ["str", "str"],
+        "action": "lambda x, y, z=' ': rjust(x, y, z)",
+        "priority": 2
+    },
+    "upper": {
+        "default": "",
+        "expected_type": "str",
+        "action": "lambda x: upper(x)",
+        "priority": 5
+    },
+    "lower": {
+        "default": "",
+        "expected_type": "str",
+        "action": "lambda x: lower(x)",
+        "priority": 4
+    },
+    "capitalize": {
+        "default": "",
+        "expected_type": "str",
+        "action": "lambda x: capitalize(x)",
+        "priority": 5
+    },
+    "wrap": {
+        "default": ["", ""],
+        "expected_type": ["str", "str"],
+        "action": "lambda x, y, z: wrap(x, (y, z))",
+        "priority": 3
+    },
+    "replace": {
+        "default": ["", "", ""],
+        "expected_type": ["str", "str", "str"],
+        "action": "lambda x, y, z: replace(x, y, z)",
+        "priority": 1
+    },
+    "remove": {
+        "default": ["", ""],
+        "expected_type": ["str", "str"],
+        "action": "lambda x, y: remove(x, y)",
+        "priority": 0
+    },
+    "count": {
+        "default": ["", ""],
+        "expected_type": ["str", "str"],
+        "action": "lambda x, y: count(x, y)",
+        "priority": 0
+    },
+    "split": {
+        "default": ["", ""],
+        "expected_type": ["str", "str"],
+        "action": "lambda x, y: split(x, y)",
+        "priority": 0
+    },
+    "join": {
+        "default": ["", ""],
+        "expected_type": ["list", "str"],
+        "action": "lambda x, y: join(x, y)",
+        "priority": 0
+    },
+    "strip": {
+        "default": ["", None],
+        "expected_type": ["str", "str"],
+        "action": "lambda x, y=None: strip(x, y)",
+        "priority": 0
+    },
+    "startswith": {
+        "default": ["", ""],
+        "expected_type": ["str", "str"],
+        "action": "lambda x, y: startswith(x, y)",
+        "priority": 0
+    },
+    "endswith": {
+        "default": ["", ""],
+        "expected_type": ["str", "str"],
+        "action": "lambda x, y: endswith(x, y)",
+        "priority": 0
+    },
+    "title": {
+        "default": "",
+        "expected_type": "str",
+        "action": "lambda x: title(x)",
+        "priority": 0
+    }
+}

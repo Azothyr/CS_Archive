@@ -70,28 +70,46 @@ class ConfigManager:
             json.dump(self.config, file, indent=4)
         self.config = self.load_config()
 
-    def set_debug_config(self, global_debug=None, module_name=None, module_debug_value=None, all_modules=None) -> None:
+    def set_debug_config(self, global_debug: bool = None, module_name: str = None,
+                         module_debug_value: bool = None, **kwargs) -> None:
         """
         Update debug configurations based on the provided parameters.
+
+        If Turn_all_on is specified, sets all modules to True.
+        If Turn_all_off is specified, sets all modules to False.
 
         If global_debug is specified, updates the global debug setting.
         If module_name and module_debug_value are specified, updates the debug setting for that module.
         """
+        # If all_modules is provided, set all modules to the provided value
+        if kwargs.get('all_modules', None) is not None:
+            global_debug = kwargs['all_modules']
+            self.config['module_debug'] = {k: global_debug for k in self.config['module_debug']}
+            self.config['global_debug'] = global_debug
+            self.save_config()
+            return
+
+        # Set the global debug value if provided
         if global_debug is not None:
             self.config['global_debug'] = global_debug
 
+        # If module name and debug value are not provided set that modules value in the config
         if module_name and module_debug_value is not None:
+            # If module provided is not in the config, add it
             if 'module_debug' not in self.config:
                 self.config['module_debug'] = {}
             self.config['module_debug'][module_name] = module_debug_value
 
+        # Update config json file
         self.save_config()
 
     def turn_all_on(self, all_modules=False) -> None:
-        self.set_debug_config(True, all_modules=all_modules)
+        """Turn on all debugging."""
+        self.set_debug_config(True, all_modules=True)
 
-    def turn_all_off(self, all_modules=False) -> None:
-        self.set_debug_config(False, all_modules=all_modules)
+    def turn_all_off(self) -> None:
+        """Turn off all debugging."""
+        self.set_debug_config(False, all_modules=False)
 
     def get_global_debug(self) -> bool:
         """Return the current global debug setting, defaulting to False if not set."""

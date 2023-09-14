@@ -1,6 +1,6 @@
 import pytest
 import os
-from config.file_path_library import PathLib
+from config.path_library_handler import PathLib
 
 
 @pytest.fixture
