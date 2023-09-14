@@ -1,16 +1,14 @@
 """
 Debugging and Command Handling Utilities
 
-This module provides utilities for:
-- Debugging: Using the `DebugHandler` class to print debug messages.
-- Defining a debugging behavior contract: Using the `DebugHandlerProtocol`.
-- (If you end up including `CmdHandler` in this file) Command Line Argument Parsing: Using `CmdHandler` to handle and parse command line arguments.
-"""
+This module provides utilities for: - Debugging: Using the `DebugHandler` class to print debug messages. - Defining a
+debugging behavior contract: Using the `DebugHandlerProtocol`. - (If you end up including `CmdHandler` in this file)
+Command Line Argument Parsing: Using `CmdHandler` to handle and parse command line arguments."""
 import sys
-import traceback
 from typing import Protocol
 from handlers.config_manager import ConfigManager
-from utils.stack_ops import get_caller_module
+from utils.stack_ops import get_caller_module, get_traceback_stack
+_debugger = None
 
 
 class DebugHandlerProtocol(Protocol):
@@ -53,6 +51,7 @@ class DebugHandler:
         self.module_name = module_name
         self.config_manager = config_manager or ConfigManager()
         self.debug = self._get_debug_status()
+        self.traceback = self._get_traceback_status()
 
     def __repr__(self) -> str:
         """Return a string representation of the DebugHandler's module name and config state from the ConfigManager."""
@@ -62,17 +61,16 @@ class DebugHandler:
         """Print the debug message for the provided key if debugging is enabled."""
         if not self.debug:
             return
-        show_location = kwargs.pop('show_location', False)
 
         debug_messages = self._get_debug_messages()
         message = debug_messages.get(debug_key, f"Debug key '{debug_key}' not found!")
         output = message.format(*args)
-        
-        if show_location:
-            # Get the last entry from the stack (which should be the caller)
-            stack=traceback.extract_stack()[-3]
+
+        if self.traceback:
+            # gets the stack of the method calling this method
+            stack = get_traceback_stack(offset=2, line_num=True, module=True, file=True, line=True)
             output = \
-                f"File \"{stack.filename}\", line {stack.lineno}, in {stack.name}\n    {output}"
+                f"File \"{stack['file']}\", line {stack['line_num']}, in {stack['line']} {stack['module']}\n    {output}"
 
         print(output)
 
@@ -84,30 +82,49 @@ class DebugHandler:
         return _module._debug_info()
 
     def _get_debug_status(self) -> bool:
-        """Check if debugging is globally enabled and if the current module should display debug messages."""
-        global_debug = self.config_manager.get_global_debug()
-        if not global_debug:
-            return False
-        return self.config_manager.get_module_debug(self.module_name)
+        return (
+                self.config_manager.get_global_debug() and self.config_manager.get_module_debug(self.module_name)) \
+            if self.config_manager.get_global_debug() else False
+
+    def _get_traceback_status(self) -> bool:
+        return self.config_manager.get_traceback()
 
 
-def get_debugger(module_on: bool | None = None,
-                 global_on: bool | None = None,
-                 _all: bool | None = None) -> DebugHandlerProtocol:
+def get_debugger(module=None, **kwargs) -> DebugHandler:
+    print(f'PASSED MODULE {module}')
+    module_t = get_caller_module()
+    exit()
+    if module is None:
+        raise ValueError("Module name must be provided to get_or_initialize_debugger.")
+    global _debugger
+    if _debugger is None:
+        _debugger = __get_debugger(module, **kwargs)
+    if _debugger.module_name != kwargs.get('module', None):
+        _debugger = __get_debugger(module, **kwargs)
+    return _debugger
+
+
+def __get_debugger(module: bool | None = None,
+                   module_val: bool | None = None,
+                   global_on: bool | None = None,
+                   trace_on: bool | None = None,
+                   _all: bool | None = None) -> DebugHandler:
     """_all can only be called by the main module."""
     def set_all(switch: bool):
         _debug_handler.config_manager.set_debug_config(all_modules=switch)
 
-    # Get the name of the module that called this function
-    module_name, from_main = get_caller_module()
-    # If the module is being run directly, return a DebugHandler with the given parameters.
-    if from_main:
-        _debug_handler = DebugHandler('__main__')
-        result = set_all(True) if _all and _all is True else set_all(True) if _all and _all is False else None
-    else:
-        _debug_handler = DebugHandler(module_name)
-    if result is None:
-        if module_on is not None or global_on is not None:
-            _debug_handler.config_manager.set_debug_config(module_debug_value=module_on, global_debug=global_on)
-    return _debug_handler
+    _debug_handler = DebugHandler(module)
 
+    # If the module is being run directly, return a DebugHandler with the given parameters.
+    result = None
+    if module == '__main__':
+        result = set_all(True) if _all and _all is True else set_all(True) if _all and _all is False else None
+    if result is None:
+        if module_val is not None or global_on is not None:
+            _debug_handler.config_manager.set_debug_config(module_debug_value=module_val, global_debug=global_on)
+
+    # turn on traceback for terminal
+    if trace_on is not None:
+        _debug_handler.config_manager.set_config_globals(traceback=trace_on)
+
+    return _debug_handler

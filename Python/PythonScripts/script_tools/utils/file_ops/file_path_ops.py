@@ -1,39 +1,32 @@
 import os
-import importlib
 from config.path_library_handler import PathLib
-
-
-def get_debugger():
-    debug_handler = importlib.import_module('handlers.debug_handler')
-    return debug_handler.DebugHandler(__name__)
+from handlers.debug_handler import get_or_initialize_debugger
 
 
 def _debug_info():
-    console_spacer = '>' * 5
     return {
-        "write_to_file-0":
-            "Start of file_basic_ops.py\ndestination:\n>>>>>{}\ncontent:\n>>>>>{}"
-            "\nfile_type:\n>>>>>{}\nargs:\n>>>>>{!r}\nkwargs:\n>>>>>{!r}",
-        "write_to_file-1": "No file_type provided, using file extension: {}",
+        "": "",
     }
 
 
-def print_files_at_location(path):
+def get_top_down_filedir(path, **kwargs) -> list:
     """
     Prints all the files located at the specified path and its subdirectories.
         Args:
         - path (str): The path to inspect.
     """
+    debugger = debugger.get_or_initialize_debugger()
+    result = []
     for root, dirs, files in os.walk(path, topdown=False):
         path_to_files = os.path.join(root)
         seperator = '|' + ('-' * (len(path_to_files)-2)) + '>'
-        print("\n", path_to_files)
+        result.append(path_to_files)
         for name in files:
-            print(seperator, os.path.join(name))
-        print(end='\n')
+            result.append(seperator + os.path.join(name))
+    return result
 
 
-def clear_directory(path):
+def clear_directory(path) -> None:
     """
     Remove all files and subdirectories from a directory.
         Args:
@@ -46,7 +39,7 @@ def clear_directory(path):
             os.rmdir(os.path.join(root, name))
 
 
-def get_file_path_from_lib(**kwargs):
+def get_file_path_from_lib(**kwargs) -> str or tuple:
     """
     Returns the path to a Windows folder using a specified library.
         Args:
@@ -62,7 +55,7 @@ def get_file_path_from_lib(**kwargs):
         raise OverflowError("Get file path from library stuck in loop")
 
     # Getting the library
-    library = kwargs.get('library', PathLib(debug=kwargs.get('debug', False)))
+    library = kwargs.get('library', PathLib())
 
     options = library.get_lib()
     values = []

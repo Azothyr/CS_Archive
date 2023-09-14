@@ -67,7 +67,7 @@ class TerminalColors:
         'yellow': 43,
         'blue': 44,
         'magenta': 45,
-        'cya': 46,
+        'cyan': 46,
         'white': 47,
     }
     # text style
@@ -128,14 +128,11 @@ class TerminalHandler(TerminalColors):
         super().__init__()
         self.styler = self._create_ansi_modifier(**kwargs)
 
-    def print(self, message):
-        print(f"{self.styler}{message}{self.text_reset}")
+    def print(self, message) -> None: print(f"{self.styler}{message}{self.text_reset}")
 
-    def wrap(self, message):
-        return f"{self.styler}{message}{self.text_reset}"
+    def wrap(self, message) -> str: return f"{self.styler}{message}{self.text_reset}"
 
-    def change_style(self, **kwargs):
-        self.styler = self._create_ansi_modifier(**kwargs)
+    def change_style(self, **kwargs) -> None: self.styler = self._create_ansi_modifier(**kwargs)
 
 
 if __name__ == '__main__':

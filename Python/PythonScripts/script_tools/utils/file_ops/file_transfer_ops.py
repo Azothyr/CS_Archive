@@ -1,9 +1,17 @@
 import os
 import shutil
-import importlib
+from handlers.debug_handler import get_or_initialize_debugger as get_debugger
+
+debugger = get_debugger(module=__name__)
 
 
-def transfer_py_dir_in_current(source, destination, file_exceptions):
+def _debug_info():
+    return {
+        "output": "{}",
+    }
+
+
+def transfer_py_dir_in_current(source, destination, file_exceptions) -> None:
     """
     Transfer .py files from a source directory to a destination directory,
     excluding specified exceptions.
@@ -12,7 +20,7 @@ def transfer_py_dir_in_current(source, destination, file_exceptions):
         - destination (str): The destination directory path.
         - file_exceptions (list): A list of filenames to exclude.
     """
-    from .file_path_ops import clear_directory, print_files_at_location
+    from .file_path_ops import clear_directory, get_top_down_filedir
     try:
         os.makedirs(destination, exist_ok=True)
         clear_directory(destination)
@@ -31,4 +39,4 @@ def transfer_py_dir_in_current(source, destination, file_exceptions):
     except PermissionError:
         print(f"Insufficient permissions to add folder to '{destination}'.\nPlease run file as admin...")
     finally:
-        print_files_at_location(destination)
+        debugger.print('output', "\n".join(get_top_down_filedir(destination)))
