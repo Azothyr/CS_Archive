@@ -1,6 +1,6 @@
 import os
 import importlib
-from config.file_path_library import PathLib
+from config.path_library_handler import PathLib
 
 
 def get_debugger():

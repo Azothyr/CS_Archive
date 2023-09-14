@@ -7,9 +7,10 @@ This module provides utilities for:
 - (If you end up including `CmdHandler` in this file) Command Line Argument Parsing: Using `CmdHandler` to handle and parse command line arguments.
 """
 import sys
-import importlib
+import traceback
 from typing import Protocol
 from handlers.config_manager import ConfigManager
+from utils.stack_ops import get_caller_module
 
 
 class DebugHandlerProtocol(Protocol):
@@ -28,7 +29,8 @@ class DebugHandlerProtocol(Protocol):
     config_manager: ConfigManager
     debug: bool
 
-    def print(self, debug_key: str, *args: str, wrap: str = None, start: str = None, end: str = None, replace: str = None,
+    def print(self, debug_key: str, *args: str, wrap: str = None, start: str = None, end: str = None,
+              replace: str = None,
               upper: bool = False, lower: bool = False, capitalize: bool = False) -> None: ...
 
 
@@ -46,6 +48,7 @@ class DebugHandler:
 
     REQUIRES _debug_info() function in module that returns a dictionary of debug keys and messages.
     """
+
     def __init__(self, module_name, config_manager=None):
         self.module_name = module_name
         self.config_manager = config_manager or ConfigManager()
@@ -55,30 +58,23 @@ class DebugHandler:
         """Return a string representation of the DebugHandler's module name and config state from the ConfigManager."""
         return f"DebugHandler({self.module_name}, {self.config_manager})"
 
-    def print(self, debug_key, *args, wrap=None, start=None, end=None, replace=None,
-              upper=False, lower=False, capitalize=False) -> None:
+    def print(self, debug_key, *args, **kwargs) -> None:
         """Print the debug message for the provided key if debugging is enabled."""
         if not self.debug:
             return
+        show_location = kwargs.pop('show_location', False)
 
         debug_messages = self._get_debug_messages()
         message = debug_messages.get(debug_key, f"Debug key '{debug_key}' not found!")
-        formatted_message = message.format(*args)
-        if start:
-            formatted_message = start + formatted_message
-        if end:
-            formatted_message = formatted_message + end
-        if upper:
-            formatted_message = formatted_message.upper()
-        if lower:
-            formatted_message = formatted_message.lower()
-        if capitalize:
-            formatted_message = formatted_message.capitalize()
-        if wrap:
-            formatted_message = f"{wrap} {formatted_message} {wrap}"
-        if replace:
-            formatted_message = replace.format(formatted_message)
-        print(formatted_message)
+        output = message.format(*args)
+        
+        if show_location:
+            # Get the last entry from the stack (which should be the caller)
+            stack=traceback.extract_stack()[-3]
+            output = \
+                f"File \"{stack.filename}\", line {stack.lineno}, in {stack.name}\n    {output}"
+
+        print(output)
 
     def _get_debug_messages(self) -> dict:
         """Retrieve debug messages from the module's _debug_info function."""
@@ -95,17 +91,23 @@ class DebugHandler:
         return self.config_manager.get_module_debug(self.module_name)
 
 
-def get_debugger(on=False, _all=False, *args, **kwargs) -> DebugHandlerProtocol:
-    _debug_handler = importlib.import_module('handlers.debug_handler')
-    if on:
-        _debug_handler.config_manager.set_debug_config(global_debug=True)
+def get_debugger(module_on: bool | None = None,
+                 global_on: bool | None = None,
+                 _all: bool | None = None) -> DebugHandlerProtocol:
+    """_all can only be called by the main module."""
+    def set_all(switch: bool):
+        _debug_handler.config_manager.set_debug_config(all_modules=switch)
+
+    # Get the name of the module that called this function
+    module_name, from_main = get_caller_module()
+    # If the module is being run directly, return a DebugHandler with the given parameters.
+    if from_main:
+        _debug_handler = DebugHandler('__main__')
+        result = set_all(True) if _all and _all is True else set_all(True) if _all and _all is False else None
     else:
-        _debug_handler.config_manager.set_debug_config(global_debug=False)
-    # _debug_handler.config_manager.update_debug_config(module_name='utils.file_ops.file_basic_ops',
-    #                                             module_debug_value=True)
-    # _debug_handler.config_manager.set_debug_config(global_debug=True)
-    # _debug_handler.config_manager.turn_on_debug(all_modules=True)
-    # _debug_handler.config_manager.turn_off_debug(all_modules=True)
-    # _debug_handler.print('main-0.0')
-    # print(f'--GLOBAL DEBUG--\t>>{_debug_handler.config_manager.get_global_debug()}')
-    return _debug_handler.DebugHandler(__name__)
+        _debug_handler = DebugHandler(module_name)
+    if result is None:
+        if module_on is not None or global_on is not None:
+            _debug_handler.config_manager.set_debug_config(module_debug_value=module_on, global_debug=global_on)
+    return _debug_handler
+

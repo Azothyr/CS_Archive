@@ -5,84 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ffa691a-61dc-4ee4-a5b5-5fc95b41b7fe" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/PythonScripts/script_tools/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/analytics/Window.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/analytics/Window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/api/OpenMaya.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/api/OpenMaya.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/api/OpenMayaAnim.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/api/OpenMayaAnim.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/api/OpenMayaRender.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/api/OpenMayaRender.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/api/OpenMayaUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/api/OpenMayaUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/edl/fcp.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/edl/fcp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/evaluationToolkit/evaluationToolkit.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/evaluationToolkit/evaluationToolkit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/general/greasePencilInterop.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/general/greasePencilInterop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/general/nodeEditorBookmarks.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/general/nodeEditorBookmarks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/prefs/OptionVar.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/prefs/OptionVar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/quickRig/quickRigUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/quickRig/quickRigUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/renderSetup/model/applyOverride.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/renderSetup/model/applyOverride.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/renderSetup/model/nodeList.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/renderSetup/model/nodeList.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/renderSetup/model/progressObservable.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/renderSetup/model/progressObservable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/renderSetup/model/renderSetup.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/renderSetup/model/renderSetup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/renderSetup/model/selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/app/renderSetup/model/selector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/debug/current_debug_capabilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/debug/current_debug_capabilities.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/plugin/evaluator/CacheUiToolkit.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/plugin/evaluator/CacheUiToolkit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/maya/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/core/animation.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/core/animation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/core/general.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/core/general.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/core/modeling.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/core/modeling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/core/windows.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/core/windows.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/internal/apicache.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/internal/apicache.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/internal/factories.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/internal/factories.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/internal/plogging.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/internal/plogging.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/internal/pmcmds.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/internal/pmcmds.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/internal/pwarnings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/internal/pwarnings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/tools/py2mel.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/tools/py2mel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/util/path.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/util/path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/util/utilitytypes.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/Maya_DevKit/completion/py/pymel/util/utilitytypes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/info/arg_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/info/arg_lib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/maya_scripts_inserter.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/maya_scripts_inserter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/tools/center_locator.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/tools/center_locator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/tools/mirror_cmds.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/tools/mirror_cmds.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/tools/modify_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/tools/history_cmds.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/ui/joint_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/ui/joint_ui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/ui/main_win_tab.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/ui/main_win_tab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/ui/utilities_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/ui/utilities_ui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/utilities/arg_map_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/utilities/arg_map_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/utilities/cmds_class_builder.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/utilities/cmds_class_builder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/utilities/maya_setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../MayaPythonToolbox/maya_scripts/utilities/maya_setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Python_Private.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Python_Private.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Assignments/DictionaryExcercises.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Assignments/DictionaryExcercises.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Assignments/FunctionExcercises.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Assignments/FunctionExcercises.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Assignments/TupleExercises.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Assignments/TupleExercises.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects/clinton_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects/clinton_project.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects/dictionary_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects/dictionary_project.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects/random_walk_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects/random_walk_project.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects/run_turtlepattern2.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects/run_turtlepattern2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects/turtle_patterns_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects/turtle_patterns_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/PythonGame/bar_widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/PythonGame/bar_widget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/dessertshop.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/dessertshop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/test_candy.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/test_candy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/test_cookie.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/test_cookie.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/test_dessert.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/test_dessert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/test_icecream.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/test_icecream.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/test_sundae.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/test_sundae.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS2420_Summer2023/Projects/BenchmarkSorting.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS2420_Summer2023/Projects/BenchmarkSorting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS2420_Summer2023/Projects/Project6_BST/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS2420_Summer2023/Projects/Project6_BST/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/CS2420_Summer2023/Projects/Project7_HashTable/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/CS2420_Summer2023/Projects/Project7_HashTable/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/components/debug_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/handlers/debug_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/cus_funcs/WinDirectoryCopyFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/functions/WinDirectoryCopyFile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/cus_funcs/assignment_filler_school.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/functions/assignment_filler_school.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/cus_funcs/file_tools.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/cus_funcs/format_tool.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/functions/format_tool.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/cus_funcs/get_user_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/functions/get_user_input.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/cus_funcs/list_maker.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/functions/list_maker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/cus_funcs/math_funcs.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/functions/math_funcs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/components/custom_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/components/custom_exception.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/components/json_manager_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/components/json_manager_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/config/file_path_library.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/config/path_library_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/config/path_map.json" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/config/cache/path_library.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/config/path_map.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/config/path_map.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/custom_tool_inserter.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/custom_tool_inserter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/info/config.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/info/file_path_library.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/config/file_path_library.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/info/path_map.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/config/path_map.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/tests/math_func_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/tests/math_functions_tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/handlers/config_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/handlers/config_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/handlers/debug_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/handlers/debug_handler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/tests/path_lib_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/tests/path_lib_tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/utils/cmd_handler.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/utils/map_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/handlers/map_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/utils/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/utils/file_ops/file_basic_ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/utils/file_ops/file_basic_ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/utils/file_ops/file_path_ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/utils/file_ops/file_path_ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonScripts/script_tools/utils/format_ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonScripts/script_tools/utils/format_ops/dict_ops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/project_best_practices.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/project_best_practices.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +78,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.folding",
+    "settings.editor.selected.configurable": "editor.preferences.tabs",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -159,14 +98,14 @@
       <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\functions" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\config\cache" />
+      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\utils\format_ops" />
       <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools" />
       <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\config" />
       <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\handlers" />
-      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\script_tools\components\docs" />
-      <recent name="C:\GitRepos\Scripts_Private\Python\PythonScripts\personal_projects\functions" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Update Sys Scripts">
+  <component name="RunManager">
     <configuration name="Run Maya" type="MAYACHARM_RUN_CONFIGURATION" factoryName="MAYACHARM_RUN_CONFIGURATION">
       <option name="executionType" value="FILE" />
       <option name="mayaSdkPath" value="C:\Program Files\Autodesk\Maya2024\bin\mayapy.exe" />
@@ -351,6 +290,7 @@
       <workItem from="1694486498466" duration="509000" />
       <workItem from="1694487018023" duration="11856000" />
       <workItem from="1694556286418" duration="27674000" />
+      <workItem from="1694648117432" duration="27372000" />
     </task>
     <servers />
   </component>
@@ -415,7 +355,8 @@
     <SUITE FILE_PATH="coverage/Python$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1694577428273" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/utils/file_ops" />
     <SUITE FILE_PATH="coverage/turtle_patterns_1_py$turtle_patterns_2.coverage" NAME="turtle_patterns_2 Coverage Results" MODIFIED="1677972892450" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects" />
     <SUITE FILE_PATH="coverage/BenchmarkSorting_py$BenchmarkAlg.coverage" NAME="BenchmarkAlg Coverage Results" MODIFIED="1684538381029" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS2420_Summer2023/Projects" />
-    <SUITE FILE_PATH="coverage/Python$Update_Sys_Scripts.coverage" NAME="Update Sys Scripts Coverage Results" MODIFIED="1694586338934" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\GitRepos\Scripts_Private\Python\PythonScripts" />
+    <SUITE FILE_PATH="coverage/Python$Update_Sys_Scripts.coverage" NAME="Update Sys Scripts Coverage Results" MODIFIED="1694670929037" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\GitRepos\Scripts_Private\Python\PythonScripts" />
+    <SUITE FILE_PATH="coverage/Python$str_ops.coverage" NAME="str_ops Coverage Results" MODIFIED="1694671506350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/utils/format_ops" />
     <SUITE FILE_PATH="coverage/game_main_py$game_main.coverage" NAME="game main Coverage Results" MODIFIED="1687391584101" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects/PythonGame" />
     <SUITE FILE_PATH="coverage/AdvancedTopics_py$5AdvancedTopics.coverage" NAME="5AdvancedTopics Coverage Results" MODIFIED="1685218596092" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Assignments" />
     <SUITE FILE_PATH="coverage/test_candy_py$custom_scripts_inserter.coverage" NAME="custom_scripts_inserter Coverage Results" MODIFIED="1692205346252" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../MayaPythonToolbox/ScriptsInMaya" />
@@ -428,6 +369,7 @@
     <SUITE FILE_PATH="coverage/test_candy_py$desserts.coverage" NAME="desserts Coverage Results" MODIFIED="1685590765068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects" />
     <SUITE FILE_PATH="coverage/Mutability_py$IntroToObjects.coverage" NAME="IntroToObjects Coverage Results" MODIFIED="1683925283778" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Assignments" />
     <SUITE FILE_PATH="coverage/test_candy_py$receipt.coverage" NAME="receipt Coverage Results" MODIFIED="1685593654401" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects" />
+    <SUITE FILE_PATH="coverage/Python$path_library_handler.coverage" NAME="path_library_handler Coverage Results" MODIFIED="1694670383546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/config" />
     <SUITE FILE_PATH="coverage/calculator_py$custom_scripts_inserter.coverage" NAME="custom_scripts_inserter Coverage Results" MODIFIED="1693365769582" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../MayaPythonToolbox/ScriptsInMaya" />
     <SUITE FILE_PATH="coverage/turtle_patterns_1_py$turtle_patterns_1.coverage" NAME="turtle_patterns_1 Coverage Results" MODIFIED="1677901234443" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects" />
     <SUITE FILE_PATH="coverage/WinDirectoryCopyFile_py$random_walk_project.coverage" NAME="random_walk_project Coverage Results" MODIFIED="1681511688928" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1400_Spring2023/Projects" />
@@ -440,6 +382,8 @@
     <SUITE FILE_PATH="coverage/IntroToObjects_py$IntroToObjects.coverage" NAME="IntroToObjects Coverage Results" MODIFIED="1684556425883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Assignments" />
     <SUITE FILE_PATH="coverage/dessertshop_py$payable.coverage" NAME="payable Coverage Results" MODIFIED="1685835635908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/CS1410_Summer2023/Projects" />
     <SUITE FILE_PATH="coverage/Python$path_map.coverage" NAME="path_map Coverage Results" MODIFIED="1694565259930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/info" />
+    <SUITE FILE_PATH="coverage/Python$terminal_handler.coverage" NAME="terminal_handler Coverage Results" MODIFIED="1694665928317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/handlers" />
+    <SUITE FILE_PATH="coverage/Python$custom_exception.coverage" NAME="custom_exception Coverage Results" MODIFIED="1694666114642" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/components" />
     <SUITE FILE_PATH="coverage/calculator_py$Update_Sys_Scripts.coverage" NAME="Update Sys Scripts Coverage Results" MODIFIED="1693377132349" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:\GitRepos\Scripts_Private\Python\PythonScripts\personal_projects" />
     <SUITE FILE_PATH="coverage/calculator_py$maya_scripts_inserter.coverage" NAME="maya_scripts_inserter Coverage Results" MODIFIED="1693375216221" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../MayaPythonToolbox/ScriptsInMaya" />
     <SUITE FILE_PATH="coverage/Python$cmd_handler.coverage" NAME="cmd_handler Coverage Results" MODIFIED="1694580376906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/PythonScripts/script_tools/handlers" />

@@ -1,8 +1,7 @@
 {
     "global_debug": true,
     "module_debug": {
-        "__main__": true,
-        "utils.platform_ops.platform_search_ops": false,
+        "utils.platform_ops.platform_search_ops": true,
         "utils.file_ops.file_path_ops": true,
         "utils.file_ops.file_basic_ops": true
     }
