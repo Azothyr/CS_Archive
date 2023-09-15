@@ -1,8 +1,8 @@
 import json
-from utils.file_ops.file_search_ops import path_exists as exists
-from utils.file_ops.file_basic_ops import write_to_file as write
-from utils.file_ops.file_basic_ops import read_file as load
-from utils.file_ops.file_search_ops import get_last_modified_time as last_modified
+from ..utils.file_ops.file_search_ops import path_exists as exists
+from ..utils.file_ops.file_basic_ops import write_to_file as write
+from ..utils.file_ops.file_basic_ops import read_file as load
+from ..utils.file_ops.file_search_ops import get_last_modified_time as last_modified
 
 
 class JsonManagerBase:

@@ -22,10 +22,11 @@ Note:
     The default configuration file is `config.json`, but this can be changed by
     providing a different path during initialization.
 """
+# DO NOT IMPORT FROM SCRIPT TOOLS
 import json
-from handlers.terminal_handler import TerminalHandler
-from utils.file_ops.file_basic_ops import write_to_file as write
-from utils.file_ops.file_search_ops import get_last_modified_time as last_modified
+import os
+from datetime import datetime
+from .terminal_handler import TerminalHandler
 
 
 class ConfigManager:
@@ -51,7 +52,7 @@ class ConfigManager:
         """Initialize ConfigManager with a default or provided path to the config JSON file."""
         self.config_path = config_path
         self.config = self.load_config()
-        self.config_last_modified = last_modified(self.config_path)
+        self.config_last_modified = self.__get_last_modified_time(self.config_path)
 
     def __repr__(self) -> str:
         global_opts = '{\n' + "\n".join([f'\t{k}, {v}' for k, v in self.config['config_globals'].items()]) + "\n}"
@@ -137,4 +138,10 @@ class ConfigManager:
     def get_traceback(self) -> bool: return self.config.get('config_globals', {}).get('traceback_debug', False)
 
     def get_module_debug(self, module_name) -> bool: return self.config.get('module_debug', {}).get(module_name, False)
+
+    @staticmethod
+    def __get_last_modified_time(file_path):
+        """Return the last modified time of the configuration file."""
+        timestamp = os.path.getmtime(file_path)
+        return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
 

@@ -1,12 +1,8 @@
 import os
 import csv
 import json
-import importlib
-from importlib
-
-def get_debugger():
-    debug_handler = importlib.import_module('handlers.debug_handler')
-    return debug_handler.get_debugger(module_on=False)
+from script_tools.handlers.debug_handler import get_debugger
+debugger = get_debugger(__name__)
 
 
 def _debug_info():
@@ -19,7 +15,6 @@ def _debug_info():
 
 
 def write_to_file(destination, content, file_type=None, *args, **kwargs):
-    debugger = get_debugger()
     debugger.print('write_to_file-0', destination, content, file_type, args, kwargs)
 
     if not file_type:

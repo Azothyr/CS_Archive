@@ -1,5 +1,5 @@
-from utils.format_ops import dict_ops as dict_formatter
-from handlers.map_handler import get_path_map
+from script_tools.utils.format_ops import dict_ops as dict_formatter
+from script_tools.handlers.map_handler import get_path_map
 
 
 class PathLib:

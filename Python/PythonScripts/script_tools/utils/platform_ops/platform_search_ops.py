@@ -1,7 +1,6 @@
 import platform
-from . import get_or_initialize_debugger as get_debugger
-
-debugger = get_debugger(module=__name__)
+from script_tools.handlers.debug_handler import get_debugger
+debugger = get_debugger(__name__)
 
 
 def _debug_info():

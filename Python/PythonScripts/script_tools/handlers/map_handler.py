@@ -1,10 +1,9 @@
 import os
-from config.path_map import paths
-from utils.file_ops.file_basic_ops import write_to_file as write
-from utils.format_ops import dict_ops as formatter
-from handlers.debug_handler import get_or_initialize_debugger as get_debugger
-
-debugger = get_debugger(module=__name__)
+from script_tools.config.path_map import paths
+from script_tools.utils.file_ops.file_basic_ops import write_to_file as write
+from script_tools.utils.format_ops import dict_ops as formatter
+from script_tools.handlers.debug_handler import get_debugger as get_debugger
+debugger = get_debugger(__name__)
 
 
 def _debug_info():

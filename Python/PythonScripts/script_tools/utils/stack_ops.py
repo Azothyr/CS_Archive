@@ -1,37 +1,39 @@
 import inspect
 import traceback
+from types import ModuleType
 from typing import Tuple
-from .
+# DO NOT IMPORT CONFIG OR DEBUG HANDLER HERE
 
 
-def _debug_info():
-    return {
-        "get_caller-1": "The caller is '{}'",
-        "get_caller_module-1": "The caller module is '{}'",
-        "get_traceback_stack-1": "The stack is '{}'",
-        "stack_check": "The stack is '{}'",
-    }
-
-
-def _stack_check(**kwargs) -> None:
+def _stack_check(**kwargs) -> str:
     """
     Checks if the given stack is correct.
-        Args:
-        - **kwargs: Arbitrary keyword arguments which may include 'stack' and 'debug'.
-        Raises:
-        - ValueError: If the stack is not correct.
+    ...
     """
-    offset = -2
+    print_in_betweens = kwargs.get('print_in_betweens', False)
+    offset = 0
+    module_count = 0
     result = []
+    result.append('-----TOP OF THE STACK-----')
     try:
         while True:
-            result.append(f'STACK {offset}: {get_caller_module(offset=offset)}')
+            _module = inspect.getmodule(inspect.stack()[0+offset][0])
+            if _module:
+                if _module.__name__ == '__main__':
+                    main_mod = _module.__file__.split('\\')[-1].split('.')[0]
+                    result.append(f'{module_count} -> STACK {offset}: <module \'{_module.__name__}\' from \'{main_mod}\'>')
+                else:
+                    result.append(f'{module_count} -> STACK {offset}: \'{_module.__name__}\'')
+                module_count += 1
+            elif print_in_betweens:
+                # (e.g., built-ins, lambdas, interactive session)'
+                result.append(f'STACK {offset}: Not associated with a specific module')
             offset += 1
-    except ValueError:
-        last = f"LAST STACK {offset}"
+    except IndexError:
+        last = f"-----LAST STACK: {offset-1}-----"
         result.append(last)
         result = '\n'.join(result[::-1])
-        raise ValueError(result)
+        return result
 
 
 def __get_caller(**kwargs) -> str:
@@ -49,7 +51,7 @@ def __get_caller(**kwargs) -> str:
     return caller
 
 
-def get_caller_module(**kwargs) -> Tuple[str, bool]:
+def get_caller_module(**kwargs) -> str | ModuleType | None:
     """
     Get the module that called this function (the caller) or the module that called + provided offset
 
