@@ -4,10 +4,12 @@ Debugging and Command Handling Utilities
 This module provides utilities for: - Debugging: Using the `DebugHandler` class to print debug messages. - Defining a
 debugging behavior contract: Using the `DebugHandlerProtocol`. - (If you end up including `CmdHandler` in this file)
 Command Line Argument Parsing: Using `CmdHandler` to handle and parse command line arguments."""
+# DO NOT IMPORT FROM SCRIPT TOOLS
 import sys
 from typing import Protocol
-from handlers.config_manager import ConfigManager
-from utils.stack_ops import get_caller_module, get_traceback_stack
+from .config_manager import ConfigManager
+from script_tools.utils.stack_ops import get_caller_module, get_traceback_stack, _stack_check
+
 _debugger = None
 
 
@@ -91,34 +93,44 @@ class DebugHandler:
 
 
 def get_debugger(module=None, **kwargs) -> DebugHandler:
-    print(f'PASSED MODULE {module}')
-    module_t = get_caller_module()
-    exit()
+    # print(f'\nPASSED MODULE {module.upper()}')
+    module_check = get_caller_module(offset=2)
+    # print(f'GOT MODULE {module_check.upper()}')
+    if module != module_check:
+        if module != '__main__':
+            # print(_stack_check())
+            print(f"WARNING: Module name '{module}' does not match caller module '{module_check}'.")
+        else:
+            print(f"WARNING: {module} shows as '{module_check}'.")
     if module is None:
         raise ValueError("Module name must be provided to get_or_initialize_debugger.")
     global _debugger
     if _debugger is None:
-        _debugger = __get_debugger(module, **kwargs)
+        _debugger = __setup_debugger(module, **kwargs)
     if _debugger.module_name != kwargs.get('module', None):
-        _debugger = __get_debugger(module, **kwargs)
+        _debugger = __setup_debugger(module, **kwargs)
     return _debugger
 
 
-def __get_debugger(module: bool | None = None,
-                   module_val: bool | None = None,
-                   global_on: bool | None = None,
-                   trace_on: bool | None = None,
-                   _all: bool | None = None) -> DebugHandler:
+def __setup_debugger(module: bool | None = None,
+                     module_val: bool | None = None,
+                     global_on: bool | None = None,
+                     trace_on: bool | None = None,
+                     _all: bool | None = None) -> DebugHandler:
     """_all can only be called by the main module."""
+
     def set_all(switch: bool):
         _debug_handler.config_manager.set_debug_config(all_modules=switch)
 
     _debug_handler = DebugHandler(module)
 
+
     # If the module is being run directly, return a DebugHandler with the given parameters.
     result = None
+    # If passed module is the main, set all modules to the given value if _all is True, otherwise set the given module.
     if module == '__main__':
         result = set_all(True) if _all and _all is True else set_all(True) if _all and _all is False else None
+    # If passed module is not the main, set the given module to the given value.
     if result is None:
         if module_val is not None or global_on is not None:
             _debug_handler.config_manager.set_debug_config(module_debug_value=module_val, global_debug=global_on)

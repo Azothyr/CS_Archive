@@ -1,6 +1,13 @@
 import os
-import importlib
 from datetime import datetime
+from script_tools.handlers.debug_handler import get_debugger
+debugger = get_debugger(__name__)
+
+
+def _debug_info():
+    return {
+
+    }
 
 
 def path_exists(file_path):

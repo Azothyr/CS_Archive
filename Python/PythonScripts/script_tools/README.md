@@ -8,11 +8,11 @@ The `script_tools` project houses a collection of scripts, components, utilities
 
 - **`components/`**: Houses reusable components. These components can be integrated across various parts of the application, providing specific functionalities or UI elements.
   
+- **`config/`**: Dedicated to providing meta-information, configurations, or utilities that don't directly influence application logic but support its operations. For example, the `file_path_library` module provides paths based on keys.
+
 - **`functions/`**: Contains standalone functions that execute specific tasks. This is useful when a specific piece of logic doesn't necessarily belong inside a class or handler.
   
 - **`handlers/`**: This directory consists of handler classes or functions that manage or orchestrate broader functionalities or flow of operations within the application.
-
-- **`info/`**: Dedicated to providing meta-information, configurations, or utilities that don't directly influence application logic but support its operations. For example, the `file_path_library` module provides paths based on keys.
 
 - **`tests/`**: Contains tests that validate the functionality and reliability of our application. This spans from unit tests to integration tests.
 

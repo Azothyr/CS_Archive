@@ -1,5 +1,5 @@
 import pytest
-from functions.math_funcs import calculate_geometric_progression as calc_geo_progress
+from ..functions.math_funcs import calculate_geometric_progression as calc_geo_progress
 
 
 @pytest.mark.parametrize(

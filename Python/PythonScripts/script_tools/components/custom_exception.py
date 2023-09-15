@@ -1,5 +1,5 @@
 from typing import Protocol
-from handlers.terminal_handler import TerminalHandler
+from ..handlers.terminal_handler import TerminalHandler
 
 
 class CustomExceptionProtocol(Protocol):

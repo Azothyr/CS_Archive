@@ -1,6 +1,7 @@
 import os
-from config.path_library_handler import PathLib
-from handlers.debug_handler import get_or_initialize_debugger
+from script_tools.config.path_library_handler import PathLib
+from script_tools.handlers.debug_handler import get_debugger as get_debugger
+debugger = get_debugger(__name__)
 
 
 def _debug_info():
@@ -15,7 +16,6 @@ def get_top_down_filedir(path, **kwargs) -> list:
         Args:
         - path (str): The path to inspect.
     """
-    debugger = debugger.get_or_initialize_debugger()
     result = []
     for root, dirs, files in os.walk(path, topdown=False):
         path_to_files = os.path.join(root)
