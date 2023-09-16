@@ -6,6 +6,10 @@
     "module_debug": {
         "utils.platform_ops.platform_search_ops": true,
         "utils.file_ops.file_path_ops": true,
-        "utils.file_ops.file_basic_ops": true
+        "utils.file_ops.file_basic_ops": true,
+        "script_tools.utils.file_ops.file_basic_ops": true,
+        "script_tools.handlers.map_handler": true,
+        "utils.file_ops.file_transfer_ops": true,
+        "__main__": true
     }
 }
