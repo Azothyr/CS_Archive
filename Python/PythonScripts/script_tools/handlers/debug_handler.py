@@ -93,6 +93,9 @@ class DebugHandler:
 
 
 def get_debugger(module=None, **kwargs) -> DebugHandler:
+    """
+    Get a DebugHandler for the given module. If a DebugHandler for the given module does not exist, create one.
+    """
     # print(f'\nPASSED MODULE {module.upper()}')
     module_check = get_caller_module(offset=2)
     # print(f'GOT MODULE {module_check.upper()}')
@@ -117,13 +120,16 @@ def __setup_debugger(module: bool | None = None,
                      global_on: bool | None = None,
                      trace_on: bool | None = None,
                      _all: bool | None = None) -> DebugHandler:
-    """_all can only be called by the main module."""
+    """"""
 
     def set_all(switch: bool):
         _debug_handler.config_manager.set_debug_config(all_modules=switch)
 
     _debug_handler = DebugHandler(module)
-
+    if _debug_handler.config_manager.get_module_debug(module) is False:
+        global_val = global_on if global_on is not None else _debug_handler.config_manager.get_global_debug()
+        debug_val = module_val if module_val is not None else global_val
+        _debug_handler.config_manager.set_debug_config(module_name=module, module_debug_value=debug_val)
 
     # If the module is being run directly, return a DebugHandler with the given parameters.
     result = None

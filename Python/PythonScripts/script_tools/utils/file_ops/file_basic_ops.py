@@ -10,7 +10,7 @@ def _debug_info():
         "write_to_file-0":
             "Start of file_basic_ops.py\ndestination:\n>>>>>{}\ncontent:\n>>>>>{}"
             "\nfile_type:\n>>>>>{}\nargs:\n>>>>>{!r}\nkwargs:\n>>>>>{!r}",
-        "write_to_file-1": "No file_type provided, using file extension: {}",
+        "write_to_file-1": "No file_type provided, using file extension-->{}",
     }
 
 

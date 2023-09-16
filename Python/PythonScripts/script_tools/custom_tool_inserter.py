@@ -13,7 +13,7 @@ from utils.platform_ops import platform_search_ops as platform_search
 from utils.file_ops.file_path_ops import get_file_path_from_lib as get_path
 from utils.file_ops.file_transfer_ops import transfer_py_dir_in_current as transfer_py_dir
 
-debugger = get_debugger(__name__, global_on=True, trace_on=True, module_val=True)
+debugger = get_debugger(__name__, global_on=True, trace_on=True)
 
 
 def _debug_info() -> dict:
@@ -30,7 +30,6 @@ def _debug_info() -> dict:
 
 
 def main():
-    print(debugger)
     debugger.print('main-1.1', start='main-1.1 ', upper=True)
     if platform_search.platform_check("Windows"):
         debugger.print('main-2.1', start='main-2.1 ', upper=True)

@@ -9,14 +9,14 @@ debugger = get_debugger(__name__)
 def _debug_info():
     """Returns a dictionary of debug messages for the module."""
     return {
-        'Block 2.1': "CFC BLOCK 2.1>>Repo paths not found",
-        'Block 2.2': "CFC BLOCK 2.2>>Attempting to set repo paths",
-        'Block 2.3': "CFC BLOCK 2.3>>repo paths set, refreshing path map",
-        'Block 2.4': "CFC BLOCK 2.4>>Repo paths found",
-        'Block 2.5': 'f"CFC BLOCK 2.5>>key: script_repo ---path: {}"',
-        'Block 3.1': 'f"CFC BLOCK 3.1>>Checking value: {}"',
-        'Block 3.2': 'f"CFC BLOCK 3.2>>Checking against: {}"',
-        'Block 3.3': 'f"CFC BLOCK 3.3>>Value not found: {}\n refreshing path map"',
+        'CFC Block 2.1': "CFC BLOCK 2.1>>Repo paths not found",
+        'CFC Block 2.2': "CFC BLOCK 2.2>>Attempting to set repo paths",
+        'CFC Block 2.3': "CFC BLOCK 2.3>>repo paths set, refreshing path map",
+        'CFC Block 2.4': "CFC BLOCK 2.4>>Repo paths found",
+        'CFC Block 2.5': 'f"CFC BLOCK 2.5>>key: script_repo ---path: {}"',
+        'CFC Block 3.1': 'f"CFC BLOCK 3.1>>Checking value: {}"',
+        'CFC Block 3.2': 'f"CFC BLOCK 3.2>>Checking against: {}"',
+        'CFC Block 3.3': 'f"CFC BLOCK 3.3>>Value not found: {}\n refreshing path map"',
         'CFC End': 'CFC END>>Path map is up to date'
     }
 
@@ -30,7 +30,7 @@ def __set_repo(primary_container, secondary_container, _src=None):
         _src = _src
         repo_paths = [f"{_src}\\Scripts_Private\\Python\\PythonScripts\\script_tools",
                       f"{_src}\\MayaPythonToolbox\\maya_scripts"]
-        map_src = "\\config\\path_map.py"
+        map_src = "\\config\\cache\\path_library.json"
     else:
         raise NotImplementedError("Tool repo not implemented yet")
 
@@ -90,16 +90,16 @@ def refresh_path_map(primary_container, secondary_container, repo=True, custom=T
                      "",
                      "",
                      "paths = {",
-                     ',\n'.join(formatter.format_dict_to_print(primary_container, "\'").split('\n')),
+                     ',\n'.join(formatter.format_dict_to_print(primary_container, "\'", "\'").split('\n')),
                      "}",
                      ""]
 
     scripts_path = secondary_container.get('custom_path_map')
     repo_path = secondary_container['repo_map_path']
     if repo:
-        write(repo_path, '\n'.join(text_to_write), create_dir=kwargs.get('create_dir', False))
+        write(repo_path, '\n'.join(text_to_write), create_dir=kwargs.get('create_dir', False), file_type='.json')
     if custom:
-        write(scripts_path, '\n'.join(text_to_write), create_dir=True)
+        write(scripts_path, '\n'.join(text_to_write), create_dir=True, file_type='.json')
 
 
 def check_for_change(primary_container, secondary_container, comp_container, run=0, **kwargs):
@@ -116,15 +116,15 @@ def check_for_change(primary_container, secondary_container, comp_container, run
     _repo_paths = [primary_container.get('maya_repo', None), primary_container.get('script_repo', None)]
     if (not paths and primary_container.get('maya_repo', None) is None or
             primary_container.get('script_repo', None) is None):
-        debugger.print('Block 2.1')
-        debugger.print('Block 2.2')
+        debugger.print('CFC Block 2.1')
+        debugger.print('CFC Block 2.2')
         primary_container, secondary_container = __set_repo(primary_container, secondary_container, _repo)
-        debugger.print('Block 2.3')
+        debugger.print('CFC Block 2.3')
         refresh_path_map(primary_container, secondary_container)
         return check_for_change(primary_container, secondary_container, comp_container, run=1, **kwargs)
     else:
-        debugger.print('Block 2.4')
-        debugger.print('Block 2.5', primary_container.get('script_repo'))
+        debugger.print('CFC Block 2.4')
+        debugger.print('CFC Block 2.5', primary_container.get('script_repo'))
 
     val_to_check = [f"{_repo}\\Scripts_Private\\Python\\PythonScripts\\script_tools",
                     f"{_repo}\\MayaPythonToolbox\\maya_scripts"]
@@ -133,10 +133,10 @@ def check_for_change(primary_container, secondary_container, comp_container, run
                      primary_container.get('script_repo').replace("\"", "")]
     # CFC BLOCK 3
     for value in val_to_check:
-        debugger.print('Block 3.1', value)
-        debugger.print('Block 3.2', ', '.join(check_against))
+        debugger.print('CFC Block 3.1', value)
+        debugger.print('CFC Block 3.2', ', '.join(check_against))
         if value not in check_against:
-            debugger.print('Block 3.3', value)
+            debugger.print('CFC Block 3.3', value)
             refresh_path_map(primary_container, secondary_container, custom=False)
             return True
 
@@ -149,22 +149,19 @@ def get_path_map():
     # Set the paths dictionary
     maya_version = "2024"
     rewrite_roots = {
-        "user": "os.path.expanduser('~')",
-        "documents": "os.path.join(os.path.expanduser('~'), 'Documents')",
-        "custom_scripts": "os.path.join(os.path.expanduser('~'), 'Documents', 'custom_scripts')",
-        "tools": "os.path.join(os.path.expanduser('~'), 'Documents', 'custom_scripts', 'script_tools')",
-        "maya": "os.path.join(os.path.expanduser('~'), 'Documents', 'custom_scripts', 'maya_scripts')",
-        "user_setup": f"os.path.join(os.path.expanduser('~\\\\Documents\\\\maya\\\\{maya_version}"
-                      f"\\\\scripts\\\\userSetup.py'))",
-        "maya_exe": f"\'C:\\\\Program Files\\\\Autodesk\\\\Maya{maya_version}\\\\bin\'",
+        "user": "~",
+        "documents": "~\\Documents",
+        "custom_scripts": "~\\Documents\\custom_scripts",
+        "tools": "~\\Documents\\custom_scripts\\script_tools",
+        "maya": "~\\Documents\\custom_scripts\\maya_scripts",
+        "user_setup": f"~\\Documents\\maya\\{maya_version}\\scripts\\userSetup.py",
+        "maya_exe": f"C:\\Program Files\\Autodesk\\Maya{maya_version}\\bin",
         "arg_maps": {"All": "os.path.join(base_path, 'arg_map.py')"},
-        "error": '\"Invalid Key\"'
     }
     parent_dirs = {
-        'maya': os.path.join(os.path.expanduser('~'), 'Documents', 'custom_scripts', 'maya_scripts'),
-        'tools': os.path.join(os.path.expanduser('~'), 'Documents', 'custom_scripts', 'script_tools'),
-        'custom_path_map': os.path.join(os.path.expanduser('~'),
-                                        'Documents', 'custom_scripts', '..', '../config', 'path_map.py')
+        'maya': os.path.join('~\\Documents\\custom_scripts\\maya_scripts'),
+        'tools': os.path.join('~\\Documents\\custom_scripts\\script_tools'),
+        'custom_path_map': os.path.join('~\\Documents\\custom_scripts\\..\\..\\config\\cache\\path_library.json')
     }
     repos_on_comps = {
         'primary_comp': "C:\\GitRepos",
