@@ -66,7 +66,7 @@
         "priority": 0
     },
     "strip": {
-        "default": ["", None],
+        "default": ["", null],
         "expected_type": ["str", "str"],
         "action": "lambda x, y=None: strip(x, y)",
         "priority": 0

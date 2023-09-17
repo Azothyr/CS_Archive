@@ -120,7 +120,7 @@ def _refresh_path_map(primary_container: dict[str] = None, write_paths: dict[str
     # Add folders inside maya_scripts and script_tools to the path map
     __debugger.print('refresh-start')
     for key, path in write_paths.items():
-        __add_subfolders_to_lib(key, path, primary_container, **kwargs)
+        __add_subfolders_to_lib(key, path, primary_container, arg_map_container=arg_container, **kwargs)
 
     # Write the path map to the path map file
     custom_scripts_path = write_paths.get('custom_path_map')
@@ -128,6 +128,7 @@ def _refresh_path_map(primary_container: dict[str] = None, write_paths: dict[str
     script_repo_path = write_paths['script_config_path']
     arg_path_library = PathLib(json_path=arg_map_path,
                                cache_path=arg_map_path.replace('_index.json', '_cache.json'))
+    print(arg_path_library.cache_path)
     custom_path_library = PathLib(json_path=custom_scripts_path,
                                   cache_path=custom_scripts_path.replace('_library.json', '_cache.json'))
     script_repo_library = PathLib(json_path=script_repo_path,
