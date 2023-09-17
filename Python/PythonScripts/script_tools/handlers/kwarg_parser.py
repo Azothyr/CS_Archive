@@ -26,3 +26,5 @@ class KwargsParser:
         return results
 
 
+
+    # sorted_rules = sorted(self.rules.items(), key=lambda x: x[1]['priority'], reverse=True)

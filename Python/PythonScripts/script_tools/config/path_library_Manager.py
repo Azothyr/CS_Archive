@@ -1,20 +1,19 @@
 from script_tools.utils.format_ops import dict_ops as dict_formatter
-from script_tools.handlers.map_handler import get_path_map
+from script_tools.components.json_config_manager_base import JsonConfigManagerBase
 
 
-class PathLib:
+class PathLib(JsonConfigManagerBase):
     def __init__(self, **kwargs):
+        super().__init__(json_path='script_tools/config/_settings/_path_library.json',
+                         cache_path='script_tools/config/_settings/_configs_cache.json')
         self.__kwargs = kwargs
-        self.__library = get_path_map(**self.__kwargs)
+        self.__library = self.config_json
 
     def __repr__(self):
         return dict_formatter.format_dict_to_print(self.__library)
 
     def get_library(self):
         return self.__library
-
-    def refresh_library(self):
-        self.__library = get_path_map(**self.__kwargs)
 
 
 if __name__ == "__main__":

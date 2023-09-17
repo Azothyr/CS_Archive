@@ -1,0 +1,18 @@
+{
+    "config_globals": {
+        "global_debug": true,
+        "traceback_debug": true,
+        "stack_check": false
+    },
+    "module_debug": {
+        "script_tools.utils.platform_ops.platform_search_ops": true,
+        "script_tools.utils.file_ops.file_path_ops": true,
+        "script_tools.utils.file_ops.file_basic_ops": true,
+        "script_tools.utils.file_ops.file_transfer_ops": true,
+        "script_tools.handlers.map_handler": true,
+        "__main__": true,
+        "utils.platform_ops.platform_search_ops": true,
+        "utils.file_ops.file_path_ops": true,
+        "utils.file_ops.file_transfer_ops": true
+    }
+}
