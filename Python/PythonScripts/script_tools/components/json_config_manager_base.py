@@ -143,9 +143,18 @@ class JsonConfigManagerBase:
             # If a target_path is provided, load that JSON file
             # If no target_dict is given (or loaded), default to self.config_json
             if target_path:
-                target_dict = load_json_from_path(target_path)
+                try:
+                    target_dict = load_json_from_path(target_path)
+                except json.JSONDecodeError as e:
+                    print(f"Error decoding JSON from file {target_path}: {e}")
+                    target_dict = {}
+                    print(f'2:{target_dict}')
             if not target_dict:
-                target_dict = self.config_json
+                try:
+                    save_json_to_path(target_path, {})
+                    target_dict = load_json_from_path(target_path)
+                except json.JSONDecodeError as e:
+                    raise e
 
             # Now, you're sure target_dict is a dictionary
             recursive_update(target_dict, update_dict or {})
