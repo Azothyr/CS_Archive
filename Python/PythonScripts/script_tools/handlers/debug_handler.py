@@ -8,9 +8,9 @@ Command Line Argument Parsing: Using `CmdHandler` to handle and parse command li
 import sys
 from types import ModuleType
 from typing import Protocol
-from .debug_config_manager import DebugConfigManager
+from script_tools.config.debug_config_manager import DebugConfigManager
 from script_tools.utils.stack_ops import get_caller_module, get_traceback_stack, _stack_check
-from .terminal_handler import TerminalHandler
+from script_tools.handlers.terminal_handler import TerminalHandler
 
 _debugger = None
 

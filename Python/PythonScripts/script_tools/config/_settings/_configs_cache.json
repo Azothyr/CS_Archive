@@ -1,5 +1,5 @@
 {
-    "_config": {
+    "_debug_config": {
         "config_globals": {
             "global_debug": true,
             "traceback_debug": true,

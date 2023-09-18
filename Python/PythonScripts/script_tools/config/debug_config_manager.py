@@ -23,10 +23,10 @@ Note:
     providing a different path during initialization.
 """
 # DO NOT IMPORT FROM SCRIPT TOOLS
-from script_tools.components.json_config_manager_base import JsonConfigManagerBase
+from script_tools.components.json_config_manager_base import JsonConfigManager
 
 
-class DebugConfigManager(JsonConfigManagerBase):
+class DebugConfigManager(JsonConfigManager):
     """
     ConfigManager manages configurations loaded from a JSON file.
 

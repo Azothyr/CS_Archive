@@ -1,37 +1,77 @@
 # DO NOT IMPORT FROM SCRIPT TOOLS
 import json
-import os
+from pathlib import Path
 from datetime import datetime
 from script_tools.handlers.terminal_handler import TerminalHandler
+from script_tools.config.env_handler import EnvHandler
+
+import json
+from typing import Any
 
 
-class JsonConfigManagerBase:
-    def __init__(self, json_path=None, cache_path=None, **kwargs):
-        """Initialize JsonManager with a default or provided path to the JSON file."""
-        if not os.path.exists(json_path) and not kwargs.get('create', False):
-            raise FileNotFoundError(f"JSON file not found: {json_path}")
-        elif not os.path.exists(json_path) and kwargs.get('create', False):
-            self.cache_path = "off"
-            self.save_json(destination=json_path, content={})
-        self.json_path = json_path
-        self.config_json = self.__load_json(self.json_path)
-        self.cache_key = self.json_path.split('/')[-1].split('.')[0] if cache_path != "off" else None
+class JSONConfigManager:
+    def __init__(self, file_path: str | Path):
+        self.file_path = Path(file_path) if isinstance(file_path, str) else file_path
+        if not self.file_path.exists():
+            raise FileNotFoundError(f"JSON file not found: {self.file_path}")
 
-        # Create cache file if it doesn't exist and cache is not disabled
-        if cache_path != "off":
-            self.cache_path = self.json_path.replace('.json', '_cache.json') if not cache_path else cache_path
+    def read_config(self) -> dict:
+        config_data = self.file_path.read_text()
+        with open(self.file_path, 'r') as file:
+            return json.load(file)
 
-            if not os.path.exists(self.cache_path):
-                with open(self.cache_path, 'w') as cache_file:
-                    json.dump({self.cache_key: {}}, cache_file)
-            self.cache = self.__load_json(self.cache_path)
-            if self.get_value(self.cache_key, data=self.cache) is None:
-                self.update_json(target_path=self.cache_path, update_dict={self.cache_key: self.config_json})
+    def write_config(self, data: dict):
+        with open(self.file_path, 'w') as file:
+            json.dump(data, file, indent=4)
 
-            self.cache = self.__load_json(self.cache_path, top_key=self.cache_key)
+    def save_json(self, destination: Path = None, content: dict = None):
+        destination = destination or self.json_path
+        content = content or self.config_json
+
+        destination.write_text(json.dumps(content, indent=4))
+
+        # Reload internal json data
+        self.config_json = self.load_json()
+        self.cache = self.__load_json(self.cache_path) if self.cache_path is not None else None
+
+    def create_directory_or_file(path: str) -> None:
+        """Helper function to create a directory or a JSON file."""
+        path_obj = Path(path)
+
+        # Check if the provided path has a .json extension, suggesting it's a file
+        if path_obj.suffix == '.json':
+            path_obj.parent.mkdir(parents=True, exist_ok=True)
+            path_obj.touch(exist_ok=True)
+            print(f"Successfully created {path}")
+            return
+
+    def get(self, key: str) -> Any:
+        config_data = self.read_config()
+        return config_data.get(key)
+
+    def set(self, key: str, value: Any):
+        config_data = self.read_config()
+        config_data[key] = value
+        self.write_config(config_data)
+
+    def deep_update(self, original, update):
+        for key, value in update.items():
+            if isinstance(value, dict):
+                original[key] = self.deep_update(original.get(key, {}), value)
+            else:
+                original[key] = value
+        return original
+
+    def set_nested_value(self, key: str, value: Any):
+        config_data = self.read_config()
+        if key in config_data and isinstance(value, dict):
+            config_data[key] = self.deep_update(config_data[key], value)
         else:
-            self.cache_path = "off"
+            config_data[key] = value
+        self.write_config(config_data)
 
+
+class FunctionalityBase:
     def __repr__(self) -> str:
         formatted_items = []
         for k, v in self.config_json.items():
@@ -54,39 +94,17 @@ class JsonConfigManagerBase:
         return header + background.wrap(body)
 
     @staticmethod
-    def __load_json(destination: str = None, top_key: str = None) -> dict:
-        """Load and return the json data from the file."""
+    def __load_json(destination: Path = None, top_key: str = None) -> dict:
         try:
-            with open(destination, 'r') as file:
-                data = file.read()
-                return json.loads(data)[top_key] if top_key else json.loads(data) if data else {}
+            data = destination.read_text()
+            json_data = json.loads(data)
+            return json_data[top_key] if top_key else json_data
         except json.decoder.JSONDecodeError:
             print(f"Error decoding JSON file: {destination}")
-            return {}  # Return an empty dictionary if there's a decoding error
+            return {}
 
-    def load_json(self) -> dict:
-        """Load and return the json data from the file."""
-        return self.__load_json(self.json_path)
-
-    def save_json(self, destination: str = None, content: dict = None):
-        """Save the current json data to the file."""
-        if destination is None:
-            destination = self.json_path
-        if content is None:
-            content = self.config_json
-
-        # First save to _settings
-        if self.cache_path != "off":
-            with open(self.cache_path, 'w') as cache_file:
-                json.dump({self.cache_key: content}, cache_file, indent=4)
-
-        # Then save to the actual destination
-        with open(destination, 'w') as file:
-            json.dump(content, file, indent=4)
-
-        # Reload internal json data
-        self.config_json = self.__load_json(self.json_path)
-        self.cache = self.__load_json(self.cache_path) if self.cache_path != "off" else None
+    def load_json(self, **kwargs) -> dict:
+        return self.__load_json(self.json_path, top_key=kwargs.get('top_key', None))
 
     def compare_with_config(self, external_dict: dict) -> bool:
         """
@@ -106,7 +124,7 @@ class JsonConfigManagerBase:
         Check if the current JSON data is different from the cache.
         Returns True if there's a difference, False otherwise.
         """
-        if self.cache_path == "off":
+        if not self.cache_path:
             return False
         try:
             cached_content = self.cache.get(self.cache_key, {})
@@ -115,63 +133,111 @@ class JsonConfigManagerBase:
             self.save_json(destination=self.cache_path, content={self.cache_key: {}})
             return True
 
-    def update_json(self, target_dict=None, update_dict=None, target_path=None, **kwargs):
-        def load_json_from_path(path):
-            with open(path, 'r') as file:
-                return json.load(file)
+    def update_json(self, target_path=None, target_dict=None, **kwargs):
+        """
+            Update the internal JSON configuration with new values.
 
-        def save_json_to_path(path, data):
-            with open(path, 'w') as file:
-                json.dump(data, file, indent=4)
+            This method allows for a deep merge of nested dictionaries, ensuring
+            that nested keys in the target dictionary are updated individually
+            rather than overwritten entirely.
+
+            Parameters:
+            - target_path (str or pathlib.Path, optional): Path to the JSON file that should be loaded and updated.
+                                                          If not provided, the default internal configuration is used.
+            - target_dict (dict, optional): A dictionary to be updated. This will be the primary dictionary
+                                            if provided, otherwise the dictionary loaded from target_path or the
+                                            internal configuration will be used.
+            - **kwargs:
+                - update_dict (dict, optional): Dictionary containing the keys and values to be updated in the target.
+                - main_allowed (bool, optional): Flag to determine if the main level of the JSON can be updated.
+                                                 Default is False.
+                - _all (any type, optional): If provided and main_allowed is True, it will set all values in the
+                                             target dictionary to the value of _all.
+                - top_key (str, optional): If provided, it determines which top-level key in the internal
+                                           configuration will be updated.
+
+            Returns:
+            None. The method updates the internal JSON in-place and also writes the changes to the JSON file.
+
+            Raises:
+            - json.JSONDecodeError: If there's an error decoding a JSON file.
+
+            Example:
+            ```
+            obj.update_json(update_dict={'a': {'b': 2}}, main_allowed=True, _all=5)
+            ```
+            This will update the key 'b' inside nested dictionary 'a' to have value 2, and set all other values
+            in the configuration to 5 if main_allowed is True.
+
+            Notes:
+            - The method prioritizes target_dict over target_path. If both are provided, the dictionary from
+              target_path will be loaded but then immediately overwritten by target_dict.
+            """
 
         def recursive_set_all(_target_dict, value):
             """
             Recursively set all values in `target_dict` to `value`.
             """
+            # Iterate over key-value pairs in the dictionary
             for k, v in _target_dict.items():
                 if isinstance(v, dict):
+                    # If value is a dictionary, recursively call this function
                     recursive_set_all(v, value)
                 else:
+                    # Otherwise, set the value to the specified `value`
                     _target_dict[k] = value
 
         def recursive_update(_target_dict, _update_dict):
             """
             Recursively update `target_dict` with values from `update_dict`.
             """
+            # Iterate over key-value pairs in the update dictionary
             for k, v in _update_dict.items():
+                # If current key maps to a dictionary in both target and update dictionaries
                 if isinstance(v, dict) and k in _target_dict and isinstance(_target_dict[k], dict):
-                    recursive_update(target_dict[k], v)
+                    # Recursively update that dictionary
+                    recursive_update(_target_dict[k], v)
                 else:
+                    # Otherwise, directly update the value in the target dictionary
                     _target_dict[k] = v
 
-        # If main_allowed (kwargs passed from __main__ mod) is True, allow updating the main level of the json
+        # Check if updating all main level values of JSON is allowed
         if kwargs.get('main_allowed', False) and "_all" in kwargs:
-            recursive_set_all(self.config_json[kwargs.get('top_key')] if 'top_key' in kwargs.keys() else
-                              self.config_json, kwargs["_all"])
-            self.save_json(destination=self.json_path, content=self.config_json)
-        else:
+            # Determine which dictionary to update, considering the optional top_key
+            target = self.config_json[kwargs.get('top_key')] if 'top_key' in kwargs else self.config_json
+            recursive_set_all(target, kwargs["_all"])
 
-            # If a target_path is provided, load that JSON file
-            # If no target_dict is given (or loaded), default to self.config_json
-            if target_path:
+            # Save the updated dictionary back to its source file
+            self.save_json(destination=self.json_path, content=self.config_json)
+            return
+
+        # If a target_path is provided, try to load its content
+        if target_path:
+            target_path = Path(target_path)
+            if target_path.exists():
                 try:
-                    target_dict = load_json_from_path(target_path)
+                    # Attempt to load JSON from the specified path
+                    with target_path.open() as f:
+                        target_dict = json.load(f)
                 except json.JSONDecodeError as e:
+                    # Handle potential decoding errors and set target_dict to an empty dictionary
                     print(f"Error decoding JSON from file {target_path}: {e}")
                     target_dict = {}
-                    print(f'2:{target_dict}')
-            if not target_dict:
-                try:
-                    save_json_to_path(target_path, {})
-                    target_dict = load_json_from_path(target_path)
-                except json.JSONDecodeError as e:
-                    raise e
+            else:
+                # If the file does not exist, notify and initialize an empty dictionary
+                print(f"File {target_path} does not exist, initializing as empty dictionary.")
+                target_dict = {}
 
-            # Now, you're sure target_dict is a dictionary
-            recursive_update(target_dict, update_dict or {})
+        # If target_dict is not provided or determined yet, default to internal configuration
+        if target_dict is None:
+            target_dict = self.config_json
 
-            # Save the updated dictionary back to the file
-            save_json_to_path(target_path, target_dict) if target_path and target_dict else None
+        # If an 'update_dict' is provided, recursively update target_dict with its values
+        if 'update_dict' in kwargs:
+            recursive_update(target_dict, kwargs['update_dict'])
+
+        # Save the potentially updated dictionary back to its source file
+        self.save_json(destination=self.json_path, content=self.config_json)
 
     def set_value(self, hierarchical_key, value, delimiter='.', **kwargs):
         """
@@ -229,6 +295,42 @@ class JsonConfigManagerBase:
 
     @staticmethod
     def __get_last_modified_time(file_path):
-        """Return the last modified time of the configuration file."""
-        timestamp = os.path.getmtime(file_path)
+        timestamp = file_path.stat().st_mtime
         return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+
+
+class JsonConfigManager(FunctionalityBase):
+
+    def __init__(self, json_path=None, env_var_name=None, default_path=None, cache_path=None, **kwargs):
+        """
+        Enhanced Initialization with EnvHandler
+
+        :param env_var_name: Environment variable name to fetch the path.
+        :param default_path: Default path to be used if the environment variable is not set.
+        """
+        super().__init__(json_path=json_path, cache_path=cache_path, **kwargs)
+
+        if env_var_name:
+            self.env_handler = EnvHandler(env_var_name, default_path)
+
+            # Check and synchronize between env variable and json config
+            self.sync_env_with_config()
+
+    def sync_env_with_config(self):
+        """Ensure that the env path is synchronized with the json config path."""
+        if hasattr(self, 'env_handler'):
+            env_path = self.env_handler.get_env_path()
+            config_path = self.get_value("path")
+
+            if env_path != config_path:
+                self.set_value("path", env_path)
+
+    def get_path(self):
+        """Get the path from the config."""
+        return self.get_value("path")
+
+    def set_path(self, new_path):
+        """Set a new path in the configuration and environment variable."""
+        self.set_value("path", new_path)
+        if hasattr(self, 'env_handler'):
+            self.env_handler.environment.get()

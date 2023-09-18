@@ -164,23 +164,5 @@ def _check_for_change(primary_container: dict[str] = None, write_paths: dict[str
     return False
 
 
-def update_path_map():
-    """Returns the path map"""
-    __debugger.print('get path map-start')
-    # get path-1.(~) Set the paths dictionary
-    maya_version = "2024"
-    rewrite_roots =
-    for key, path in rewrite_roots.items():
-        print(key, ":", path)
-    exit()
-    parent_dirs =
-    arg_maps =
-    repos_on_comps =
-
-    wait = True
-    while wait:
-        wait = _check_for_change(rewrite_roots, parent_dirs, repos_on_comps, arg_maps, run=0)
-
-
 if __name__ == "__main__":
     update_path_map()
