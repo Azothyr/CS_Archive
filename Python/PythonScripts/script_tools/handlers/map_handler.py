@@ -1,5 +1,5 @@
 import os
-from script_tools.config.path_library_Manager import PathLib
+from script_tools.config.path_library_Manager import PathManager
 from script_tools.handlers.debug_handler import get_debugger
 
 __debugger = get_debugger(__name__)
@@ -21,9 +21,9 @@ def debug_info():
         "add subfolders-end": "SUCCESS: Added subfolders to path map",
 
         "refresh-start": "Refreshing path map",
-        "refresh-maya-end": "SUCCESS: Refreshed maya path map",
-        "refresh-path-end": "SUCCESS: Refreshed scripts path map",
-        "refresh-arg-end": "SUCCESS: Refreshed arg path map",
+        "refresh-maya-end": "SUCCESS: Refreshed maya path map->{}",
+        "refresh-repo-path-end": "SUCCESS: Refreshed scripts path map->{}",
+        "refresh-arg-end": "SUCCESS: Refreshed arg path map->{}",
 
         "cfc-start": "Path map is up to date",
         "cfc_except-1.1": "Checking change method stuck in loop",
@@ -40,32 +40,6 @@ def debug_info():
 
         "get path map-start": "Getting path map",
     }
-
-
-def __set_repo(primary_container: dict, write_paths: dict, _src=None):
-    """
-    Update the library with tool and maya repo paths based on the existence
-    of specific directories.
-    """
-    __debugger.print('set repo-start')
-    # set repo-1.(~): Setting the repo paths
-    if _src is None:
-        raise NotImplementedError(__debugger.print('set repo_except-1.1'))
-    _src = _src
-    repo_paths = [f"{_src}\\Scripts_Private\\Python\\PythonScripts\\script_tools",
-                  f"{_src}\\MayaPythonToolbox\\maya_scripts"]
-    map_src = ["\\config\\_settings\\_path_library.json", "\\config\\_settings\\_configs_cache.json",
-               "\\config\\_settings\\_arg_maps_index.json"]
-    __debugger.print('set repo-1.1', repo_paths, map_src)
-
-    __debugger.print('set repo-1.2')
-    primary_container["script_repo"] = f"\"{repo_paths[0]}\""
-    write_paths["script_config_path"] = repo_paths[0] + map_src[0]
-    write_paths["script_config_cache"] = repo_paths[0] + map_src[1]
-    write_paths["maya_arg_map_path"] = repo_paths[1] + map_src[2]
-    primary_container["maya_repo"] = f"\"{repo_paths[1]}\""
-    __debugger.print('set repo-end')
-    return primary_container, write_paths
 
 
 def __add_subfolders_to_lib(key: str, path: str, primary_container: dict, **kwargs):
@@ -106,7 +80,7 @@ def __add_subfolders_to_lib(key: str, path: str, primary_container: dict, **kwar
                 continue
             elif file_name.endswith("_arg_map.json") or file_name.endswith("_arg_map.py"):
                 _arg_maps[file_name.split('_')[0]] = \
-                    f"os.path.join(~\\Documents\\custom_scripts\\maya_scripts\\config\\_settings\\{file_name}.json')"
+                    Path(\\Documents\\custom_scripts\\maya_scripts\\config\\_settings\\{file_name}.json')"
                 continue
             key_name_suffix = f"{file_name.split('.')[0]}"
             key_name = key_name_prefix + key_name_suffix
@@ -126,25 +100,25 @@ def _refresh_path_map(primary_container: dict[str] = None, write_paths: dict[str
     custom_scripts_path = write_paths.get('custom_path_map')
     arg_map_path = write_paths['maya_arg_map_path']
     script_repo_path = write_paths['script_config_path']
-    arg_path_library = PathLib(json_path=arg_map_path,
-                               cache_path=arg_map_path.replace('_index.json', '_cache.json'))
+    arg_path_library = PathManager(json_path=arg_map_path,
+                                   cache_path=arg_map_path.replace('_index.json', '_cache.json'))
     print(arg_path_library.cache_path)
-    custom_path_library = PathLib(json_path=custom_scripts_path,
-                                  cache_path=custom_scripts_path.replace('_library.json', '_cache.json'))
-    script_repo_library = PathLib(json_path=script_repo_path,
-                                  cache_path=write_paths["script_config_cache"])
+    custom_path_library = PathManager(json_path=custom_scripts_path,
+                                      cache_path=custom_scripts_path.replace('_library.json', '_cache.json'))
+    script_repo_library = PathManager(json_path=script_repo_path,
+                                      cache_path=write_paths["script_config_cache"])
     # Add arg_maps to the arg_map Library
     if arg_container and arg_map_path:
         arg_path_library.update_json(update_dict=arg_container, target_path=arg_map_path)
-        __debugger.print('refresh-arg-end')
-    print(primary_container)
-    exit()
+        __debugger.print('refresh-arg-end', arg_map_path)
     # Add folders inside maya_scripts and script_tools to the path map
     if primary_container:
-        if repo_path:
-            __debugger.print('refresh-maya-end')
-        if scripts_path:
-            __debugger.print('refresh-path-end')
+        if script_repo_library:
+            script_repo_library.update_json(update_dict=primary_container, target_path=script_repo_path)
+            __debugger.print('refresh-repo-path-end', script_repo_path)
+        if custom_path_library:
+            custom_path_library.update_json(update_dict=primary_container, target_path=custom_scripts_path)
+            __debugger.print('refresh-maya-end', custom_scripts_path)
 
 
 def _check_for_change(primary_container: dict[str] = None, write_paths: dict[str] = None,
@@ -195,30 +169,13 @@ def update_path_map():
     __debugger.print('get path map-start')
     # get path-1.(~) Set the paths dictionary
     maya_version = "2024"
-    rewrite_roots = {
-        "user": "~",
-        "documents": "~\\Documents",
-        "custom_scripts": "~\\Documents\\custom_scripts",
-        "tools": "~\\Documents\\custom_scripts\\script_tools",
-        "maya": "~\\Documents\\custom_scripts\\maya_scripts",
-        "user_setup": f"~\\Documents\\maya\\{maya_version}\\scripts\\userSetup.py",
-        "maya_exe": f"C:\\Program Files\\Autodesk\\Maya{maya_version}\\bin",
-    }
-    parent_dirs = {
-        'maya': os.path.expanduser('~\\Documents\\custom_scripts\\maya_scripts'),
-        'tools': os.path.expanduser('~\\Documents\\custom_scripts\\script_tools'),
-        'custom_path_map': os.path.expanduser(
-            '~\\Documents\\custom_scripts\\..\\..\\config\\_settings\\_path_library.json'),
-        'custom_arg_map_path': os.path.expanduser(
-            '~\\Documents\\custom_scripts\\..\\..\\config\\_settings\\_arg_maps_index.json'),
-    }
-    arg_maps = {
-        "all": "os.path.expanduser(~\\Documents\\custom_scripts\\maya_scripts\\config\\_settings\\_arg_maps_index.json)"
-    }
-    repos_on_comps = {
-        'primary_comp': "C:\\GitRepos",
-        'secondary_comp': "C:\\Repos"
-    }
+    rewrite_roots =
+    for key, path in rewrite_roots.items():
+        print(key, ":", path)
+    exit()
+    parent_dirs =
+    arg_maps =
+    repos_on_comps =
 
     wait = True
     while wait:

@@ -10,6 +10,7 @@ from types import ModuleType
 from typing import Protocol
 from .debug_config_manager import DebugConfigManager
 from script_tools.utils.stack_ops import get_caller_module, get_traceback_stack, _stack_check
+from .terminal_handler import TerminalHandler
 
 _debugger = None
 
@@ -56,8 +57,8 @@ class DebugHandler:
         self.debug = self._get_debug_status()
         self.traceback = self._get_traceback_status()
 
-        if module_name not in self.config_manager.config_json['module_debug']:
-            self.config_manager.set_value(f"module_debug-{module_name}", self._get_debug_status(), delimiter='-')
+        if module_name not in self.config_manager.config_json['module_debug_values']:
+            self.config_manager.set_value(f"module_debug_values-{module_name}", self._get_debug_status(), delimiter='-')
 
     def __repr__(self) -> str:
         """Return a string representation of the DebugHandler's module name and config state from the ConfigManager."""
@@ -75,9 +76,26 @@ class DebugHandler:
         if not self.debug:
             return
 
+        console = TerminalHandler()
         debug_messages = self._get_debug_messages()
         message = debug_messages.get(debug_key, f"Debug key '{debug_key}' not found!")
-        output = f"<{debug_key.upper()}-----{message.format(*args)}>"
+        if args:
+            message = message.format(*args)
+
+        console.change_style(fore='magenta')
+        splitter = console.wrap("-"*5)
+
+        override = kwargs.get('override', None)
+        if override is None:
+            for word in message.replace(":", "").split(" "):
+                if word.lower() in self.config_manager.config_json['debug_formatting'].keys():
+                    console.change_style(fore=self.config_manager.config_json['debug_formatting'][word.lower()],
+                                         style=("italic", "underline"))
+                    message = message.replace(word, console.wrap(word))
+            output = f"<{debug_key.upper()}{splitter}{message}>"
+        else:
+            console.change_style(fore='red', back='white', style=("bold", "underline"))
+            output = console.wrap(f"<{debug_key.upper()}{splitter}{message}>")
 
         if self.traceback:
             # gets the stack of the method calling this method

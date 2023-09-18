@@ -2,7 +2,7 @@ from script_tools.utils.format_ops import dict_ops as dict_formatter
 from script_tools.components.json_config_manager_base import JsonConfigManagerBase
 
 
-class PathLib(JsonConfigManagerBase):
+class PathManager(JsonConfigManagerBase):
     def __init__(self, **kwargs):
         super().__init__(json_path='script_tools/config/_settings/_path_library.json',
                          cache_path='script_tools/config/_settings/_configs_cache.json')
@@ -17,5 +17,5 @@ class PathLib(JsonConfigManagerBase):
 
 
 if __name__ == "__main__":
-    pathlib = PathLib()
+    pathlib = PathManager()
     print(pathlib)
