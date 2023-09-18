@@ -42,56 +42,31 @@ If you're looking to do a lot of color work in your terminal, you might find lib
 incredibly helpful, as they abstract away a lot of the specifics of these codes and provide a more user-friendly
 interface.
 """
+import json
+import os
+
 
 
 class TerminalColors:
     ansi_escape = '\033'
     csi = '['
     end = 'm'
-    # color of text
-    foreground = {
-        'black': 30,
-        'red': 31,
-        'green': 32,
-        'yellow': 33,
-        'blue': 34,
-        'magenta': 35,
-        'cyan': 36,
-        'white': 37,
-    }
-    # color of text background
-    background = {
-        'black': 40,
-        'red': 41,
-        'green': 42,
-        'yellow': 43,
-        'blue': 44,
-        'magenta': 45,
-        'cyan': 46,
-        'white': 47,
-    }
-    # text style
-    style = {
-        'reset': 0,
-        'bold': 1,
-        'faint': 2,
-        'italic': 3,
-        'underline': 4,
-        'slow blink': 5,
-        'rapid blink': 6,
-        'reverse video': 7,
-        'conceal': 8,
-        'crossed-out': 9,
-        'default': 10,
-    }
+
+    @staticmethod
+    def __load_json():
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(base_dir, '../config/_settings/_ansi_format_options.json')
+        with open(json_path, 'r') as json_file:
+            return json.load(json_file)
 
     def __init__(self):
         self.ansi_front = f"{self.ansi_escape}{self.csi}"
         self.ansi_back = TerminalColors.end
         self.text_styler = f'{self.ansi_front}' + '{}' + f'{self.ansi_back}'
-        self.foreground = TerminalColors.foreground
-        self.background = TerminalColors.background
-        self.style = TerminalColors.style
+        data = self.__load_json()
+        self.foreground = data.get("foreground")
+        self.background = data.get("background")
+        self.style = data.get("style")
         self.text_reset = f"{self.ansi_front}{self.style.get('reset')}{self.ansi_back}"
 
     def _create_ansi_modifier(self, fore=None, back=None, style=None):
@@ -99,20 +74,43 @@ class TerminalColors:
         try:
             key_err = '{} is not a valid color'
             if fore:
-                fore = fore.lower()
-                if fore not in self.foreground:
-                    raise KeyError(key_err.format(fore))
-                components.append(str(self.foreground.get(fore)))
+                if isinstance(fore, str):
+                    fore = fore.lower()
+                    if fore not in self.foreground:
+                        raise KeyError(key_err.format(fore))
+                    components.append(str(self.foreground.get(fore)))
+                else:
+                    for value in fore:
+                        value = value.lower()
+                        fore = value.lower()
+                        if fore not in self.foreground:
+                            raise KeyError(key_err.format(fore))
+                        components.append(str(self.foreground.get(fore)))
             if back:
-                back = back.lower()
-                if back not in self.background:
-                    raise KeyError(key_err.format(back))
-                components.append(str(self.background.get(back)))
+                if isinstance(back, str):
+                    back = back.lower()
+                    if back not in self.foreground:
+                        raise KeyError(key_err.format(back))
+                    components.append(str(self.foreground.get(back)))
+                else:
+                    for value in back:
+                        value = value.lower()
+                        back = value.lower()
+                        if back not in self.background:
+                            raise KeyError(key_err.format(back))
+                        components.append(str(self.background.get(back)))
             if style:
-                style = style.lower()
-                if style not in self.style:
-                    raise KeyError(key_err.format(style))
-                components.append(str(self.style.get(style)))
+                if isinstance(style, str):
+                    style = style.lower()
+                    if style not in self.foreground:
+                        raise KeyError(key_err.format(style))
+                    components.append(str(self.foreground.get(style)))
+                else:
+                    for value in style:
+                        style = value.lower()
+                        if style not in self.style:
+                            raise KeyError(key_err.format(style))
+                        components.append(str(self.style.get(style)))
         except KeyError as key_err:
             return print(key_err)
 

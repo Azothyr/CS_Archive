@@ -6,23 +6,31 @@ from script_tools.handlers.terminal_handler import TerminalHandler
 
 
 class JsonConfigManagerBase:
-    def __init__(self, json_path=None, cache_path=None):
+    def __init__(self, json_path=None, cache_path=None, **kwargs):
         """Initialize JsonManager with a default or provided path to the JSON file."""
-        if not os.path.exists(json_path):
+        if not os.path.exists(json_path) and not kwargs.get('create', False):
             raise FileNotFoundError(f"JSON file not found: {json_path}")
+        elif not os.path.exists(json_path) and kwargs.get('create', False):
+            self.cache_path = "off"
+            self.save_json(destination=json_path, content={})
         self.json_path = json_path
         self.config_json = self.__load_json(self.json_path)
-        self.cache_key = self.json_path.split('/')[-1].split('.')[0]
-        self.cache_path = self.json_path.replace('.json', '_cache.json') if not cache_path else cache_path
+        self.cache_key = self.json_path.split('/')[-1].split('.')[0] if cache_path != "off" else None
 
-        if not os.path.exists(self.cache_path):
-            with open(self.cache_path, 'w') as cache_file:
-                json.dump({self.cache_key: {}}, cache_file)
-        self.cache = self.__load_json(self.cache_path)
-        if self.get_value(self.cache_key, data=self.cache) is None:
-            self.update_json(target_path=self.cache_path, update_dict={self.cache_key: self.config_json})
+        # Create cache file if it doesn't exist and cache is not disabled
+        if cache_path != "off":
+            self.cache_path = self.json_path.replace('.json', '_cache.json') if not cache_path else cache_path
 
-        self.cache = self.__load_json(self.cache_path, top_key=self.cache_key)
+            if not os.path.exists(self.cache_path):
+                with open(self.cache_path, 'w') as cache_file:
+                    json.dump({self.cache_key: {}}, cache_file)
+            self.cache = self.__load_json(self.cache_path)
+            if self.get_value(self.cache_key, data=self.cache) is None:
+                self.update_json(target_path=self.cache_path, update_dict={self.cache_key: self.config_json})
+
+            self.cache = self.__load_json(self.cache_path, top_key=self.cache_key)
+        else:
+            self.cache_path = "off"
 
     def __repr__(self) -> str:
         formatted_items = []
@@ -68,8 +76,9 @@ class JsonConfigManagerBase:
             content = self.config_json
 
         # First save to _settings
-        with open(self.cache_path, 'w') as cache_file:
-            json.dump({self.cache_key: content}, cache_file, indent=4)
+        if self.cache_path != "off":
+            with open(self.cache_path, 'w') as cache_file:
+                json.dump({self.cache_key: content}, cache_file, indent=4)
 
         # Then save to the actual destination
         with open(destination, 'w') as file:
@@ -77,7 +86,7 @@ class JsonConfigManagerBase:
 
         # Reload internal json data
         self.config_json = self.__load_json(self.json_path)
-        self.cache = self.__load_json(self.cache_path)
+        self.cache = self.__load_json(self.cache_path) if self.cache_path != "off" else None
 
     def compare_with_config(self, external_dict: dict) -> bool:
         """
@@ -97,6 +106,8 @@ class JsonConfigManagerBase:
         Check if the current JSON data is different from the cache.
         Returns True if there's a difference, False otherwise.
         """
+        if self.cache_path == "off":
+            return False
         try:
             cached_content = self.cache.get(self.cache_key, {})
             return cached_content != self.config_json
@@ -162,7 +173,7 @@ class JsonConfigManagerBase:
             # Save the updated dictionary back to the file
             save_json_to_path(target_path, target_dict) if target_path and target_dict else None
 
-    def set_value(self, hierarchical_key, value, delimiter='.'):
+    def set_value(self, hierarchical_key, value, delimiter='.', **kwargs):
         """
         Set a value in the json data using a hierarchical key.
 
@@ -185,7 +196,7 @@ class JsonConfigManagerBase:
             data = data[key]
 
         data[keys[-1]] = value
-        if self.has_changed():
+        if self.has_changed() or kwargs.get('force_save', False):
             self.save_json(destination=self.json_path, content=self.config_json)
 
     def get_value(self, hierarchical_key, data=None, default=None, delimiter='.'):

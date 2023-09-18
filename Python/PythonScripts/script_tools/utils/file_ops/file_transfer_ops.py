@@ -4,7 +4,7 @@ from script_tools.handlers.debug_handler import get_debugger
 debugger = get_debugger(__name__)
 
 
-def _debug_info():
+def debug_info():
     return {
         "output": "{}",
     }

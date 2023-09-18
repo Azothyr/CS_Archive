@@ -1,5 +1,5 @@
 import os
-from script_tools.config.path_library_Manager import PathLib as path_library
+from script_tools.config.path_library_Manager import PathManager as path_library
 from script_tools.handlers import map_handler
 from script_tools.handlers.debug_handler import get_debugger as get_debugger
 __debugger = get_debugger(__name__)
@@ -11,6 +11,7 @@ def debug_info():
         "get dirs-end": "SUCCESS: Returning list of files and subdirectories under",
 
         "clear-start": "Start of clear_directory method",
+        "clear-1.0": "WARNING: Clearing: {}",
         "clear-1.1": "Removing file: {}",
         "clear-1.2": "Removing directory: {}",
         "clear-end": "SUCCESS: Cleared directory and sub directories under: {}",
@@ -53,15 +54,19 @@ def clear_directory(path) -> None:
         - path (str): The directory path to clear.
     """
     __debugger.print('clear-start')
+    __debugger.print('clear-1.0')
     # clear-1.(~): Walking through the directory and removing all files and subdirectories
+    print('clear dir-----here')
     for root, dirs, files in os.walk(path, topdown=False):
+        print(root, dirs, files)
         for name in files:
+            print(name)
             __debugger.print('clear-1.1', os.path.join(root, name))
             os.remove(os.path.join(root, name))
         for name in dirs:
             __debugger.print('clear-1.2', os.path.join(root, name))
             os.rmdir(os.path.join(root, name))
-    __debugger.print('clear-end')
+    __debugger.print('clear-end', path)
 
 
 def get_file_path_from_lib(**kwargs) -> str or tuple:
@@ -85,18 +90,21 @@ def get_file_path_from_lib(**kwargs) -> str or tuple:
     library = kwargs.get('library', path_library())
 
     options = library.get_library()
+    changed = library.has_changed()
+    __debugger.print('path from lib-1.2', changed)
     values = []
     __debugger.print('path from lib-2.1', options)
-    for key, value in kwargs.items():
-        if not isinstance(options, dict):
-            __debugger.print('path from lib-2.2', options)
-            break
-        if value and key in options:  # Check if the value is True and the key exists in options
-            values.append(options[key])
-    __debugger.print('path from lib-2.2', values)
+    if not changed:
+        for key, value in kwargs.items():
+            if not isinstance(options, dict):
+                __debugger.print('path from lib-2_error', options)
+                break
+            if value and key in options:  # Check if the value is True and the key exists in options
+                values.append(options[key])
+        __debugger.print('path from lib-2.2', values)
 
     # path from lib-3.(~): Checking if the values are valid
-    if not values:
+    if changed or not values:
         __debugger.print('path from lib-3.1')
         map_handler.update_path_map()
         return get_file_path_from_lib(runs=runs + 1, library=library, **kwargs)

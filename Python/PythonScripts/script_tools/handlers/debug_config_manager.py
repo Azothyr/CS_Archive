@@ -19,7 +19,7 @@ Example:
     specific_module_debug_status = config_manager.get_module_debug("some_module_name")
 
 Note:
-    The default configuration file is `_config.json`, but this can be changed by
+    The default configuration file is `_debug_config.json`, but this can be changed by
     providing a different path during initialization.
 """
 # DO NOT IMPORT FROM SCRIPT TOOLS
@@ -45,17 +45,17 @@ class DebugConfigManager(JsonConfigManagerBase):
     - get_module_debug(module_name): Returns the debug status for a specific module.
     """
 
-    def __init__(self, config_path='script_tools/config/_settings/_config.json', **kwargs):
+    def __init__(self, config_path='script_tools/config/_settings/_debug_config.json', **kwargs):
         """Initialize ConfigManager with a default or provided path to the config JSON file."""
         super().__init__(json_path=config_path, cache_path='script_tools/config/_settings/_configs_cache.json')
 
     def turn_all_debug_on(self) -> None:
         super().set_value('config_globals-global_debug', True, delimiter='-')
-        super().update_json(top_key='module_debug', main_allowed=True, _all=True)
+        super().update_json(top_key='module_debug_values', main_allowed=True, _all=True)
 
     def turn_all_debug_off(self, **kwargs) -> None:
         super().set_value('config_globals-global_debug', False, delimiter='-')
-        super().update_json(top_key='module_debug', main_allowed=True, _all=False)
+        super().update_json(top_key='module_debug_values', main_allowed=True, _all=False)
 
     def get_global_debug_value(self) -> bool:
         return super().get_value(hierarchical_key='config_globals-global_debug', delimiter='-', default=False)
@@ -64,4 +64,4 @@ class DebugConfigManager(JsonConfigManagerBase):
         return super().get_value(hierarchical_key='config_globals-traceback_debug', delimiter='-', default=False)
 
     def get_module_debug_value(self, module_name) -> bool:
-        return super().get_value(hierarchical_key=f'module_debug-{module_name}', delimiter='-', default=False)
+        return super().get_value(hierarchical_key=f'module_debug_values-{module_name}', delimiter='-', default=False)

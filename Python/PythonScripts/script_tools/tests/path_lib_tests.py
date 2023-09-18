@@ -1,11 +1,11 @@
 import pytest
 import os
-from ..config.path_library_Manager import PathLib
+from ..config.path_library_Manager import PathManager
 
 
 @pytest.fixture
 def path_lib():
-    return PathLib().get_library()
+    return PathManager().get_library()
 
 
 # 1. Test that for a given key, the returned path exists.
