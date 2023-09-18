@@ -23,7 +23,7 @@ Note:
     providing a different path during initialization.
 """
 # DO NOT IMPORT FROM SCRIPT TOOLS
-from components.json_config_manager_base import JsonConfigManagerBase
+from script_tools.components.json_config_manager_base import JsonConfigManagerBase
 
 
 class DebugConfigManager(JsonConfigManagerBase):
@@ -47,7 +47,7 @@ class DebugConfigManager(JsonConfigManagerBase):
 
     def __init__(self, config_path='script_tools/config/_settings/_debug_config.json', **kwargs):
         """Initialize ConfigManager with a default or provided path to the config JSON file."""
-        super().__init__(json_path=config_path, cache_path='script_tools/config/_settings/_configs_cache.json')
+        super().__init__(json_path=config_path, cache_path='script_tools/config/_settings/_configs_cache.json', create=True)
 
     def turn_all_debug_on(self) -> None:
         super().set_value('config_globals-global_debug', True, delimiter='-')
