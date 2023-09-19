@@ -37,6 +37,7 @@ class JSONConfigManager:
         self.file_path = Path(file_path) if isinstance(file_path, str) else file_path
         if not self.file_path.exists():
             raise FileNotFoundError(f"JSON file not found: {self.file_path}")
+        self._deep_update({"ENV_PATH": str(file_path)}, self.read_config())
         self.verbose = verbose
 
     def __repr__(self) -> str:
