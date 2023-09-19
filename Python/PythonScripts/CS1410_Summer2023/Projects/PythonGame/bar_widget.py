@@ -8,7 +8,7 @@ from abstract_button import ButtonBuilder
 
 class BarWidget(BoxLayout):
     """
-    A widget that contains a row of buttons for various game cus_funcs.
+    A widget that contains a row of buttons for various game functions.
     """
 
     def __init__(self, **kwargs):

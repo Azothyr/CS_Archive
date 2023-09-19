@@ -86,8 +86,8 @@ def main():
     elapsed = time.perf_counter() - start
     print("\nElapsed time: " + str(elapsed) + " seconds.")
     f.write("\nElapsed time: " + str(elapsed) + " seconds." + "\n")
-    print("\nNumber of cus_funcs calls: " + str(function_calls))
-    f.write("\nNumber of cus_funcs calls: " + str(function_calls) + "\n")
+    print("\nNumber of functions calls: " + str(function_calls))
+    f.write("\nNumber of functions calls: " + str(function_calls) + "\n")
     print("Number of cache hits: " + str(cache_hits))
     f.write("\nNumber of cache hits: " + str(cache_hits) + "\n")
     f.close()

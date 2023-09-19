@@ -13,9 +13,9 @@ The primary functionalities include:
 import os
 import shutil
 try:
-    from script_tools.info.file_path_library import PathLib
+    from PythonScripts.script_tools.info.file_path_library import  PathLib
 except ModuleNotFoundError:
-    from info.file_path_library import PathLib
+    from script_tools.info.file_path_library import PathLib
 
 
 def check_for_path(path):

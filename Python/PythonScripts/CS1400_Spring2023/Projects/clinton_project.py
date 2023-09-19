@@ -136,7 +136,7 @@ def get_term_jobs(jobs_data, start_year, start_month, end_year, end_month):
 
 def main():
     """
-    Runs the program by calling the above cus_funcs and checking if Clinton's claim about job creation is accurate.
+    Runs the program by calling the above functions and checking if Clinton's claim about job creation is accurate.
     """
     jobs_data = read_jobs_data('BLS_private.csv')
     presidents_data = read_presidents_data('presidents.txt')

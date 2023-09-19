@@ -2,27 +2,27 @@ import os
 
 try:
     from script_tools.info.path_map import paths
-    from script_tools.cus_funcs import format_tool as formatter
-    from script_tools.cus_funcs.format_tool import wrap_prints
-    from script_tools.cus_funcs import file_tools
+    from script_tools.functions import format_tool as formatter
+    from script_tools.functions.format_tool import wrap_prints
+    from script_tools.functions import file_tools
 except ModuleNotFoundError:
     from info.path_map import paths
-    from cus_funcs import format_tool as formatter
-    from cus_funcs.format_tool import wrap_prints
-    from cus_funcs import file_tools
+    from functions import format_tool as formatter
+    from functions.format_tool import wrap_prints
+    from functions import file_tools
 
 
-def _debug_info():
+def _debug_info(**kwargs):
     """Returns a dictionary of debug messages for the module."""
     return {
         'Block 2.1': "CFC BLOCK 2.1>>Repo paths not found",
         'Block 2.2': "CFC BLOCK 2.2>>Attempting to set repo paths",
         'Block 2.3': "CFC BLOCK 2.3>>repo paths set, refreshing path map",
         'Block 2.4': "CFC BLOCK 2.4>>Repo paths found",
-        'Block 2.5': f"CFC BLOCK 2.5>>key: script_repo ---path: {kwargs.get('insert1', ins_err)}",
-        'Block 3.1': f"CFC BLOCK 3.1>>Checking value: {kwargs.get('insert1', ins_err)}",
-        'Block 3.2': f"CFC BLOCK 3.2>>Checking against: {kwargs.get('insert2', ins_err)}",
-        'Block 3.3': f"CFC BLOCK 3.3>>Value not found: {kwargs.get('insert', ins_err)}\n refreshing path map",
+        'Block 2.5': f"CFC BLOCK 2.5>>key: script_repo ---path: {kwargs.get('insert1')}",
+        'Block 3.1': f"CFC BLOCK 3.1>>Checking value: {kwargs.get('insert1')}",
+        'Block 3.2': f"CFC BLOCK 3.2>>Checking against: {kwargs.get('insert2')}",
+        'Block 3.3': f"CFC BLOCK 3.3>>Value not found: {kwargs.get('insert')}\n refreshing path map",
         'CFC End': 'CFC END>>Path map is up to date'
     }
 
@@ -33,7 +33,7 @@ def __set_repo(primary_container, secondary_container, _src=None, **kwargs):
     of specific directories.
     """
     # check if debug is on
-    debug = kwargs.get('debug', False)
+    # debug = kwargs.get('debug', False)
     if _src:
         _src = _src
         repo_paths = [f"{_src}\\Scripts_Private\\Python\\PythonScripts\\script_tools",
@@ -50,7 +50,7 @@ def __set_repo(primary_container, secondary_container, _src=None, **kwargs):
 
 def __add_subfolders_to_lib(key, path, primary_container, **kwargs):
     # check if debug is on
-    debug = kwargs.get('debug', False)
+    # debug = kwargs.get('debug', False)
     folder_exceptions = ["__pycache__", ".pytest_cache", ".idea", "tests"]
     file_exceptions = ["__init__.py", "__cpython__.py", "cpython-311.pyc"]
     key_exceptions = ["secondary_comp", "primary_comp"]
@@ -131,15 +131,16 @@ def check_for_change(primary_container, secondary_container, comp_container, run
     _repo_paths = [primary_container.get('maya_repo', None), primary_container.get('script_repo', None)]
     if (not paths and primary_container.get('maya_repo', None) is None or
             primary_container.get('script_repo', None) is None):
-        _debug_info('Block 2.1', 'Block 2.2', func='check for change', debug=debug)
+        # _debug_info('Block 2.1', 'Block 2.2', func='check for change', debug=debug)
         primary_container, secondary_container = __set_repo(primary_container, secondary_container, _repo)
-        _debug_info('Block 2.3', func='check for change', debug=debug)
+        # _debug_info('Block 2.3', func='check for change', debug=debug)
         refresh_path_map(primary_container, secondary_container)
         return check_for_change(primary_container, secondary_container, comp_container, run=1, **kwargs)
     else:
-        _debug_info('Block 2.4', func='check for change', debug=debug)
-        _debug_info('Block 2.5', func='check for change',
-                           insert=primary_container.get('script_repo'), debug=debug)
+        pass
+        # _debug_info('Block 2.4', func='check for change', debug=debug)
+        # _debug_info('Block 2.5', func='check for change',
+        #                    insert=primary_container.get('script_repo'), debug=debug)
 
     val_to_check = [f"{_repo}\\Scripts_Private\\Python\\PythonScripts\\script_tools",
                     f"{_repo}\\MayaPythonToolbox\\maya_scripts"]
@@ -148,14 +149,14 @@ def check_for_change(primary_container, secondary_container, comp_container, run
                      primary_container.get('script_repo').replace("\"", "")]
     # CFC BLOCK 3
     for value in val_to_check:
-        _debug_info('Block 3.1', 'Block 3.2', func='check for change',
-                           insert1=value, insert2=check_against, debug=debug)
+        # _debug_info('Block 3.1', 'Block 3.2', func='check for change',
+        #                    insert1=value, insert2=check_against, debug=debug)
         if value not in check_against:
-            _debug_info('Block 3.3', func='check for change', insert=value, debug=debug)
+            # _debug_info('Block 3.3', func='check for change', insert=value, debug=debug)
             refresh_path_map(primary_container, secondary_container, custom=False, debug=debug)
             return True
 
-    _debug_info('CFC End', func='check for change', debug=debug)
+    # _debug_info('CFC End', func='check for change', debug=debug)
     return False
 
 

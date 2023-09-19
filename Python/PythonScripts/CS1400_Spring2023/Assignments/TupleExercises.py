@@ -48,7 +48,7 @@ print("Minimum Value of Index Value 0 in each sub tuple:", subtuple_index0_min)
 -------------------------------------------------
 """
 """
-When we refer to zipping tuples, we mean that we are using the zip cus_funcs to form a collection
+When we refer to zipping tuples, we mean that we are using the zip functions to form a collection
 of iterable element values pulled from two or more iterables, such as a tuple.
 a = ('dog', 'cat')
 b = (55, 35)
