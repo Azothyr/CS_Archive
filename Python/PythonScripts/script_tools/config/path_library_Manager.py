@@ -1,6 +1,6 @@
 from script_tools.utils.format_ops import dict_ops as dict_formatter
 from script_tools.components.json_config_manager_base import JsonConfigManager
-from script_tools.config.env_handler import EnvHandler
+from script_tools.config.environment_handler import EnvHandler
 # from script_tools.handlers.debug_handler import get_debugger
 from script_tools.components.decorators import singleton
 
