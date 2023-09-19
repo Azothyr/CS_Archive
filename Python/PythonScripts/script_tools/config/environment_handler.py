@@ -1,11 +1,10 @@
 from functools import singledispatch
 from pathlib import Path
 from script_tools.handlers.input_handler import InputHandler
-from script_tools.handlers.hash_handler import HashHandler
 from script_tools.components.json_config_manager_base import JSONConfigManager
 
 
-def __initial_info():
+def _initial_info():
     _src = {
         "name": "DEFAULT_ENV",
         "comp1": ["C:/GitRepos/Scripts_Private/Python/PythonScripts/script_tools", "C:/GitRepos/MayaPythonToolbox"],
@@ -28,23 +27,35 @@ def __initial_info():
     return _src, required_keys_actions
 
 
-
-class EnvHandler:
+class EnvironmentHandler:
     def __init__(self, file_path: str):
-        self.config_manager = JSONConfigManager(file_path)
+        try:
+            self.config_manager = JSONConfigManager(file_path)
+        except FileNotFoundError:
+            value = self.__request_user_input('No config file found, would you like to create one? (yes/no):\n>>>')
+            match value.lower():
+                case "yes":
+                    # handle start
+                case "no":
+                    # handle stop
+                case _:
+
+
+        self.source_info = _initial_info()[0]
+        self.required_keys = _initial_info()[1]
 
         # Check if repo paths exist
         python_repo_base_path = Path(self.get('python_repo_base', None))
         maya_repo_base_path = Path(self.get('maya_repo_base', None))
         custom_script_path = Path(self.get('custom_script_path', None))
 
-    def get(self, key: str, default: any = None):
-        return self.config_manager.get(key) if self.config_manager.get(key) else default
+    def get(self, key: str, default: any = None): return self.config_manager.get(key) if (self.config_manager.get(key)
+                                                                                          is not None) else default
 
     @singledispatch
     def set(self, key: str, value: any):
         # Default implementation (e.g., for simple types)
-        self.config_manager.set_value(key, value)
+        self.config_manager.set(key, value)
 
     @set.register(dict)
     def _(self, key: str, value: dict):
@@ -52,24 +63,18 @@ class EnvHandler:
         if self.is_nested_dict(value):
             self.update(key, value)
         else:
-            self.config_manager.set_value(key, value)
+            self.config_manager.set(key, value)
+
+    def update(self, key: str, value: dict): self.config_manager.set_single_nested(key, value)
 
     @staticmethod
-    def is_nested_dict(d):
-        # Check if the dictionary contains another dictionary
-        return any(isinstance(val, dict) for val in d.values())
-
-    def update(self, key: str, value: dict):
-        self.config_manager.set_nested_value(key, value)
-
-
-class EnvHandlerOld():
-        self.__required_keys = self.__check_environment_info().get('required_keys').keys()
-        self.__refresh_needed = False if str(Path.home()) == self.config_json.get('user') else True
+    def is_nested_dict(d): return any(isinstance(val, dict) for val in d.values())
 
     @staticmethod
-    def __request_user_input(prompt: str) -> str:
-        return InputHandler().get_text_input(prompt, allow_empty=True)
+    def __request_user_input(prompt: str) -> str: return InputHandler().get_text_input(prompt, allow_empty=True)
+
+    self.__required_keys = self.__check_environment_info().get('required_keys').keys()
+    self.__refresh_needed = False if str(Path.home()) == self.config_json.get('user') else True
 
     def __check_environment(self):
         # 1. Verify environment name
@@ -136,14 +141,3 @@ class EnvHandlerOld():
                 else:
                     raise ValueError(
                         f"Value for {key} is required, input was {new_path} but should be a path that exists.")
-
-
-
-if __name__ == "__main__":
-    """
-    Path.home() / "Documents/custom_scripts/_pkg_config.json"
-    """
-
-    print('creating env')
-    env = EnvHandler()
-    print(env)
