@@ -1,5 +1,5 @@
 import os
-from script_tools.config.path_library_Manager import PathManager
+from script_tools.config.path_library_manager import PathManager
 from script_tools.handlers.debug_handler import get_debugger
 
 __debugger = get_debugger(__name__)
