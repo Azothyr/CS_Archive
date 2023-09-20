@@ -33,12 +33,12 @@ class JSONConfigManager:
         set_all_nested: Sets all values, even in nested dictionaries, to a given value.
         set_single_nested: Sets a value for a key, supports updating single nested dictionaries.
     """
-    def __init__(self, file_path: str | Path, verbose: bool = False):
-        self.file_path = Path(file_path) if isinstance(file_path, str) else file_path
+    def __init__(self, name: str, file_path: str | Path, verbose: bool = False):
+        self.name = name
+        self.file_path = file_path
+        self.verbose = verbose
         if not self.file_path.exists():
             raise FileNotFoundError(f"JSON file not found: {self.file_path}")
-        self._deep_update({"ENV_PATH": str(file_path)}, self.read_config())
-        self.verbose = verbose
 
     def __repr__(self) -> str:
         formatted_items = []
@@ -85,6 +85,8 @@ class JSONConfigManager:
     def write_config(self, data: dict) -> None:
         """Writes a dictionary to the JSON file."""
         try:
+            if data is None or not isinstance(data, dict):
+                raise TypeError(f"Data must be a dictionary, received: {type(data)}")
             self.file_path.write_text(json.dumps(data, indent=4))
             self.log(f"Successfully wrote to JSON file: {self.file_path}")
         except Exception as e:
