@@ -8,6 +8,7 @@ Get all .py _files in the directory and subdirectories this script is run from
 Return: Writes Maya userSetup.py and places all custom scripts in Maya directory
 Set a sys env variable "pythonpath" with script folder path value.
 """
+<<<<<<< HEAD
 <<<<<<< STABLE
 import platform
 try:
@@ -24,8 +25,17 @@ def _debug_info():
         "debug-3": "custom_tool_inserter.py finished",
         "debug-4": "Exiting",
     }
+=======
+from handlers.debug_handler import get_debugger
+from script_tools.utils.platform_ops import platform_search_ops as platform_search
+from script_tools.utils.file_ops.file_path_ops import get_file_path_from_lib as get_path
+from script_tools.utils.file_ops.file_transfer_ops import transfer_current_file_directory as transfer_py_dir
+>>>>>>> main
 
+# __debugger = get_debugger(__name__, _all=True, global_switch=True, trace_switch=True, check_stack=True)
+__debugger = get_debugger(__name__, global_switch=True)
 
+<<<<<<< HEAD
 if __name__ == "__main__":
     debugger.print('debug-0')
     if platform_search.platform_check("Windows"):
@@ -51,6 +61,8 @@ from script_tools.utils.file_ops.file_transfer_ops import transfer_current_file_
 # __debugger = get_debugger(__name__, _all=True, global_switch=True, trace_switch=True, check_stack=True)
 __debugger = get_debugger(__name__, global_switch=True)
 
+=======
+>>>>>>> main
 
 def debug_info() -> dict:
     return {
@@ -85,4 +97,7 @@ if __name__ == "__main__":
     __debugger.print('dunder main enter', start='dunder main', upper=True)
     main()
     __debugger.print('dunder main exit', start='main-3.2', upper=True)
+<<<<<<< HEAD
 >>>>>>> "
+=======
+>>>>>>> main
