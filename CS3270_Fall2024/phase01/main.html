@@ -1,45 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Python: module main</title>
+    <meta charset="utf-8">
+    <title>Python: module main</title>
 </head><body>
 
 <table class="heading">
-<tr class="heading-text decor">
-<td class="title">&nbsp;<br><strong class="title">main</strong></td>
-<td class="extra"><a href=".">index</a><br><a href="main.py">main.py</a></td></tr></table>
-    <p></p>
+    <tr class="heading-text decor">
+        <td class="title">&nbsp;<br><strong class="title">main</strong></td>
+        <td class="extra">
+            <a href=".">index</a><br>
+            <a href="main.py">main.py</a>
+        </td>
+    </tr></table>
+<p></p>
 <p>
 <table class="section">
-<tr class="decor pkg-content-decor heading-text">
-<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
-    
-<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
-<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="logging.html">logging</a><br>
-</td><td class="multicolumn"><a href="pandas.html">pandas</a><br>
-</td><td class="multicolumn"><a href="pathlib.html">pathlib</a><br>
-</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+    <tr class="decor pkg-content-decor heading-text">
+        <td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+
+    <tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+        <td class="singlecolumn"><table><tr><td class="multicolumn"><a href="logging.html">logging</a><br>
+        </td><td class="multicolumn"><a href="os.html">os</a><br>
+        </td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
 <table class="section">
-<tr class="decor functions-decor heading-text">
-<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
-    
-<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
-<td class="singlecolumn"><dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><span class="code">Main&nbsp;function&nbsp;to&nbsp;run&nbsp;the&nbsp;program</span></dd></dl>
- <dl><dt><a name="-process_weather_info_to_data_structures"><strong>process_weather_info_to_data_structures</strong></a>(data) -&gt; tuple[list, list, list, list, list, dict, list, dict, list, list]</dt><dd><span class="code">Process&nbsp;the&nbsp;weather&nbsp;info&nbsp;into&nbsp;data&nbsp;structures<br>
+    <tr class="decor functions-decor heading-text">
+        <td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+
+    <tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+        <td class="singlecolumn"><dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><span class="code">Main&nbsp;function&nbsp;to&nbsp;run&nbsp;the&nbsp;program,&nbsp;opens&nbsp;a&nbsp;file&nbsp;dialog&nbsp;to&nbsp;select&nbsp;the&nbsp;data&nbsp;file&nbsp;to&nbsp;process</span></dd></dl>
+            <dl><dt><a name="-read_data_from_csv"><strong>read_data_from_csv</strong></a>(path: str | pathlib.Path) -&gt; pandas.core.frame.DataFrame</dt><dd><span class="code">Read&nbsp;the&nbsp;data&nbsp;from&nbsp;the&nbsp;csv&nbsp;file<br>
 &nbsp;<br>
 Parameters:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;(pd.DataFrame):&nbsp;Dataframe&nbsp;of&nbsp;the&nbsp;weather&nbsp;info<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;(str&nbsp;|&nbsp;Path):&nbsp;Path&nbsp;to&nbsp;the&nbsp;csv&nbsp;file<br>
 &nbsp;<br>
 Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;tuple[list,&nbsp;list,&nbsp;list,&nbsp;list,&nbsp;dict,&nbsp;list,&nbsp;list]:&nbsp;Processed&nbsp;data&nbsp;(country,&nbsp;city,&nbsp;date,&nbsp;time,&nbsp;condition,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;temperature,&nbsp;humidity,&nbsp;wind_speed,&nbsp;latitude,&nbsp;longitude)</span></dd></dl>
- <dl><dt><a name="-read_data_from_csv"><strong>read_data_from_csv</strong></a>(path) -&gt; pandas.core.frame.DataFrame</dt><dd><span class="code">Read&nbsp;the&nbsp;data&nbsp;from&nbsp;the&nbsp;csv&nbsp;file<br>
-&nbsp;<br>
-Parameters:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;path&nbsp;(pathlib.Path):&nbsp;Path&nbsp;to&nbsp;the&nbsp;csv&nbsp;file<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DataFrame:&nbsp;Dataframe&nbsp;of&nbsp;the&nbsp;data</span></dd></dl>
+            <dl><dt><a name="-retrieve_file"><strong>retrieve_file</strong></a>() -&gt; str</dt><dd><span class="code">Open&nbsp;a&nbsp;file&nbsp;dialog&nbsp;to&nbsp;select&nbsp;the&nbsp;data&nbsp;file&nbsp;to&nbsp;process<br>
 &nbsp;<br>
 Return:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pd.DataFrame:&nbsp;Dataframe&nbsp;of&nbsp;the&nbsp;data</span></dd></dl>
-</td></tr></table>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;Path&nbsp;to&nbsp;the&nbsp;selected&nbsp;file</span></dd></dl>
+        </td></tr></table>
 </body></html>

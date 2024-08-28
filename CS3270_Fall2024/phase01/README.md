@@ -1,6 +1,6 @@
-# Weather Data Processing Script
+# CSV Data Processing Script
 
-This Python script reads weather data from a CSV file, processes the data into various data structures, and logs the information for debugging and further analysis.
+This Python script allows users to select and read data from a CSV file, processes the data into a Pandas DataFrame, and logs the information for debugging and further analysis.
 
 ## Table of Contents
 
@@ -24,65 +24,47 @@ This Python script reads weather data from a CSV file, processes the data into v
    The script requires Python 3 and the following Python packages:
 
    - `pandas`
+   - `PyQt5`
    - `logging`
    - `pathlib`
 
    You can install the necessary packages using `pip`:
 
    ```bash
-   pip install pandas
-   ```
-   ```bash
-   pip install logging
-   ```
-   ```bash
-   pip install pathlib
+   pip install pandas PyQt5 logging pathlib
    ```
    
 ## Usage
 
 1. **Place the Dataset:**
-
-   Ensure that the weather dataset (`GlobalWeatherRepository.csv`) is located in the `resources` directory of your project.
+    By default, the script will open a file dialog starting in the `resources` directory. If this directory does not exist, it will default to the user's home directory.
 
 2. **Run the Script:**
 
-   Execute the script using Python:
+   Execute the script using Python at the directory where `main.py` is located:
 
     ```bash
     python main.py
     ```
     
-    The script reads the data, processes it, and logs the output.
+    The script will prompt the user to select a CSV file, read the data, process it, and log the output.
 
 ## Functions
 
-`read_data_from_csv(path) -> pd.DataFrame`
+`read_data_from_csv(path: str | Path) -> DataFrame`
 
 Reads the data from a CSV file and returns a Pandas DataFrame.
 - **Parameters**:
-  - path (pathlib.Path): Path to the CSV file.
+  - `path (str | Path)`: Path to the CSV file.
 - **Returns**:
-  - pd.DataFrame: DataFrame containing the data from the CSV file.
+  - `DataFrame`: DataFrame containing the data from the CSV file.
     
-`process_weather_info_to_data_structures(data) -> tuple`
+`retrieve_file() -> str`
 
-Processes the weather data into various Python data structures.
+Opens a file dialog to select the data file to process.
 
-- **Parameters**:
-data (pd.DataFrame): DataFrame containing the weather data.
 - **Returns**:
-    - tuple: A tuple containing the processed data:
-      - list: Countries
-      - list: Cities
-      - list: Dates
-      - list: Times
-      - list: Weather conditions
-      - dict: Temperature (Fahrenheit and Celsius)
-      - list: Humidity
-      - dict: Wind speed (mph and kph)
-      - list: Latitude
-      - list: Longitude
+    - `str`: Path to the selected file.
 
 `main()`
 
@@ -94,6 +76,7 @@ The script uses Python's built-in logging module to provide informative messages
 - `INFO`: General information about the process.
 
 - `DEBUG`: Detailed information, typically useful for diagnosing issues.
+- 
 Logging configuration is set to DEBUG level by default, so all messages will be printed to the console.
 
 ## Output
@@ -101,6 +84,7 @@ The script logs the following output:
 
 - INFO:
   - Confirms successful reading and preprocessing of data.
+
 - DEBUG:
   - Shows a sample of the data from the CSV file.
   - Displays the first item from each processed data structure.
@@ -118,13 +102,10 @@ DEBUG:root:
 
 INFO:root:    
     Data preprocessed successfully
-    
-DEBUG:root:
-['Afghanistan', 'Kabul', '2024-05-16', '13:15', 'Partly Cloudy', dict_keys(['fahrenheit', 'celsius']), 24, dict_keys(['mph', 'kph']), 34.52, 69.18]
 ```
 
 ## Dataset
 
-The current iteration uses a hardcoded dataset (`GlobalWeatherRepository.csv`) located in the `resources` directory. 
-The dataset contains weather information for various locations around the world and can be downloaded from the following link:
-https://www.kaggle.com/datasets/nelgiriyewithana/global-weather-repository
+The current iteration uses a CSV dataset selected by the user through a file dialog. By default, the file dialog will open in the `resources` directory if it exists, or in the user's home directory otherwise.
+
+The default dataset provided in the resource folder is available for use and was downloaded from this Kaggle repository: [Global Weather Repository](https://www.kaggle.com/datasets/nelgiriyewithana/global-weather-repository).
