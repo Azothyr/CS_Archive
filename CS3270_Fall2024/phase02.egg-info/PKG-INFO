@@ -1,0 +1,129 @@
+Metadata-Version: 2.1
+Name: phase02
+Version: 0.1
+Summary: Phase 2 of the CS3270 project
+Home-page: https://github.com/Azothyr/CS_Archive/tree/main/CS3270_Fall2024/phase02
+Author: Zachary Peterson
+Author-email: 10719862@uvu.edu
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: pandas
+Requires-Dist: PyQt5
+Requires-Dist: numpy
+Requires-Dist: scipy
+
+# CSV Data Processing Script
+
+This Python script allows users to select and read data from a CSV file, processes the data into a Pandas DataFrame, and logs the information for debugging and further analysis.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Functions](#functions)
+- [Logging](#logging)
+- [Output](#output)
+- [Dataset](#dataset)
+
+## Installation
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/Utah-Valley-University/phase-1-optimal-python-development-lifecycle-Azothyr.git
+   ```   
+
+2. **Install Dependencies:**
+
+   The script requires Python 3 and the following Python packages:
+
+   - `pandas`
+   - `PyQt5`
+   - `logging`
+   - `pathlib`
+
+   You can install the necessary packages using `pip`:
+
+   ```bash
+   pip install pandas PyQt5 logging pathlib
+   ```
+   
+## Usage
+
+1. **Place the Dataset:**
+    By default, the script will open a file dialog starting in the `resources` directory. If this directory does not exist, it will default to the user's home directory.
+
+2. **Run the Script:**
+
+   Execute the script using Python at the directory where `main.py` is located:
+
+    ```bash
+    python main.py
+    ```
+    
+    The script will prompt the user to select a CSV file, read the data, process it, and log the output.
+
+## Functions
+
+`read_data_from_csv(path: str | Path) -> DataFrame`
+
+Reads the data from a CSV file and returns a Pandas DataFrame.
+- **Parameters**:
+  - `path (str | Path)`: Path to the CSV file.
+- **Returns**:
+  - `DataFrame`: DataFrame containing the data from the CSV file.
+    
+`retrieve_file() -> str`
+
+Opens a file dialog to select the data file to process.
+
+- **Returns**:
+    - `str`: Path to the selected file.
+
+`main()`
+
+Main function that orchestrates the reading and processing of the weather data.
+
+## Logging
+The script uses Python's built-in logging module to provide informative messages during execution. The logging levels used are:
+
+- `INFO`: General information about the process.
+
+- `DEBUG`: Detailed information, typically useful for diagnosing issues.
+- 
+Logging configuration is set to DEBUG level by default, so all messages will be printed to the console.
+
+## Output
+The script logs the following output:
+
+- INFO:
+  - Confirms successful reading and preprocessing of data.
+
+- DEBUG:
+  - Shows a sample of the data from the CSV file.
+  - Displays the first item from each processed data structure.
+
+Sample output:
+
+``` plaintext
+info:root:    
+    Data read successfully
+
+DEBUG:root:       
+    country     location_name   ...     moon_phase      moon_illumination
+0  Afghanistan  Kabul           ...     Waxing Gibbous  55
+[1 rows x 41 columns]
+
+INFO:root:    
+    Data preprocessed successfully
+```
+
+## Dataset
+
+The current iteration uses a CSV dataset selected by the user through a file dialog. By default, the file dialog will open in the `resources` directory if it exists, or in the user's home directory otherwise.
+
+The default dataset provided in the resource folder is available for use and was downloaded from this Kaggle repository: [Global Weather Repository](https://www.kaggle.com/datasets/nelgiriyewithana/global-weather-repository).

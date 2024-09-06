@@ -1,0 +1,13 @@
+LICENSE.txt
+README.md
+setup.py
+phase02/__init__.py
+phase02/calculator.py
+phase02/csv_handler.py
+phase02/file_handler.py
+phase02/main.py
+phase02.egg-info/PKG-INFO
+phase02.egg-info/SOURCES.txt
+phase02.egg-info/dependency_links.txt
+phase02.egg-info/requires.txt
+phase02.egg-info/top_level.txt
