@@ -1,6 +1,7 @@
 import pytest
-from csv_handler import CSVHandler
 import pandas as pd
+
+from csv_handler import CSVHandler
 
 # Mock CSV data for testing
 MOCK_CSV_CONTENT = """col1,col2
@@ -31,12 +32,6 @@ def test_read_data_in_chunks(mock_csv_file):
     assert len(chunks[0]) == 2  # First chunk should have 2 rows
 
 
-def test_file_not_found():
-    handler = CSVHandler("non_existent_file.csv")
-    with pytest.raises(FileNotFoundError):
-        list(handler.read_data_in_chunks())
-
-
 def test_read_data_in_chunks_exception(monkeypatch, mock_csv_file):
     # Simulate an exception during file reading
     def mock_read_csv(*args, **kwargs):
@@ -49,4 +44,10 @@ def test_read_data_in_chunks_exception(monkeypatch, mock_csv_file):
     handler = CSVHandler(mock_csv_file)
 
     with pytest.raises(Exception, match="Error reading file"):
+        list(handler.read_data_in_chunks())
+
+
+def test_file_not_found():
+    handler = CSVHandler("non_existent_file.csv")
+    with pytest.raises(FileNotFoundError):
         list(handler.read_data_in_chunks())

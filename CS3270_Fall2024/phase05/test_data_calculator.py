@@ -1,17 +1,17 @@
-import pytest
-from data_calculator import DataCalculator
 import numpy as np
 import scipy.stats as sp
+
+from data_calculator import DataCalculator
 
 
 def test_data_initialization():
     data = [1, 2, 3, 4, 5]
     calculator = DataCalculator(data)
 
-    assert calculator.get_data() == data
-    assert calculator.mean == np.mean(data)
-    assert calculator.median == np.median(data)
-    assert calculator.mode == sp.mode(data)[0]
+    assert calculator.get_data() == data  # [1, 2, 3, 4, 5]
+    assert calculator.mean == np.mean(data)  # 3.0
+    assert calculator.median == np.median(data)  # 3.0
+    assert calculator.mode == sp.mode(data)[0]  # 1
 
 
 def test_data_validation():
@@ -45,13 +45,13 @@ def test_mode_calculation():
 def test_variance_calculation():
     data = [1, 2, 3]
     calculator = DataCalculator(data)
-    assert calculator.calculate_variance() == np.var(data)
+    assert calculator.calculate_variance() == np.var(data)  # 1.0
 
 
 def test_standard_deviation_calculation():
     data = [1, 2, 3]
     calculator = DataCalculator(data)
-    assert calculator.calculate_standard_deviation() == np.std(data)
+    assert calculator.calculate_standard_deviation() == np.std(data)  # 1.0
 
 
 def test_min_max_calculation():

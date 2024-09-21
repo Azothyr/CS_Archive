@@ -1,7 +1,8 @@
 import pytest
-from file_handler import FileHandler
-from PyQt5.QtWidgets import QFileDialog
 import os
+from PyQt5.QtWidgets import QFileDialog
+
+from file_handler import FileHandler
 
 
 def test_get_default_directory(monkeypatch):
