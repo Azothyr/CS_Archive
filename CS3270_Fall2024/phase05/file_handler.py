@@ -13,6 +13,11 @@ class FileHandler:
     Methods:
         _get_default_directory(): Returns the default directory for the file dialog
         retrieve_file(): Opens a file dialog to select the CSV file to process
+
+    Example:
+        >>> handler = FileHandler()
+        >>> os.path.basename(handler.default_dir)  # Based on the existence of certain directories
+        'resources'  # Or 'resources' or your home directory based on the environment
     """
     def __init__(self):
         self.default_dir = self._get_default_directory()

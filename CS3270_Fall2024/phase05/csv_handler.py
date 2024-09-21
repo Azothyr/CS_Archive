@@ -12,12 +12,20 @@ class CSVHandler:
 
     Methods:
         read_data_in_chunks(): Reads the data from the CSV file in chunks using a generator.
+
+    Example:
+        >>> handler = CSVHandler("test.csv")
+        >>> chunks = list(handler.read_data_in_chunks(chunk_size=2))
+        >>> len(chunks)
+        3
+        >>> isinstance(chunks[0], DataFrame)
+        True
     """
 
     def __init__(self, file_path: str | Path):
         self.file_path = file_path
 
-    def read_data_in_chunks(self, chunk_size: int = 1000):
+    def read_data_in_chunks(self, chunk_size: int = 1000) -> DataFrame:
         """
         Reads the data from the CSV file in chunks using a generator.
 
@@ -37,4 +45,4 @@ class CSVHandler:
                 yield chunk
         except Exception as e:
             log.error(f"Error reading file: {e}")
-            raise
+            raise e

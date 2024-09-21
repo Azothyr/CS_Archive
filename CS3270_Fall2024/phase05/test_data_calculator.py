@@ -11,7 +11,7 @@ def test_data_initialization():
     assert calculator.get_data() == data
     assert calculator.mean == np.mean(data)
     assert calculator.median == np.median(data)
-    assert calculator.mode.mode[0] == sp.mode(data).mode[0]
+    assert calculator.mode == sp.mode(data)[0]
 
 
 def test_data_validation():
@@ -39,7 +39,7 @@ def test_median_calculation():
 def test_mode_calculation():
     data = [1, 1, 2, 2, 2]
     calculator = DataCalculator(data)
-    assert calculator.calculate_mode().mode[0] == 2
+    assert calculator.calculate_mode() == 2
 
 
 def test_variance_calculation():

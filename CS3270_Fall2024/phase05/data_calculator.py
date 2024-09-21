@@ -1,7 +1,7 @@
 from typing import Any
 import numpy as np
 import scipy.stats as sp
-from numpy import floating
+from numpy import floating, ndarray
 
 
 class DataCalculator:
@@ -28,6 +28,24 @@ class DataCalculator:
         calculate_standard_deviation(): Return the standard deviation of the data
         calculate_min(): Return the minimum of the data
         calculate_max(): Return the maximum of the data
+
+    Example:
+        >>> data = [1, 2, 3, 4, 5]
+        >>> dc = DataCalculator(data)
+        >>> dc.mean
+        3.0
+        >>> dc.median
+        3.0
+        >>> dc.mode[0]
+        1
+        >>> dc.variance
+        2.0
+        >>> dc.standard_deviation
+        1.4142135623730951
+        >>> dc.min
+        1
+        >>> dc.max
+        5
     """
     def __init__(self, data: list[int | float]):
         """
@@ -93,14 +111,14 @@ class DataCalculator:
         """
         return np.median(self.data)
 
-    def calculate_mode(self) -> sp.mode:
+    def calculate_mode(self) -> ndarray:
         """
         Return the mode of the data
 
         Returns:
             ModeResult: Mode of the data
         """
-        return sp.mode(self.data)
+        return sp.mode(self.data)[0]
 
     def calculate_variance(self) -> floating[Any]:
         """
