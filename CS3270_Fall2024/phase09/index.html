@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block bodycontent %}
+
+    <div style="background-color: #8c8c8c; padding: 10px; margin: 0;">
+        <h1 style="margin-bottom: 0">{% if success %}Upload New CSV File{% else %}Upload CSV File{% endif %}</h1>
+
+        <!-- Form with an id to target with JavaScript -->
+        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+            <!-- File input with an id to listen for changes -->
+            <input id="fileInput" type="file" name="file" accept=".csv" required style="background-color: #aaaaaa; margin: 5px;">
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    {% if success and data %}
+        <h2 style="margin-bottom: 0"><span style="background-color: #aaaaaa; padding: 5px">Uploaded Data Preview</span></h2>
+
+        <!-- Scrollable container -->
+        <div class="scrollable-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        {% for column in data[0].keys() %}
+                            <th>{{ column }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                        <tr>
+                            {% for cell in row.values() %}
+                                <td>{{ cell }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <a href="{{ url_for('analysis') }}">
+                <button>Go to Analysis Page</button>
+            </a>
+        </div>
+    {% endif %}
+
+    <!-- JavaScript to auto-submit the form when a file is selected -->
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function() {
+            // Automatically submit the form when a file is selected
+            document.getElementById('uploadForm').submit();
+        });
+    </script>
+
+{% endblock %}

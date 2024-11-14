@@ -1,0 +1,200 @@
+{% extends "layout.html" %}
+
+{% block bodycontent %}
+
+    <h1>Data</h1>
+
+    <div class="scrollable-table-container" id="data-container">
+        <table id="data-table">
+            <thead>
+                <tr>
+
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const columns = JSON.parse('{{ columns | tojson | safe }}');
+        let page = 1;
+
+        // Populate table headers
+        const tableHeadRow = document.getElementById('data-table').getElementsByTagName('thead')[0].insertRow(0);
+        columns.forEach(column => {
+            const th = document.createElement('th');
+            th.innerText = column;
+            tableHeadRow.appendChild(th);
+        });
+
+        // Function to load data only as needed
+        function loadData() {
+            fetch(`/get_data?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+                    data.data.forEach(row => {
+                        const tr = document.createElement('tr');
+                        columns.forEach(column => {
+                            const td = document.createElement('td');
+                            td.innerText = row[column];
+                            tr.appendChild(td);
+                        });
+                        tableBody.appendChild(tr);
+                    });
+                    page++;
+                });
+        }
+
+        // Infinite scroll function to detect when near bottom of container
+        document.getElementById('data-container').addEventListener('scroll', function () {
+            const container = document.getElementById('data-container');
+            if (container.scrollTop + container.clientHeight >= container.scrollHeight - 10) {
+                loadData();
+            }
+        });
+
+        // Initial load of data
+        loadData();
+    </script>
+
+    <h2>Data Analysis</h2>
+
+    <div id="analysiscontent">
+        <form id="analysis-form" onsubmit="return loadAnalysis()">
+            <label for="column-select">Select Column for Analysis:</label>
+            <select name="analysis-column" id="column-select">
+                {% for column in numeric_columns %}
+                    <option value="{{ column }}">{{ column }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Analyze</button>
+        </form>
+    </div>
+
+    <div id="analysis-result" style="display: none; margin-top: 15px;">
+        <h3>Analysis Results</h3>
+        <table id="analysis-table" style="border: 1px solid black; width: max-content; table-layout: auto; text-align: left;">
+            <thead>
+                <tr>
+                    <th>Statistic</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Load analysis data via AJAX and populate the results table
+        function loadAnalysis() {
+            const columnSelect = document.getElementById('column-select');
+            const column = columnSelect.value;
+
+            fetch('/get_analysis', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'analysis-column': column
+                })
+            })
+                .then(response => response.json())
+                .then(analysisResult => {
+                    const analysisTableBody = document.getElementById('analysis-table').getElementsByTagName('tbody')[0];
+                    const analysisResultDiv = document.getElementById('analysis-result');
+
+                    // Clear any previous analysis results
+                    analysisTableBody.innerHTML = '';
+
+                    // Populate the table with analysis results
+                    Object.entries(analysisResult).forEach(([stat, value]) => {
+                        const tr = document.createElement('tr');
+
+                        const statCell = document.createElement('td');
+                        statCell.innerText = stat.charAt(0).toUpperCase() + stat.slice(1);
+                        tr.appendChild(statCell);
+
+                        const valueCell = document.createElement('td');
+                        valueCell.innerText = value;
+                        tr.appendChild(valueCell);
+
+                        analysisTableBody.appendChild(tr);
+                    });
+
+                    // Make the analysis result table visible
+                    analysisResultDiv.style.display = 'block';
+                })
+                .catch(error => console.error('Error loading analysis:', error));
+
+            // Prevent form submission from reloading the page
+            return false;
+        }
+    </script>
+
+    <h2>Visualization</h2>
+
+    <div id="visualization-content">
+        <form id="visualization-form" onsubmit="return generateVisualization()">
+            <label for="independent-select">Independent Variable:</label>
+            <select name="independent_variable" id="independent-select">
+                {% for column in columns %} <!-- Use all columns for independent variable -->
+                    <option value="{{ column }}">{{ column }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="dependent-select">Dependent Variable:</label>
+            <select name="dependent_variable" id="dependent-select">
+                {% for column in numeric_columns %} <!-- Numeric columns only for dependent variable -->
+                    <option value="{{ column }}">{{ column }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Generate Visualization</button>
+        </form>
+
+        <div id="visualization-result" style="margin-top: 20px;">
+            <img id="visualization-image" src="" alt="Visualization" style="display: none; width: 100%; height: auto;">
+        </div>
+    </div>
+
+    <script>
+        function generateVisualization() {
+            const independentVariable = document.getElementById('independent-select').value;
+            const dependentVariable = document.getElementById('dependent-select').value;
+
+            fetch('/generate_visualization', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'independent_variable': independentVariable,
+                    'dependent_variable': dependentVariable
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    const visualizationImage = document.getElementById('visualization-image');
+                    visualizationImage.src = data.image_url;
+                    visualizationImage.style.display = 'block';
+                }
+            })
+            .catch(error => console.error('Error generating visualization:', error));
+
+            return false;
+        }
+    </script>
+
+    <br>
+    <button onclick="location.href='/';">Back</button>
+
+
+{% endblock %}

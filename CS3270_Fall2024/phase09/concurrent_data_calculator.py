@@ -2,7 +2,8 @@ import concurrent.futures
 import asyncio
 from tqdm import tqdm
 import logging as log
-from timer import function_timer
+from typing import List, Union
+# from timer import function_timer
 from data_calculator import DataCalculator
 import time
 
@@ -11,15 +12,15 @@ class ConcurrentDataCalculator(DataCalculator):
     # Threshold for using concurrency: default is 10,000,000 data points
     concurrency_threshold = 10_000_000
 
-    def __init__(self, data: list[int | float]):
+    def __init__(self, data: List[Union[int, float]]):
         super().__init__(data)
 
-    def _validate_data(self, in_data: list[int | float]):
+    def _validate_data(self, in_data: List[Union[int, float]]):
         """
         Validate the data to ensure it is a list of integers or floats
 
         Parameters:
-            in_data (list[int | float]): List of data to validate
+            in_data (List[Union[int, float]]): List of data to validate
         """
         if not isinstance(in_data, list):
             raise ValueError("Input data must be a list")

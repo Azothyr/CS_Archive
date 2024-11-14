@@ -1,0 +1,48 @@
+ <!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="initial-scale=1, width=device-width">
+    <title>Title</title>
+</head>
+<body marginwidth="0" marginheight="0" style="background-color: #e6e6e6; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin: 25px; padding: 0;">
+    {% block bodycontent %}{% endblock %}
+</body>
+</html>
+<style>
+    .scrollable-table-container{
+        max-height: 600px;
+        overflow-y: auto;
+        overflow-x: auto;
+        width: 95%;
+        border: 1px solid #646464;
+        padding: 5px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #aaaaaa
+    }
+
+    th {
+        border: 2px solid #646464;
+        color: #ffffff;
+        background-color: #000000;
+        padding: 8px;
+        text-align: center;
+    }
+
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #analysis-table {
+        border: 1px solid black;
+        width: max-content;
+        table-layout: auto;
+        text-align: left;
+    }
+</style>

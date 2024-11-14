@@ -163,6 +163,22 @@
 
 ## Module 8: Using Clusters
 
+### 1. How is cluster computing different from sequential computing and multicore shared memory computing?
+   - The main difference is cluster computing uses multiple machines to work on, normally very large, tasks. Using their own memory for individualized portions of the larger task and communicating with others from it's cluster over their network. While sequential and multicore perform all their processing within their local and singular machine for the entirety of a task.
+
+### 2. What are the 3 major phases or stages of a cluster (PySpark) data processing program?
+   1.  Initialization and loading of data to the driver (spark session).
+   2. Lazy evaluation of transformation operations.
+   3. Execution and computation leading to the output.
+
+### 3. Why is lazy evaluation important for data processing?
+   - It allows for work to be queued giving better performance and maintains execution order.
+
+### 4. What's the main difference between a PySpark DataFrame and a pandas DataFrame? Why is that important?
+   - memory size. PySpark can get past the size limitation of a single computers memory size. This allows for large data sets to be worked on where a single computer would have lost data if it didn't error due to capacity.
+
+### 5. Why is PySpark popular?
+   - It integrates with hadoop tools and allows python to be used.
 ---
 
 ## Module 9: Web Development

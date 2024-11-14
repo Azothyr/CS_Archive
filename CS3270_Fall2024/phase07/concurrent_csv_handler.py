@@ -1,14 +1,33 @@
+import asyncio
+import aiofiles
 from pandas import DataFrame, concat
 import concurrent.futures
 from functools import reduce
 from csv_handler import CSVHandler
+import pandas as pd
+import logging as log
 
 
 class ConcurrentCSVHandler(CSVHandler):
     """
     ConcurrentCSVHandler class for asynchronously reading and processing CSV files.
-    It inherits from CSVHandler and only overrides methods that need to be asynchronous.
+    Inherits from CSVHandler and overrides methods to add asynchronous capabilities.
     """
+
+    async def _read_data_in_chunks_async(self):
+        """
+        Reads data from the CSV file in chunks synchronously within an async wrapper.
+
+        Yields:
+            DataFrame: A chunk of the CSV data as a DataFrame.
+        """
+        try:
+            log.debug(f"Reading file asynchronously: {self.file_path}")
+            for chunk in pd.read_csv(self.file_path, chunksize=self.chunk_size):
+                yield chunk
+        except Exception as e:
+            log.error(f"Error reading file asynchronously: {e}")
+            raise e
 
     def get_data(self, columns: list[str] | None = None, start_row: int | None = None,
                  end_row: int | None = None, filters: dict | None = None) -> DataFrame:
@@ -24,18 +43,35 @@ class ConcurrentCSVHandler(CSVHandler):
         Returns:
             DataFrame: Processed data
         """
-        data = []  # To collect the processed chunks
+        data = []
 
         # Use ThreadPoolExecutor to process chunks concurrently
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            futures = [executor.submit(self._process_chunk, chunk, columns, start_row, end_row, filters)
-                       for chunk in self._read_data_in_chunks()]
+            chunks = asyncio.run(self._read_all_chunks())
+            futures = [
+                executor.submit(self._process_chunk, chunk, columns, start_row, end_row, filters)
+                for chunk in chunks
+            ]
 
             for future in concurrent.futures.as_completed(futures):
-                data.append(future.result())
+                result = future.result()
+                if result is not None:
+                    data.append(result)
 
         # Use reduce to concatenate all chunks into a single DataFrame
-        return reduce(lambda x, y: concat([x,y]), data) if data else DataFrame()  # Return empty DataFrame if no data
+        return reduce(lambda x, y: concat([x, y]), data) if data else DataFrame()
+
+    async def _read_all_chunks(self):
+        """
+        Helper method to read all chunks asynchronously.
+
+        Returns:
+            List[DataFrame]: A list of chunks read asynchronously.
+        """
+        chunks = []
+        async for chunk in self._read_data_in_chunks_async():
+            chunks.append(chunk)
+        return chunks
 
 
 if __name__ == "__main__":
@@ -67,12 +103,13 @@ if __name__ == "__main__":
         raise FileNotFoundError("File not found")
 
     print(f"Executing synchronous test")
-    synchronous_time = speed_test(CSVHandler(str(file_path)), num_tests=10)
+    synchronous_time = speed_test(CSVHandler(str(file_path)), num_tests=10, show_order=False, show_data=False)
     print(f"Synchronous test complete\n"
           f"Executing asynchronous test")
-    asynchronous_time = speed_test(ConcurrentCSVHandler(str(file_path)), num_tests=10)
+    asynchronous_time = speed_test(ConcurrentCSVHandler(str(file_path)), num_tests=10, show_order=False, show_data=False)
     print(f"Asynchronous test complete\n")
 
     print(f"Synchronous elapsed time: {synchronous_time} seconds\n"
           f"Asynchronous elapsed time: {asynchronous_time} seconds\n"
-          f"Time difference: {abs(synchronous_time - asynchronous_time):.4f} seconds")
+          f"{"Asynchronous" if asynchronous_time < synchronous_time else "Synchronous"} test is faster by "
+          f"{abs(synchronous_time - asynchronous_time):.4f} seconds")
