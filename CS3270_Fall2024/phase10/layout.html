@@ -1,0 +1,258 @@
+ <!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="initial-scale=1, width=device-width">
+    <title>Title</title>
+</head>
+<body marginwidth="0" marginheight="0" style="background-color: #e6e6e6; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; margin: 25px; padding: 0;">
+    {% block bodycontent %}{% endblock %}
+</body>
+</html>
+
+<script>
+    function addRangeSyncListeners(rangeId, valueId, suffix='') {
+        const rangeInput = document.getElementById(rangeId);
+        const valueInput = document.getElementById(valueId);
+
+        // Sync range input and number input
+        rangeInput.addEventListener('input', function () {
+            valueInput.value = `${rangeInput.value}${suffix}`;
+        });
+
+        valueInput.addEventListener('input', function () {
+            let rawValue = valueInput.value.replace(suffix, '').trim();
+            let value = parseFloat(rawValue);
+
+            const minValue = parseFloat(rangeInput.min);
+            const maxValue = parseFloat(rangeInput.max);
+
+            // Clamp the value to be within the min and max
+            if (isNaN(value)) {
+                value = minValue;
+            } else if (value < minValue) {
+                value = minValue;
+            } else if (value > maxValue) {
+                value = maxValue;
+            }
+
+            // Update the range input and value input
+            valueInput.value = `${value}${suffix}`;
+            rangeInput.value = value;
+        });
+    }
+</script>
+
+<style>
+    body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+    }
+
+    .scrollable-table-container{
+        max-height: 600px;
+        overflow-y: auto;
+        overflow-x: auto;
+        width: 95%;
+        border: 1px solid #646464;
+        padding: 5px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #aaaaaa
+    }
+
+    th {
+        border: 2px solid #646464;
+        color: #ffffff;
+        background-color: #000000;
+        padding: 8px;
+        text-align: center;
+    }
+
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #analysis-table {
+        border: 1px solid black;
+        width: max-content;
+        table-layout: auto;
+        text-align: left;
+    }
+
+    .prediction-form {
+        max-width: 600px;
+        margin: 30px auto 0 auto;
+        padding: 20px 20px 0 20px;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .prediction-result {
+        max-width: 600px;
+        margin: auto;
+        padding: 5px;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .result-message {
+        color: #155724;
+        background-color: #d4edda;
+        border: 3px outset #b0ffc5;
+        border-radius: 5px;
+        margin: 2px 5px;
+        padding: 5px 10px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .error-message {
+        color: #721c24;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 5px;
+        margin: 5px 10px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .form-row {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .form-row label {
+        width: 150px;
+        font-weight: bold;
+    }
+
+    .form-row input[type="range"] {
+        flex: 1;
+        margin-right: 15px;
+    }
+
+    .form-input {
+        flex: 1;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    select.form-input {
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+    }
+
+    .value-box {
+        max-width: 60px;
+        min-width: 30px;
+        padding: 5px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 5px;
+        font-size: 18px;
+        color: #fff;
+        background-color: #007BFF;
+        border: 3px outset #0056b3;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border: 3px outset #003f7f;
+    }
+
+    .btn-secondary {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 5px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #6c757d;
+        border: 3px outset #495057;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border: 3px outset #3b4144;
+    }
+
+    .winddir-container {
+    position: relative;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    width: auto;
+}
+
+    .winddir-popup {
+        display: none;
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 150px;
+        background-color: white;
+        border: 1px solid #ccc;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+        width: calc(100% - 150px);
+    }
+
+    .winddir-option {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .winddir-option:hover {
+        background-color: #f1f1f1;
+    }
+
+    #winddir-display {
+        cursor: pointer;
+        width: calc(100% - 150px);
+        padding: 8px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        box-sizing: border-box;
+    }
+
+    .indent-text {
+        margin-left: 20px;
+    }
+</style>

@@ -9,6 +9,7 @@ This project is a 3-tier web application for uploading, analyzing, and visualizi
 - [Project Structure](#project-structure)
 - [How to Use the Application](#how-to-use-the-application)
 - [File Overview](#file-overview)
+- [Additional Notes](#additional-notes)
 
 ## Features
 
@@ -70,18 +71,18 @@ This is a 3-tier app with:
 1. **Upload a CSV File**:
     - On the home page (`/`), use the "Upload CSV File" button to upload a weather data CSV.
     - After uploading, you should see a preview of the data in a table.
-      ![](./phase09-Output02.png)
+    <br><img src="./phase09-Output02.png" alt="app2" width="500"/><br>
 
 2. **Data Analysis**:
     - After uploading, click "Go to Analysis Page."
     - Choose a numeric column for analysis, and click "Analyze" to get stats like mean, median, etc.
-      ![](./phase09-Output03.png)
+    <br><img src="./phase09-Output02.png" alt="app3" width="500"/><br>
 
 3. **Create Visualizations**:
     - On the analysis page, choose an independent (x-axis) and dependent (y-axis) variable.
     - Click "Generate Visualization" to create a scatter plot (if both variables are numeric) or a box plot (if the independent variable is categorical and the dependent variable is numeric).
     - The visualization will appear as an image on the page.
-      ![](./phase09-Output04.png)
+    <br><img src="./phase09-Output04.png" alt="drawing" width="500"/><br>
 
 ## File Overview
 

@@ -1,0 +1,199 @@
+{% extends "layout.html" %}
+
+{% block bodycontent %}
+
+<form action="/predict" method="post" class="prediction-form">
+    <div class="form-row">
+        <label for="location-select">Location:</label>
+        <select name="location_variable" id="location-select" class="form-input">
+            {% for location in ml_locations %}
+                <option value="{{ location }}"
+                    {% if form_data is not none and form_data.get('location_variable') == location %} selected {% endif %}>
+                    {{ location }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="temperature">Temperature:</label>
+        <input type="range" min="-70" max="60" id="temperature" name="Temperature" value="{{ form_data.Temperature if form_data else '15' }}" required>
+        <input type="text" class="value-box" id="temperature_value" value="{{ form_data.Temperature + '°C' if form_data else '15°C' }}">
+    </div>
+
+    <div class="form-row">
+        <label for="raintoday">Rain Today:</label>
+        <select name="RainToday" id="raintoday" class="form-input">
+            <option value="No"
+                {% if form_data is not none and form_data.get('RainToday') == 'No' %} selected {% endif %}>
+                No
+            </option>
+            <option value="Yes"
+                {% if form_data is not none and form_data.get('RainToday') == 'Yes' %} selected {% endif %}>
+                Yes
+            </option>
+        </select>
+    </div>
+
+    <div class="form-row" id="rainfall-container">
+        <label for="rainfall">Rainfall:</label>
+        <input type="range" min="0" max="100" id="rainfall" name="Rainfall" value="{{ form_data.Rainfall if form_data else '0' }}" required>
+        <input type="text" class="value-box" id="rainfall_value" value="{{ form_data.Rainfall + ' mm' if form_data else '0 mm' }}">
+    </div>
+
+    <div class="form-row">
+        <label for="windspeed">Wind Speed:</label>
+        <input type="range" min="0" max="150" id="windspeed" name="WindSpeed" value="{{ form_data.WindSpeed if form_data else '0' }}" required>
+        <input type="text" class="value-box" id="windspeed_value" value="{{ form_data.WindSpeed + ' km/h' if form_data else '0 km/h' }}">
+    </div>
+
+    <div class="form-row">
+        <label for="humidity">Humidity:</label>
+        <input type="range" min="0" max="100" id="humidity" name="Humidity" value="{{ form_data.Humidity if form_data else '0' }}" required>
+        <input type="text" class="value-box" id="humidity_value" value="{{ form_data.Humidity + '%' if form_data else '0%' }}">
+    </div>
+
+    <div class="form-row">
+        <label for="pressure">Pressure:</label>
+        <input type="range" min="800" max="1100" id="pressure" name="Pressure" value="{{ form_data.Pressure if form_data else '800' }}" required>
+        <input type="text" class="value-box" id="pressure_value" value="{{ form_data.Pressure + ' hPa' if form_data else '800 hPa' }}">
+    </div>
+
+    <div class="form-row">
+        <label for="cloud">Cloud Coverage:</label>
+        <input type="range" min="0" max="10" id="cloud" name="Cloud" value="{{ form_data.Cloud if form_data else '0' }}" required>
+        <input type="text" class="value-box" id="cloud_value" value="{{ form_data.Cloud + '/10' if form_data else '0/10' }}">
+    </div>
+
+    <div class="form-row winddir-container">
+        <label for="winddir-display">Wind Direction:</label>
+        <input type="text" id="winddir-display" value="{{ form_data.WindDir if form_data else 'Select Direction' }}" readonly>
+        <div id="winddir-popup" class="winddir-popup">
+            <div class="winddir-option" data-value="N">N</div>
+            <div class="winddir-option" data-value="S">S</div>
+            <div class="winddir-option" data-value="E">E</div>
+            <div class="winddir-option" data-value="W">W</div>
+        </div>
+        <input type="hidden" id="winddir" name="WindDir" value="{{ form_data.WindDir if form_data else '' }}">
+    </div>
+
+    <div class="form-row">
+        <input type="submit" value="Predict Rain Tomorrow" class="btn-primary">
+    </div>
+</form>
+
+{% if prediction_result or error_message %}
+    <div class="prediction-result">
+        {% if prediction_result %}
+            <div class="result-message">
+                <strong>Prediction Result:<br><span class="indent-text">{{ prediction_result }}</span></strong>
+            </div>
+        {% endif %}
+        {% if error_message %}
+            <div class="error-message">
+                <strong>Error:<br>{{ error_message }}</strong>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+    <button onclick="location.href='/';" class="btn-secondary">Back</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        addRangeSyncListeners('temperature', 'temperature_value', '°C');
+        addRangeSyncListeners('rainfall', 'rainfall_value', ' mm');
+        addRangeSyncListeners('windspeed', 'windspeed_value', ' km/h');
+        addRangeSyncListeners('humidity', 'humidity_value', '%');
+        addRangeSyncListeners('pressure', 'pressure_value', ' hPa');
+        addRangeSyncListeners('cloud', 'cloud_value', '/10');
+
+        // Show/Hide Rainfall input based on Rain Today selection
+        const rainTodaySelect = document.getElementById('raintoday');
+        const rainfallContainer = document.getElementById('rainfall-container');
+        const rainfallInput = document.getElementById('rainfall');
+        const rainfallValue = document.getElementById('rainfall_value');
+
+        rainTodaySelect.addEventListener('change', function () {
+            if (rainTodaySelect.value === 'No') {
+                rainfallContainer.style.display = 'none';
+                rainfallInput.value = 0;
+                rainfallValue.value = '0 mm';
+            } else {
+                rainfallContainer.style.display = 'flex';
+            }
+        });
+
+        // Initial state for Rainfall container based on default Rain Today value
+        if (rainTodaySelect.value === 'No') {
+            rainfallContainer.style.display = 'none';
+        } else {
+            rainfallContainer.style.display = 'flex';
+        }
+
+        // Custom Wind Direction Selection Logic
+        const windDirDisplay = document.getElementById('winddir-display');
+        const windDirPopup = document.getElementById('winddir-popup');
+        const windDirInput = document.getElementById('winddir');
+        let selectedDirections = [];
+
+        const oppositeDirection = {
+            'N': 'S',
+            'S': 'N',
+            'E': 'W',
+            'W': 'E'
+        };
+
+        // Toggle visibility of wind direction popup
+        windDirDisplay.addEventListener('click', function (event) {
+            event.stopPropagation(); // Prevent this event from bubbling up to document
+            windDirPopup.style.display = windDirPopup.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.querySelectorAll('.winddir-option').forEach(function (option) {
+            option.addEventListener('click', function () {
+                const value = option.getAttribute('data-value');
+                const opposite = oppositeDirection[value];
+
+                if (selectedDirections.includes(value)) {
+                    // Deselect the current value
+                    selectedDirections = selectedDirections.filter(dir => dir !== value);
+                    // Enable the opposite direction since the current value is deselected
+                    document.querySelector(`.winddir-option[data-value="${opposite}"]`).style.pointerEvents = 'auto';
+                    document.querySelector(`.winddir-option[data-value="${opposite}"]`).style.opacity = '1';
+                } else {
+                    if (selectedDirections.length < 2) {
+                        selectedDirections.push(value);
+                        // Disable the opposite direction
+                        document.querySelector(`.winddir-option[data-value="${opposite}"]`).style.pointerEvents = 'none';
+                        document.querySelector(`.winddir-option[data-value="${opposite}"]`).style.opacity = '0.5';
+                    }
+                }
+
+                // Always keep directions sorted: N/S first, then E/W
+                selectedDirections.sort((a, b) => {
+                    if (a === 'N' || a === 'S') {
+                        return -1;
+                    } else if (b === 'N' || b === 'S') {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                });
+
+                windDirDisplay.value = selectedDirections.join('') || 'Select Direction';
+                windDirInput.value = selectedDirections.join('');
+            });
+        });
+
+        // Hide the popup when clicking outside
+        document.addEventListener('click', function (event) {
+            if (!windDirDisplay.contains(event.target) && !windDirPopup.contains(event.target)) {
+                windDirPopup.style.display = 'none';
+            }
+        });
+    });
+
+</script>
+
+{% endblock %}

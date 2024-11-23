@@ -182,9 +182,48 @@
 ---
 
 ## Module 9: Web Development
-
+### 1. What is the main role of Flask?
+   - Flask is a micro frame work to used to build web applications. It's role is to make simplify web development through components and tools that developers use like building blocks to create their API without having to learn a more complex framework/library.
+### 2. What are advantages of using Flask versus other similar frameworks?
+   - Flask is a lot more flexible, not restricting developers to any specific structure of code, allowing for much more customization for their specific use case. Additionally, it has significant expandability through plugins and extensions. An example of a similar framework is Django, and some advantages Flask has over it is that flask is easier to learn and use, is not strictly structured like Django, and is much more beginner friendly.
+### 3. What is the role of REST in a system?
+   - REST, stands for Representational State Transfer, and it's purpose is to handle client - server communication for networked API's. Its primary purpose is to standardize how resources are handled over HTTP. Some of the HTTP methods that is has are GET (retrieve data from server), POST (sends data to the server, normally to update or create a resource), PUT (updates a resource or creates it if it does not exist), and DELETE (removes a resource from the server).
+### 4. What are the main features of a REST API? 
+   - stateless: Server does not store the client's state between requests. meaning each request from the client must contain all the necessary information for the server to process it, leading to simpler, scalable interactions, due to each request being self-contained.
+   - client-server separation: The client and server are separate entities that communicate with one another through an interface. letting them develop and change independently within their interfaced structure.
+   - layered: can be composed of different layers that work independently, allowing for modularity without impacting the interaction between the client and the server. Example: A client’s request might pass through a processing layer, such as an authentication layer, before reaching the server. Then the server processes the request and sends the response back through these layers, ensuring modular functionality while maintaining a seamless interaction with the client.
 ---
 
 ## Module 10: Machine Learning
+### 1. What are the major steps in a machine learning project workflow?
+   - `Data Analysis`: Understand the data to identify trends, patterns, and anomalies.
+     - `Data Refining` -> Clean and preprocess the raw data, by handling missing values, removing outliers, normalizing data, and encoding variables.
+     - `Feature Extraction` -> Select and/or create relevant features that contribute to model accuracy, by engineering new features, selecting variables, and reducing dimensionality if needed.
+   - `Modeling`: Train machine learning models using prepared data.
+     - `Cross Validation` -> Evaluate model performance and prevent overfitting with techniques like k-fold cross-validation to ensure the model generalizes well to unseen data.
+     - `Hyperparameter Tuning` -> Optimize model parameters for improved performance by using grid search, random search, or advanced optimization techniques to find the best hyperparameters.
+   - `Testing`: Evaluate model performance and prevent overfitting, using a separate test dataset.
+     - Use data set aside to test the accuracy of the ML model. Used to fine-tune the model by adding or removing features until we get an acceptable accuracy.
+### 2. What are the common categories that machine learning approaches or problems can be categorized into?
+   - `Supervised Learning`: learn from human labeled dataset
+   - `Unsupervised Learning`: learn from unlabeled dataset by categorizing through similarities.
+   - `Reinforcement learning`: learn from experience, no dataset
 
+<img src="resources/ML1.png" alt="Ml1" style="min-width: 300px; max-width: 700px;"><nbsp>
+<img src="resources/ML2.png" alt="Ml2" style="min-width: 300px; max-width: 700px;"><nbsp>
+<img src="resources/ML3.png" alt="Ml3" style="min-width: 300px; max-width: 700px;"><nbsp>
+<img src="resources/ML4.png" alt="Ml4" style="min-width: 300px; max-width: 700px;"><nbsp>
+<img src="resources/ML5.png" alt="Ml5" style="min-width: 300px; max-width: 700px;"><nbsp>
+### 3. Give an example of a supervised learning algorithm and an unsupervised learning algorithm.
+   - Both are are AI neural network algorithms.
+   - `Supervised`: Machine learning where human intervention or labeling is required
+     - Example: (Algorithm: `CNN` (Convolution Neural Network) -> We want to create an AI model to classify different types of animals (cats, dogs, birds, etc.), first collect a large dataset of animal images and humans label each image accordingly. The CNN will then be trained using these labeled images, learning to recognize the different features that label each animal. During training, the model learns which characteristics are associated with each label (pointy ears for cats or feathered wings for birds). After training, the model can classify new unseen images into the correct animal categories.
+   - `Unsupervised`: Deep machine learning where human intervention or labeling is not required
+     - Example (Algorithm: `Autoencoder`) -> A bank trying to detect fraudulent credit card transactions will feed an autoencoder a large dataset of normal transactions. The encoder will then find and learn patterns of normal transactions by compressing and reconstructing them. Then when a fraudulent transaction occurs, the autoencoder will have a difficult time reconstructing it accurately due to not matching the normal transaction pattern, leading to the transaction being flagged as suspicious.
+### 4. Where does generative AI fit in all of this?
+   - Generative AI is a subsystem of deep machine learning. It is primarily classified as unsupervised or self-supervised, but uses both supervised and unsupervised learning to first get information from a dataset. From that learning it then generates it's output.
+### 5. Why are transformers a big deal?
+   - `Transformers` run multiple sequences in parallel. These sequences are formed from encoding an input and decoding for an output. This is powerful because it has allowed for generative AI that is able to complete tasks in a relatively short amount of time and do so with incredible accuracy and precision.
+### 6. What kinds of problems should you NOT use machine learning for?
+   - Anything that you need a 100% accuracy on, is lacking in a large amount of quality data, or something that is already defined / is deterministic. An example would be, calculating distance between 2 GPS coordinates. There is already an exact mathematical formula that gives an accurate result every time, making the us of machine learning unnecessary in this instance.
 ---
